@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AuthorizationManagement\AuthorizationManagement.csproj" />
+    <ProjectReference Include="..\DatabaseManagement\DatabaseManagement.csproj" />
     <ProjectReference Include="..\InventoryManagement\InventoryManagement.csproj" />
     <ProjectReference Include="..\SalesAnalytics\SalesAnalytics.csproj" />
   </ItemGroup>
