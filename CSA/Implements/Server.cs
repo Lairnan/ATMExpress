@@ -8,56 +8,57 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CSA.Implements
+namespace CSA.Implements;
+
+public class Server : IServer
 {
-    public class Server : IServer
+    private readonly TcpClient _tcpClient;
+    private readonly ILogger _logger;
+    private readonly IOutput _output;
+
+    public Server(ILogger logger, IOutput output, TcpClient? tcpClient = null)
     {
-        private readonly TcpClient _tcpClient;
+        _tcpClient = tcpClient ?? new TcpClient();
+        _logger = logger;
+        _output = output;
+    }
 
-        public Server(TcpClient? tcpClient = null)
+    public async Task Connect(IPAddress address, int port)
+    {
+        try
         {
-            _tcpClient = tcpClient ?? new TcpClient();
+            await _tcpClient.ConnectAsync(address, port);
+            _output.Print("Connection success\n");
         }
+        catch (SocketException se)
+        {
+				await _logger.Log(se.Message, LogType.Error);
+        }
+    }
 
-        public async Task Connect(IPAddress address, int port)
-        {
-            try
-            {
-                await _tcpClient.ConnectAsync(address, port);
-            }
-            catch (SocketException se)
-            {
-                Trace.WriteLine(se.Source);
-            }
-        }
+    public void Disconnect()
+    {
+			_tcpClient.Close();
+			_output.Print("Disconection success\n");
+		}
 
-        public void Disconnect()
-        {
-            _tcpClient.Close();
-        }
+    public void Dispose() => Disconnect();
 
-        public void Dispose()
-        {
-            Disconnect();
-            _tcpClient?.Dispose();
-        }
+    public async Task<StringBuilder> ReceivedMessage()
+    {
+        return default;
+    }
 
-        public async Task<StringBuilder> ReceivedMessage()
-        {
-            return default;
-        }
+    public async Task<object> ReceiveObject(object obj)
+    {
+        return default;
+    }
 
-        public async Task<object> ReceiveObject(object obj)
-        {
-            return default;
-        }
+    public async Task SendMessage(string msg)
+    {
+    }
 
-        public async Task SendMessage(string msg)
-        {
-        }
-
-        public async Task SendObject(object obj)
-        {
-        }
+    public async Task SendObject(object obj)
+    {
     }
 }

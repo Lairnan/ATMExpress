@@ -3,7 +3,9 @@ using CSA.Implements;
 using CSA.Interfaces;
 using System.Net;
 
-using IServer server = new Server();
+var output = new ConsoleOutput();
+var logger = new Logger(output);
+using IServer server = new Server(logger, output);
 await server.Connect(IPAddress.Parse("127.0.0.1"), 8888);
 await server.SendMessage("Test");
 
