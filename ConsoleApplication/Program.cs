@@ -1,14 +1,19 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using System;
+using CSA.Implements;
+using CSA.Interfaces;
 using System.Net;
-using System.Net.Sockets;
-using System.Text;
 
-Console.WriteLine("Hello, World!");
+using IServer server = new Server();
+await server.Connect(IPAddress.Parse("127.0.0.1"), 8888);
+await server.SendMessage("Test");
 
-var tcpClient = new TcpClient();
+//Console.WriteLine("Hello, World!");
+
+/*var tcpClient = new TcpClient();
 try
 {
+	var server = new Server(tcpClient);
+	server.Connect(IPAddress.Parse("127.0.0.1"), 8888);
 	await tcpClient.ConnectAsync("127.0.0.1", 8888);
 	using var stream = tcpClient.GetStream();
 
@@ -25,7 +30,7 @@ try
 finally
 {
 	tcpClient.Close();
-}
+}*/
 
 Console.Write("Press any key to continue");
 Console.ReadKey();
