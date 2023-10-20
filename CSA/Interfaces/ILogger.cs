@@ -2,7 +2,8 @@
 
 public interface ILogger
 {
-	Task Log(string message, LogType logType);
+	void WriteLog(string message, LogType logType, ConsoleColor userColor);
+	void Error(Exception message);
 }
 
 public enum LogType
@@ -10,4 +11,5 @@ public enum LogType
 	Error,
 	Warning,
 	Information,
+	Success,
 }

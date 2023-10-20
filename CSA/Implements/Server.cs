@@ -14,13 +14,11 @@ public class Server : IServer
 {
     private readonly TcpClient _tcpClient;
     private readonly ILogger _logger;
-    private readonly IOutput _output;
 
-    public Server(ILogger logger, IOutput output, TcpClient? tcpClient = null)
+    public Server(ILogger logger, TcpClient? tcpClient = null)
     {
         _tcpClient = tcpClient ?? new TcpClient();
         _logger = logger;
-        _output = output;
     }
 
     public async Task Connect(IPAddress address, int port)
@@ -28,19 +26,19 @@ public class Server : IServer
         try
         {
             await _tcpClient.ConnectAsync(address, port);
-            _output.Print("Connection success\n");
+            _logger.WriteLog("Connection success", LogType.Success, ConsoleColor.Green);
         }
         catch (SocketException se)
         {
-				await _logger.Log(se.Message, LogType.Error);
+			_logger.Error(se);
         }
     }
 
     public void Disconnect()
     {
-			_tcpClient.Close();
-			_output.Print("Disconection success\n");
-		}
+		_tcpClient.Close();
+		_logger.WriteLog("Disconection success", LogType.Success, ConsoleColor.Green);
+	}
 
     public void Dispose() => Disconnect();
 

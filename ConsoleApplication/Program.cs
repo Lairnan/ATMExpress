@@ -1,11 +1,20 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using CSA.Implements;
 using CSA.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 
-var output = new ConsoleOutput();
-var logger = new Logger(output);
-using IServer server = new Server(logger, output);
+var logger = new Logger();
+
+var serviceProvider = new ServiceCollection()
+	.AddLogging()
+	.AddSingleton<ILogger, Logger>()
+	.AddTransient<IServer, Server>()
+	.BuildServiceProvider();
+
+logger.WriteLog("Starting application...", LogType.Information, ConsoleColor.White);
+
+using var server = serviceProvider.GetService<IServer>();
 await server.Connect(IPAddress.Parse("127.0.0.1"), 8888);
 await server.SendMessage("Test");
 

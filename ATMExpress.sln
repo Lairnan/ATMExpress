@@ -7,15 +7,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApplication", "Conso
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InventoryManagement", "InventoryManagement\InventoryManagement.csproj", "{D15EAF2B-F316-4B21-9E87-13CFC773E704}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalesAnalytics", "SalesAnalytics\SalesAnalytics.csproj", "{C6F2F851-34C2-45F4-B708-324532D4068C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SalesAnalytics", "SalesAnalytics\SalesAnalytics.csproj", "{C6F2F851-34C2-45F4-B708-324532D4068C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorizationManagement", "AuthorizationManagement\AuthorizationManagement.csproj", "{4B7CA835-A89E-4FE8-9DEC-EE95E06C02CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthorizationManagement", "AuthorizationManagement\AuthorizationManagement.csproj", "{4B7CA835-A89E-4FE8-9DEC-EE95E06C02CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestDll", "UnitTestDll\UnitTestDll.csproj", "{3766552A-3BB1-4450-9ED4-FA39CCEFDC87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTestDll", "UnitTestDll\UnitTestDll.csproj", "{3766552A-3BB1-4450-9ED4-FA39CCEFDC87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseManagement", "DatabaseManagement\DatabaseManagement.csproj", "{B7291D04-BE42-4966-B809-0A1B05F9240A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseManagement", "DatabaseManagement\DatabaseManagement.csproj", "{B7291D04-BE42-4966-B809-0A1B05F9240A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{BF1862C3-0FB6-4077-8C30-C30F25867C1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server\Server.csproj", "{BF1862C3-0FB6-4077-8C30-C30F25867C1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSA", "CSA\CSA.csproj", "{798785AD-7DAF-4C4E-B17E-DF58D0DA2556}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{BF1862C3-0FB6-4077-8C30-C30F25867C1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF1862C3-0FB6-4077-8C30-C30F25867C1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF1862C3-0FB6-4077-8C30-C30F25867C1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{798785AD-7DAF-4C4E-B17E-DF58D0DA2556}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{798785AD-7DAF-4C4E-B17E-DF58D0DA2556}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{798785AD-7DAF-4C4E-B17E-DF58D0DA2556}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{798785AD-7DAF-4C4E-B17E-DF58D0DA2556}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
