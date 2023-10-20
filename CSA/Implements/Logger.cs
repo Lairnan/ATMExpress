@@ -1,13 +1,19 @@
 ﻿using CSA.Interfaces;
 using Microsoft.Extensions.Configuration;
-using System.Configuration;
 using System.Text;
 
 namespace CSA.Implements;
 
 public class Logger : ILogger
 {
-	private readonly string logFilePath;
+	private readonly string _logFilePath;
+	private static readonly Dictionary<LogType, ConsoleColor> LogTypeColors = new()
+    {
+		{ LogType.Error, ConsoleColor.DarkRed },
+		{ LogType.Warning, ConsoleColor.Yellow },
+		{ LogType.Information, ConsoleColor.White },
+		{ LogType.Success, ConsoleColor.Green },
+	};
 
 	public Logger()
 	{
@@ -18,76 +24,81 @@ public class Logger : ILogger
 			.AddJsonFile("logger.json", true, true)
 			.Build();
 
-		StringBuilder path = new StringBuilder(configuration["AppSettings:logPath"]);
+		var path = new StringBuilder(configuration["AppSettings:logPath"]);
 		if(!Directory.Exists(path.ToString())) Directory.CreateDirectory(path.ToString());
 
 		path.Append($"{dateString}.txt");
 
-		logFilePath = path.ToString();
+		_logFilePath = path.ToString();
     }
 
-	public void WriteLog(string message, LogType logType = LogType.Information, ConsoleColor userColor = ConsoleColor.White)
-	{
-		var consoleColor = Console.ForegroundColor;
+    public void Info(string message)
+    {
+        CheckLogFilePath();
+        PrintLog(message, LogType.Information);
+    }
 
-		if (string.IsNullOrWhiteSpace(logFilePath))
-		{
-			Console.ForegroundColor = ConsoleColor.DarkRed;
-			Console.WriteLine($"[{LogType.Error}]: File Not Nound");
-			Console.ForegroundColor = consoleColor;
-			return;
-		}
+    public void Warning(string message)
+    {
+        CheckLogFilePath();
+        PrintLog(message, LogType.Warning);
+    }
 
-		Console.ForegroundColor = userColor;
-		try
-		{
-			CheckFileExistAndPrint(logFilePath, logType, message);
-		}
-		catch (Exception ex)
-		{
-			Console.WriteLine($"[{LogType.Error}]: {ex}");
-			CheckFileExistAndPrint(logFilePath, LogType.Error, ex.ToString());
-		}
+    public void Success(string message)
+    {
+        CheckLogFilePath();
+        PrintLog(message, LogType.Success);
+    }
 
-		Console.WriteLine($"[{logType}] : {DateTime.Now,0:dd.MM.yyyy HH:mm} {message}");
-		Console.ForegroundColor = consoleColor;
+    public void Error(Exception exception)
+    {
+        CheckLogFilePath();
+        PrintLog(exception.ToString(), LogType.Error);
 	}
 
-	public void Error(Exception exception)
-	{
-		if (string.IsNullOrWhiteSpace(logFilePath))
-		{
-			Console.WriteLine($"[{LogType.Error}]: File Not Nound");
-			return;
-		}
+    private void PrintLog(string message, LogType logType)
+    {
+        try
+        {
+            CheckFileExistAndPrint(_logFilePath, logType, message);
+        }
+        catch (Exception ex)
+        {
+            CheckFileExistAndPrint(_logFilePath, LogType.Error, ex.ToString());
+        }
+    }
 
+    private void CheckLogFilePath()
+    {
+        if (!string.IsNullOrWhiteSpace(_logFilePath)) return;
+        
+        var consoleColor = Console.ForegroundColor;
+        Console.ForegroundColor = LogTypeColors[LogType.Error];
+        Console.WriteLine($"[{LogType.Error}] {DateTime.Now, 0:dd/MM/yyyy HH:mm} Path could not be empty");
+        Console.ForegroundColor = consoleColor;
+        throw new ArgumentNullException(nameof(_logFilePath));
+    }
+
+	private static async void CheckFileExistAndPrint(string logFilePath, LogType logType, string message)
+	{
 		var consoleColor = Console.ForegroundColor;
-		Console.ForegroundColor = ConsoleColor.DarkRed;
-
-		try
-		{
-			CheckFileExistAndPrint(logFilePath, LogType.Error, exception.ToString());
-		}
-		catch (Exception ex)
-		{
-			Console.WriteLine($"[{LogType.Error}]: {ex}");
-			CheckFileExistAndPrint(logFilePath, LogType.Error, ex.ToString());
-		}
-
-		Console.WriteLine($"[{LogType.Error}] : {DateTime.Now,0:dd.MM.yyyy HH:mm} {exception}");
-		Console.ForegroundColor = consoleColor;
-	}
-
-	private async void CheckFileExistAndPrint(string logFilePath, LogType logType, string message)
-	{
 		if (!File.Exists(logFilePath))
-			File.Create(logFilePath);
+			File.Create(logFilePath).Close();
 
-		await Task.Delay(25);
+		try
+		{
+			Console.ForegroundColor = LogTypeColors[logType];
 
-		using var writer = new StreamWriter(logFilePath, true);
-		await writer.WriteLineAsync($"[{logType}] : {DateTime.Now,0:dd/MM/yyyy hh:mm tt} : {message}");
-		await writer.FlushAsync();
-		await writer.DisposeAsync();
+            await using var writer = new StreamWriter(logFilePath, true);
+			Console.WriteLine($"[{logType}] {DateTime.Now, 0:dd/MM/yyyy HH:mm} {message}");
+			await writer.WriteLineAsync($"[{logType}] {DateTime.Now, 0:dd/MM/yyyy HH:mm} {message}");
+			await writer.DisposeAsync();
+		}
+		catch (Exception ex)
+		{
+			Console.ForegroundColor = LogTypeColors[LogType.Error];
+			Console.WriteLine($"[{LogType.Error}] {DateTime.Now, 0:dd/MM/yyyy HH:mm} {ex}");
+		}
+		Console.ForegroundColor = consoleColor;
 	}
 }

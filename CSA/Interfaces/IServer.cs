@@ -5,14 +5,14 @@ namespace CSA.Interfaces;
 
 public interface IServer : IDisposable
 {
-	public Task Connect(IPAddress iPAddress, int port);
-	public void Disconnect();
+	public Task<bool> Connect(IPAddress iPAddress, int port);
+	public bool Disconnect();
 
-	public Task SendObject(object obj);
-	public Task<object> ReceiveObject(object obj);
+	public Task<bool> SendObject(object obj);
+	public Task<object?> ReceiveObject();
 
-	public Task SendMessage(string msg);
-	public Task<StringBuilder> ReceivedMessage();
+	public Task<bool> SendMessage(string msg);
+	public Task<StringBuilder?> ReceivedMessage();
 
 
 }

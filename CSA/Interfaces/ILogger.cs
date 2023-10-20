@@ -2,7 +2,9 @@
 
 public interface ILogger
 {
-	void WriteLog(string message, LogType logType, ConsoleColor userColor);
+	void Info(string message);
+	void Warning(string message);
+	void Success(string message);
 	void Error(Exception message);
 }
 
