@@ -18,4 +18,11 @@
     <ProjectReference Include="..\SalesAnalytics\SalesAnalytics.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Translate\languages.xml" />
+    <AdditionalFiles Include="Globalization\languages.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+  </ItemGroup>
+
 </Project>

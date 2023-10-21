@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <tr id="InsertKey">
+        <en>Insert key</en>
+        <ru>Введите код</ru>
+    </tr>
+    <tr id="Exit">
+        <en>Exit</en>
+        <ru>Выход</ru>
+    </tr>
+    <tr id="Settings">
+        <en>View settings</en>
+        <ru>Посмотреть настройки</ru>
+    </tr>
+    <tr id="Products">
+        <en>View products</en>
+        <ru>Посмотреть продукты</ru>
+    </tr>
+    <tr id="ViewBalance">
+        <en>View balance</en>
+        <ru>Посмотреть баланс</ru>
+    </tr>
+    <tr id="WithdrawCash">
+        <en>Withdraw cash</en>
+        <ru>Снять наличные</ru>
+    </tr>
+    <tr id="DepositCash">
+        <en>Deposit cash</en>
+        <ru>Положить наличные</ru>
+    </tr>
+    <tr id="QuickTransfer">
+        <en>Quick transfer</en>
+        <ru>Быстрый перевод</ru>
+    </tr>
+    <tr id="TransactionHistory">
+        <en>Transaction history</en>
+        <ru>История транзакций</ru>
+    </tr>
+    <tr id="CardlessCash">
+        <en>Generate cardless code</en>
+        <ru>Сгенерировать безкарточный код</ru>
+    </tr>
+    <tr id="ManageCards">
+        <en>Manage cards</en>
+        <ru>Управление картами</ru>
+    </tr>
+    <tr id="PromotionsAndOffers">
+        <en>Promotions and offers</en>
+        <ru>Акции и предложения</ru>
+    </tr>
+    <tr id="Authorize">
+        <en>Authorization</en>
+        <ru>Авторизация</ru>
+    </tr>
+    <tr id="Register">
+        <en>Registration</en>
+        <ru>Регистрация</ru>
+    </tr>
+    <tr id="Back">
+        <en>Back</en>
+        <ru>Назад</ru>
+    </tr>
+    <tr id="AccountInformation">
+        <en>Account information</en>
+        <ru>Информация об аккаунте</ru>
+    </tr>
+    <tr id="SecuritySettings">
+        <en>Security settings</en>
+        <ru>Настройки безопасности</ru>
+    </tr>
+    <tr id="ChangeLanguage">
+        <en>Change language</en>
+        <ru>Сменить язык</ru>
+    </tr>
+    <tr id="ChangePassword">
+        <en>Change password</en>
+        <ru>Изменить пароль</ru>
+    </tr>
+    <tr id="ChangeName">
+        <en>Change name</en>
+        <ru>Изменить имя</ru>
+    </tr>
+    <tr id="PressAnyKey">
+        <en>Press any key to continue</en>
+        <ru>Нажмите любую кнопку чтобы продолжить</ru>
+    </tr>
+    <tr id="CloseApp">
+        <en>Closing application...</en>
+        <ru>Закрытие приложения...</ru>
+    </tr>
+</root>

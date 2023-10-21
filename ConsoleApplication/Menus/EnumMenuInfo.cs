@@ -24,7 +24,7 @@ public enum StartMenuInfo
 
 public enum SettingsMenuInfo
 {
-    Back = 1,
+    Back,
     AccountInformation,
     SecuritySettings,
     ChangeLanguage,
@@ -32,7 +32,7 @@ public enum SettingsMenuInfo
 
 public enum SecurityMenuInfo
 {
-    Back = 1,
+    Back,
     ChangePassword,
     ChangeName,
 }

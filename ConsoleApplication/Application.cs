@@ -1,4 +1,5 @@
-﻿using ConsoleApplication.Handler;
+﻿using ConsoleApplication.Globalization;
+using ConsoleApplication.Handler;
 using ConsoleApplication.Menus;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,12 +14,10 @@ public class Application
         _provider = provider;
     }
     
-    private void PrintMenu(IMenu menu)
+    private static void PrintMenu(IMenu menu)
     {
         for (var i = 0; i < menu.GetSize(); i++)
-        {
-            Console.WriteLine($"{i}. {menu.GetName(i)}");
-        }
+            Console.WriteLine($"{i}. {Translate.GetString(menu.GetName(i))}");
     }
     
     public IMenu? Menu(IMenu menu)
@@ -29,7 +28,7 @@ public class Application
         do
         {
             PrintMenu(menu);
-            Console.Write("Insert key: ");
+            Console.Write($"{Translate.GetString("InsertKey")}: ");
             keyChar = Console.ReadKey().KeyChar.ToString();
         } while (!int.TryParse(keyChar, out keyInt));
 

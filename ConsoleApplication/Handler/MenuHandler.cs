@@ -5,12 +5,7 @@ namespace ConsoleApplication.Handler;
 
 public partial class MenuHandler
 {
-    private readonly IServiceProvider _provider;
-
-    public MenuHandler(IServiceProvider provider)
-    {
-        _provider = provider;
-    }
+    private readonly IServiceProvider _provider = Program.Provider;
 
     public IMenu? Switch(IMenu menu, int key)
     {
@@ -18,7 +13,9 @@ public partial class MenuHandler
         {
             StartMenu => SwitchStartMenu(key),
             MainMenu => SwitchMainMenu(key),
-            _ => SwitchStartMenu(key)
+            SettingsMenu => SwitchSettingsMenu(key),
+            SecurityMenu => SwitchSecurityMenu(key),
+            _ => null
         };
 
     }
@@ -50,11 +47,11 @@ public partial class MenuHandler
             (int)MainMenuInfo.CardlessCash => _provider.GetRequiredService<MainMenu>(),
             (int)MainMenuInfo.ManageCards => _provider.GetRequiredService<MainMenu>(),
             (int)MainMenuInfo.PromotionsAndOffers => _provider.GetRequiredService<MainMenu>(),
-            _ => _provider.GetRequiredService<StartMenu>(),
+            _ => _provider.GetRequiredService<MainMenu>(),
         };
     }
 
-    private IMenu? SwitchSettingsMenu(int key)
+    private IMenu SwitchSettingsMenu(int key)
     {
         return key switch
         {
@@ -62,18 +59,18 @@ public partial class MenuHandler
             (int)SettingsMenuInfo.AccountInformation => _provider.GetRequiredService<SettingsMenu>(),
             (int)SettingsMenuInfo.SecuritySettings => _provider.GetRequiredService<MainMenu>(),
             (int)SettingsMenuInfo.ChangeLanguage => _provider.GetRequiredService<MainMenu>(),
-            _ => _provider.GetRequiredService<StartMenu>(),
+            _ => _provider.GetRequiredService<SettingsMenu>(),
         };
     }
 
-    private IMenu? SwitchSecurityMenu(int key)
+    private IMenu SwitchSecurityMenu(int key)
     {
         return key switch
         {
             (int)SecurityMenuInfo.Back => _provider.GetRequiredService<SecurityMenu>(),
             (int)SecurityMenuInfo.ChangePassword => _provider.GetRequiredService<SettingsMenu>(),
             (int)SecurityMenuInfo.ChangeName => _provider.GetRequiredService<MainMenu>(),
-            _ => _provider.GetRequiredService<StartMenu>(),
+            _ => _provider.GetRequiredService<SecurityMenu>(),
         };
     }
     #endregion

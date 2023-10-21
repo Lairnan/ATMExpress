@@ -1,4 +1,5 @@
-﻿using ConsoleApplication.Handler;
+﻿using ConsoleApplication.Globalization;
+using ConsoleApplication.Handler;
 using ConsoleApplication.Menus;
 using CSA.Implements;
 using CSA.Interfaces;
@@ -9,7 +10,7 @@ namespace ConsoleApplication;
 internal static class Program
 {
     private static IServiceProvider? _provider;
-    private static IServiceProvider Provider
+    public static IServiceProvider Provider
     {
         get
         {
@@ -20,19 +21,19 @@ internal static class Program
     
     public static async Task Main(string[] args)
     {
+        args.HandleArguments();
+        
         IMenu? result = new StartMenu();
         var app = new Application(Provider);
         do
         {
             result = app.Menu(result);
             Thread.Sleep(250);
+            Console.CursorTop = 0;
             Console.Clear();
         } while (result != null);
-        
-        Console.Write("Press any key to continue");
-        Console.ReadKey();
 
-        Console.Write("\nClosing application...");
+        Console.Write($"\n{Translate.GetString("CloseApp")}");
         await Task.Delay(1000);
     }
 
@@ -46,9 +47,6 @@ internal static class Program
         services.AddMenusToService();
         
         _provider = services.BuildServiceProvider();
-
-        foreach (var service in services.Where(s => s.Lifetime == ServiceLifetime.Singleton))
-            Provider.GetRequiredService(service.GetType());
     }
 
     private static void AddMenusToService(this IServiceCollection services)
