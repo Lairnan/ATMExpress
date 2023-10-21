@@ -39,7 +39,7 @@ try
 			var idClient = Guid.NewGuid();
 			Console.WriteLine($"Client connected: {idClient}");
 
-			await Task.Run(async () => await ProccessClientAsync(tcpClient, idClient));
+			await Task.Run(async () => await ProcessClientAsync(tcpClient, idClient));
 
 			Console.WriteLine("Press <Enter> to stop server");
 			Console.WriteLine("Wait for connection...");
@@ -58,15 +58,16 @@ finally
 
 Console.WriteLine("Press <Enter> to continue");
 Console.ReadLine();
+return;
 
-async Task ProccessClientAsync(TcpClient tcpClient, Guid idClient)
+async Task ProcessClientAsync(TcpClient tcpClient, Guid idClient)
 {
-	using var stream = tcpClient.GetStream();
+    await using var stream = tcpClient.GetStream();
 	var buffer = new byte[256];
 	var response = new StringBuilder();
 
-	var recieved = await stream.ReadAsync(buffer);
-	response.AppendLine(Encoding.UTF8.GetString(buffer, 0, recieved));
+	var length = await stream.ReadAsync(buffer);
+	response.AppendLine(Encoding.UTF8.GetString(buffer, 0, length));
 	Console.WriteLine(response);
 
 	var name = response.ToString().Trim();

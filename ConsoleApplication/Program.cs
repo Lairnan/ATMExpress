@@ -1,27 +1,61 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using ConsoleApplication.Handler;
+using ConsoleApplication.Menus;
 using CSA.Implements;
 using CSA.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-using System.Net;
 
-var logger = new Logger();
+namespace ConsoleApplication;
 
-var serviceProvider = new ServiceCollection()
-	.AddLogging()
-	.AddSingleton<ILogger, Logger>()
-	.AddTransient<IServer, Server>()
-	.BuildServiceProvider();
-
-logger.Info("Starting application...");
-
+internal static class Program
 {
-    using var server = serviceProvider.GetService<IServer>()!;
-    await server.Connect(IPAddress.Parse("127.0.0.1"), 8888);
-    await server.SendMessage("Test");
+    private static IServiceProvider? _provider;
+    private static IServiceProvider Provider
+    {
+        get
+        {
+            if(_provider == null) InitializeDependency();
+            return _provider!;
+        }
+    }
+    
+    public static async Task Main(string[] args)
+    {
+        IMenu? result = new StartMenu();
+        var app = new Application(Provider);
+        do
+        {
+            result = app.Menu(result);
+            Thread.Sleep(250);
+            Console.Clear();
+        } while (result != null);
+        
+        Console.Write("Press any key to continue");
+        Console.ReadKey();
+
+        Console.Write("\nClosing application...");
+        await Task.Delay(1000);
+    }
+
+    private static void InitializeDependency()
+    {
+        var services = new ServiceCollection();
+        services.AddSingleton<ILogger, Logger>()
+            .AddTransient<IServer, Server>();
+        
+        services.AddSingleton<MenuHandler>();
+        services.AddMenusToService();
+        
+        _provider = services.BuildServiceProvider();
+
+        foreach (var service in services.Where(s => s.Lifetime == ServiceLifetime.Singleton))
+            Provider.GetRequiredService(service.GetType());
+    }
+
+    private static void AddMenusToService(this IServiceCollection services)
+    {
+        services.AddTransient<StartMenu>();
+        services.AddTransient<MainMenu>();
+        services.AddTransient<SettingsMenu>();
+        services.AddTransient<SecurityMenu>();
+    }
 }
-
-Console.Write("Press any key to continue");
-Console.ReadKey();
-
-Console.Write("\nClosing application...");
-await Task.Delay(1000);
