@@ -48,4 +48,7 @@ public class UserRepository : IRepository<User>
 
         _dbContext.Remove(ent);
     }
+
+    public async void Save() 
+        => await _dbContext.SaveChangesAsync();
 }
