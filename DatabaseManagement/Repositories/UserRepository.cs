@@ -51,7 +51,7 @@ public class UserRepository : IRepository<User>
         var ent = _dbContext.Users.FirstOrDefault(s => s.Id.Equals(entity.Id));
         if (ent == null) throw new ArgumentNullException(nameof(ent), "Element already deleted");
 
-        _dbContext.Remove(ent);
+        _dbContext.Users.Remove(ent);
     }
 
     public async void Save() 

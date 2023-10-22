@@ -61,7 +61,7 @@ public class CardRepository : IRepository<Card>
         var ent = _dbContext.Cards.FirstOrDefault(s => s.Id.Equals(entity.Id));
         if (ent == null) throw new ArgumentNullException(nameof(ent), "Element already deleted");
 
-        _dbContext.Remove(ent);
+        _dbContext.Cards.Remove(ent);
     }
 
     public async void Save() 
