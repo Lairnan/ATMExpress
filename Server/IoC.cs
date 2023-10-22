@@ -1,5 +1,7 @@
 ﻿using DatabaseManagement;
+using DatabaseManagement.Entities;
 using DatabaseManagement.Interfaces;
+using DatabaseManagement.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,4 +32,12 @@ public static class IoC
 
     public static T Resolve<T>() where T : notnull
         => Provider.GetRequiredService<T>();
+
+    private static IServiceCollection AddRepositoriesToServiceCollection(this IServiceCollection services)
+    {
+        return services.AddScoped<IRepository<Card>, Repository<Card>>()
+            .AddScoped<IRepository<Product>, Repository<Product>>()
+            .AddScoped<IRepository<Transaction>, Repository<Transaction>>()
+            .AddScoped<IRepository<User>, Repository<User>>();
+    }
 }
