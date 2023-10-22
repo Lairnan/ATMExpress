@@ -7,11 +7,11 @@ public partial class MenuHandler
 {
     private IMenu? Authorization()
     {
-        return _provider.GetRequiredService<MainMenu>();
+        return IoC.Resolve<MainMenu>();
     }
     
     private IMenu? Registration()
     {
-        return _provider.GetRequiredService<MainMenu>();
+        return IoC.Resolve<MainMenu>();
     }
 }

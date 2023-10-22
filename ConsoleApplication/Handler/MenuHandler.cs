@@ -5,8 +5,6 @@ namespace ConsoleApplication.Handler;
 
 public partial class MenuHandler
 {
-    private readonly IServiceProvider _provider = Program.Provider;
-
     public IMenu? Switch(IMenu menu, int key)
     {
         return menu switch
@@ -28,7 +26,7 @@ public partial class MenuHandler
             (int)StartMenuInfo.Exit => null,
             (int)StartMenuInfo.Authorize => Authorization(),
             (int)StartMenuInfo.Register => Registration(),
-            _ => _provider.GetRequiredService<StartMenu>(),
+            _ => IoC.Resolve<StartMenu>(),
         };
     }
 
@@ -37,17 +35,17 @@ public partial class MenuHandler
         return key switch
         {
             (int)MainMenuInfo.Exit => null,
-            (int)MainMenuInfo.Settings => _provider.GetRequiredService<SettingsMenu>(),
-            (int)MainMenuInfo.Products => _provider.GetRequiredService<MainMenu>(),
-            (int)MainMenuInfo.ViewBalance => _provider.GetRequiredService<MainMenu>(),
-            (int)MainMenuInfo.WithdrawCash => _provider.GetRequiredService<MainMenu>(),
-            (int)MainMenuInfo.DepositCash => _provider.GetRequiredService<MainMenu>(),
-            (int)MainMenuInfo.QuickTransfer => _provider.GetRequiredService<MainMenu>(),
-            (int)MainMenuInfo.TransactionHistory => _provider.GetRequiredService<MainMenu>(),
-            (int)MainMenuInfo.CardlessCash => _provider.GetRequiredService<MainMenu>(),
-            (int)MainMenuInfo.ManageCards => _provider.GetRequiredService<MainMenu>(),
-            (int)MainMenuInfo.PromotionsAndOffers => _provider.GetRequiredService<MainMenu>(),
-            _ => _provider.GetRequiredService<MainMenu>(),
+            (int)MainMenuInfo.Settings => IoC.Resolve<SettingsMenu>(),
+            (int)MainMenuInfo.Products => IoC.Resolve<MainMenu>(),
+            (int)MainMenuInfo.ViewBalance => IoC.Resolve<MainMenu>(),
+            (int)MainMenuInfo.WithdrawCash => IoC.Resolve<MainMenu>(),
+            (int)MainMenuInfo.DepositCash => IoC.Resolve<MainMenu>(),
+            (int)MainMenuInfo.QuickTransfer => IoC.Resolve<MainMenu>(),
+            (int)MainMenuInfo.TransactionHistory => IoC.Resolve<MainMenu>(),
+            (int)MainMenuInfo.CardlessCash => IoC.Resolve<MainMenu>(),
+            (int)MainMenuInfo.ManageCards => IoC.Resolve<MainMenu>(),
+            (int)MainMenuInfo.PromotionsAndOffers => IoC.Resolve<MainMenu>(),
+            _ => IoC.Resolve<MainMenu>(),
         };
     }
 
@@ -55,11 +53,11 @@ public partial class MenuHandler
     {
         return key switch
         {
-            (int)SettingsMenuInfo.Back => _provider.GetRequiredService<MainMenu>(),
-            (int)SettingsMenuInfo.AccountInformation => _provider.GetRequiredService<SettingsMenu>(),
-            (int)SettingsMenuInfo.SecuritySettings => _provider.GetRequiredService<MainMenu>(),
-            (int)SettingsMenuInfo.ChangeLanguage => _provider.GetRequiredService<MainMenu>(),
-            _ => _provider.GetRequiredService<SettingsMenu>(),
+            (int)SettingsMenuInfo.Back => IoC.Resolve<MainMenu>(),
+            (int)SettingsMenuInfo.AccountInformation => IoC.Resolve<SettingsMenu>(),
+            (int)SettingsMenuInfo.SecuritySettings => IoC.Resolve<MainMenu>(),
+            (int)SettingsMenuInfo.ChangeLanguage => IoC.Resolve<MainMenu>(),
+            _ => IoC.Resolve<SettingsMenu>(),
         };
     }
 
@@ -67,10 +65,10 @@ public partial class MenuHandler
     {
         return key switch
         {
-            (int)SecurityMenuInfo.Back => _provider.GetRequiredService<SecurityMenu>(),
-            (int)SecurityMenuInfo.ChangePassword => _provider.GetRequiredService<SettingsMenu>(),
-            (int)SecurityMenuInfo.ChangeName => _provider.GetRequiredService<MainMenu>(),
-            _ => _provider.GetRequiredService<SecurityMenu>(),
+            (int)SecurityMenuInfo.Back => IoC.Resolve<SecurityMenu>(),
+            (int)SecurityMenuInfo.ChangePassword => IoC.Resolve<SettingsMenu>(),
+            (int)SecurityMenuInfo.ChangeName => IoC.Resolve<MainMenu>(),
+            _ => IoC.Resolve<SecurityMenu>(),
         };
     }
     #endregion
