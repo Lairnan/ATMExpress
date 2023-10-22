@@ -1,11 +1,10 @@
 ﻿namespace DatabaseManagement.Interfaces;
 
-public interface IRepository<T> 
-    where T : Entity
+public interface IRepository<T>
 {
     IEnumerable<T> GetAll();
-    T GetById(Guid id);
-    bool Add(T entity);
-    bool Update(T entity);
-    bool Delete(T entity);
+    T? GetById(Guid id);
+    void Add(T entity);
+    void Update(T entity);
+    void Delete(T entity);
 }

@@ -23,6 +23,7 @@ public static class IoC
 
         services.AddDbContext<DatabaseManagementContext>(s
             => s.UseNpgsql(configuration.GetConnectionString("postgresql")));
+        services.AddRepositoriesToServiceCollection();
 
         Provider = services.BuildServiceProvider();
         
@@ -35,9 +36,9 @@ public static class IoC
 
     private static IServiceCollection AddRepositoriesToServiceCollection(this IServiceCollection services)
     {
-        return services.AddScoped<IRepository<Card>, Repository<Card>>()
-            .AddScoped<IRepository<Product>, Repository<Product>>()
-            .AddScoped<IRepository<Transaction>, Repository<Transaction>>()
-            .AddScoped<IRepository<User>, Repository<User>>();
+        return services.AddScoped<IRepository<Card>, CardRepository>()
+            .AddScoped<IRepository<Product>, ProductRepository>()
+            .AddScoped<IRepository<Transaction>, TransactionRepository>()
+            .AddScoped<IRepository<User>, UserRepository>();
     }
 }
