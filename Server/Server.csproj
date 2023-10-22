@@ -9,6 +9,18 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AuthorizationManagement\AuthorizationManagement.csproj" />
+    <ProjectReference Include="..\DatabaseManagement\DatabaseManagement.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

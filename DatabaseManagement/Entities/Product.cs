@@ -1,24 +1,51 @@
-﻿namespace DatabaseManagement.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using DatabaseManagement.Interfaces;
 
-public class Product
+namespace DatabaseManagement.Entities;
+
+[Table("Products")]
+public class Product : Entity
 {
-    private int _id;
     private string _name;
     private string _description;
     private decimal _price;
-    private int _quantity;
+    private decimal _weight;
     private DateTime _dateCreated;
+    private ICollection<ProductTransaction> _transactions;
 
-    public Product()
+    public string Name
     {
-        _id = 0;
-        _name = string.Empty;
+        get => _name;
+        set => SetProperty(ref _name, value);
     }
 
-    public int Id { get { return _id; } set { _id = value; } }
-    public string Name { get { return _name; } set { _name = value; } }
-    public string Description { get { return _description; } set { _description = value; } }
-    public decimal Price { get { return _price; } set { _price = value; } }
-    public int Quantity { get { return _quantity;} set { _quantity = value; } }
-    public DateTime DateCreated { get { return _dateCreated; } set { _dateCreated = value; } }
+    public string Description
+    {
+        get => _description;
+        set => SetProperty(ref _description, value);
+    }
+
+    public decimal Price
+    {
+        get => _price;
+        set => SetProperty(ref _price, value);
+    }
+
+    public decimal Weight
+    {
+        get => _weight;
+        set => SetProperty(ref _weight, value);
+    }
+
+    public DateTime DateCreated
+    {
+        get => _dateCreated;
+        set => SetProperty(ref _dateCreated, value);
+    }
+    
+    public virtual ICollection<ProductTransaction> Transactions
+    {
+        get => _transactions;
+        set => SetProperty(ref _transactions, value);
+    }
 }
