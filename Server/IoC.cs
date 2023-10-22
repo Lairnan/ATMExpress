@@ -1,7 +1,7 @@
 ﻿using DatabaseManagement;
-using DatabaseManagement.Entities;
 using DatabaseManagement.Interfaces;
 using DatabaseManagement.Repositories;
+using ESX.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

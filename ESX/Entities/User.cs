@@ -1,8 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
-using DatabaseManagement.Interfaces;
 
-namespace DatabaseManagement.Entities;
+namespace ESX.Entities;
 
 [Table("Users")]
 public class User : Entity

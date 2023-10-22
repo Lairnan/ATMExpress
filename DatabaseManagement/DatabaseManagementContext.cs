@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using DatabaseManagement.Entities;
+using ESX.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseManagement;

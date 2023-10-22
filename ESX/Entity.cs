@@ -1,4 +1,4 @@
-﻿namespace DatabaseManagement.Interfaces;
+﻿namespace ESX;
 
 public abstract class Entity : ObservableProperty
 {

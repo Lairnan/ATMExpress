@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace DatabaseManagement;
+namespace ESX;
 
 public abstract class ObservableProperty : INotifyPropertyChanged
 {

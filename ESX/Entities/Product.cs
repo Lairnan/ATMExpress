@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using DatabaseManagement.Interfaces;
 
-namespace DatabaseManagement.Entities;
+namespace ESX.Entities;
 
 [Table("Products")]
 public class Product : Entity

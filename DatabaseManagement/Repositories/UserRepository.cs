@@ -1,5 +1,5 @@
-﻿using DatabaseManagement.Entities;
-using DatabaseManagement.Interfaces;
+﻿using DatabaseManagement.Interfaces;
+using ESX.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseManagement.Repositories;
