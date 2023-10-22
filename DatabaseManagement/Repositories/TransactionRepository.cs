@@ -19,7 +19,7 @@ public class TransactionRepository : IRepository<Transaction>
             .Include(s => s.ProductTransactions)
             .AsEnumerable();
 
-    public Transaction? GetById(Guid id)
+    public Transaction? FindById(Guid id)
     {
         var cards = _dbContext.Transactions
             .Include(s => s.Card)

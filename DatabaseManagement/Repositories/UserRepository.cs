@@ -16,7 +16,7 @@ public class UserRepository : IRepository<User>
     public IEnumerable<User> GetAll()
         => _dbContext.Users.Include(s => s.Cards).AsEnumerable();
 
-    public User? GetById(Guid id)
+    public User? FindById(Guid id)
     {
         var users = _dbContext.Users.Include(s => s.Cards);
         return users.FirstOrDefault(s => s.Id.Equals(id));
