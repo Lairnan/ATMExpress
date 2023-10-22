@@ -9,7 +9,7 @@ public class Transaction : Entity
     private TransactionType _transactionType;
     private DateTime _dateCreated;
     private Guid _cardId;
-    private Card? _card;
+    private Card _card;
     private ICollection<ProductTransaction> _productTransactions = new List<ProductTransaction>();
 
     public string? Value
@@ -36,7 +36,7 @@ public class Transaction : Entity
         set => SetProperty(ref _cardId, value);
     }
 
-    public Card? Card
+    public Card Card
     {
         get => _card;
         set => SetProperty(ref _card, value);
