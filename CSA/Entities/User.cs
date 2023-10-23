@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ESX.Entities;
+namespace CSA.Entities;
 
 [Table("Users")]
 public class User : Entity

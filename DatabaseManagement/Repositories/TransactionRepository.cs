@@ -1,5 +1,5 @@
 ﻿using DatabaseManagement.Interfaces;
-using ESX.Entities;
+using CSA.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseManagement.Repositories;

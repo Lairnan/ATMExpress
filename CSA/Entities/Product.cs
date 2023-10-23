@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ESX.Entities;
+namespace CSA.Entities;
 
 [Table("Products")]
 public class Product : Entity

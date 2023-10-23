@@ -1,4 +1,6 @@
-﻿namespace ESX;
+﻿using CSA;
+
+namespace CSA;
 
 public abstract class Entity : ObservableProperty
 {

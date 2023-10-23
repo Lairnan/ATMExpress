@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace ESX;
+namespace CSA;
 
 public abstract class ObservableProperty : INotifyPropertyChanged
 {
