@@ -1,7 +1,7 @@
 ﻿using ConsoleApplication.Handler;
 using ConsoleApplication.Menus;
-using CSA.Implements;
-using CSA.Interfaces;
+using IIC.Implements;
+using IIC.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ConsoleApplication;

@@ -1,10 +1,10 @@
-﻿using BinaryFormatter;
-using CSA.Interfaces;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using BinaryFormatter;
+using IIC.Interfaces;
 
-namespace CSA.Implements;
+namespace IIC.Implements;
 
 public class Server : IServer
 {

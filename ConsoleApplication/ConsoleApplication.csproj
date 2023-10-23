@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CSA\CSA.csproj" />
+    <ProjectReference Include="..\IIC\IIC.csproj" />
     <ProjectReference Include="..\ESX\ESX.csproj" />
     <ProjectReference Include="..\InventoryManagement\InventoryManagement.csproj" />
     <ProjectReference Include="..\SalesAnalytics\SalesAnalytics.csproj" />

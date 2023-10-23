@@ -1,4 +1,4 @@
-﻿namespace CSA.Interfaces;
+﻿namespace IIC.Interfaces;
 
 public interface ILogger
 {

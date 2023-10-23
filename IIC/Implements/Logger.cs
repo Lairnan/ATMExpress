@@ -1,8 +1,8 @@
-﻿using CSA.Interfaces;
+﻿using System.Text;
+using IIC.Interfaces;
 using Microsoft.Extensions.Configuration;
-using System.Text;
 
-namespace CSA.Implements;
+namespace IIC.Implements;
 
 public class Logger : ILogger
 {

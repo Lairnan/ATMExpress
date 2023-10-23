@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Text;
 
-namespace CSA.Interfaces;
+namespace IIC.Interfaces;
 
 public interface IServer : IDisposable
 {

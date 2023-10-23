@@ -4,6 +4,8 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AssemblyName>IIC</AssemblyName>
+    <RootNamespace>IIC</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,9 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="App.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="config\logger.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
