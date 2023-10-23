@@ -1,4 +1,4 @@
-﻿namespace DatabaseManagement.Interfaces;
+﻿namespace IIC.Interfaces;
 
 public interface IRepository<T>
 {

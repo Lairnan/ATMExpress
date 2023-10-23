@@ -1,4 +1,4 @@
-﻿using DatabaseManagement.Interfaces;
+﻿using IIC.Interfaces;
 using CSA.Entities;
 using Microsoft.EntityFrameworkCore;
 
