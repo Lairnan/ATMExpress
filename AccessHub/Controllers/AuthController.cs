@@ -48,6 +48,38 @@ public class AuthController : ControllerBase
         return Ok(response);
     }
 
+    [HttpPost("register")]
+    public IActionResult Register([FromBody] RegisterRequest request)
+    {
+        if (request == null) return BadRequest(new { message = "Bad request" });
+        if (string.IsNullOrWhiteSpace(request.Login)) return BadRequest(new { message = "Login can't be empty" });
+        if (string.IsNullOrWhiteSpace(request.Password)) return BadRequest(new { message = "Password can't be empty" });
+        if (_userRepository.GetAll().FirstOrDefault(s => s.Login == request.Login) != null) return BadRequest(new { message = "User login already exists" });
+
+        var user = new User
+        {
+            Login = request.Login,
+            Password = request.Password
+        };
+        
+        _userRepository.Add(user);
+        _userRepository.Save();
+        
+        var loginResponse = JsonSerializer.Serialize(new LoginResponse
+        {
+            Token = GetToken(),
+            UserId = user.Id
+        });
+        
+        var response = new ApiResponse<string>
+        {
+            Success = true,
+            Message = "Успешная регистрация",
+            Data = loginResponse
+        };
+        return Ok(response);
+    }
+
     private static string GetToken()
     {
         var jwt = new JwtSecurityToken(
