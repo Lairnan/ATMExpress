@@ -1,5 +1,4 @@
-﻿using IIC.Interfaces;
-using CSA.Entities;
+﻿using CSA.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseManagement.Repositories;
