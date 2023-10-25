@@ -8,4 +8,15 @@
         <RootNamespace>CSA</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\IIC\IIC.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="DTO\config\server.json" />
+      <AdditionalFiles Include="DTO\config\server.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </AdditionalFiles>
+    </ItemGroup>
+
 </Project>

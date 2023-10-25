@@ -88,4 +88,12 @@
         <en>Closing application...</en>
         <ru>Закрытие приложения...</ru>
     </tr>
+    <tr id="InputLogin">
+        <en>Input login</en>
+        <ru>Введите логин</ru>
+    </tr>
+    <tr id="InputPassword">
+        <en>InputPassword</en>
+        <ru>Введите пароль</ru>
+    </tr>
 </root>
