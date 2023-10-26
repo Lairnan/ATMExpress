@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace CSA.Entities;
 
@@ -11,6 +12,7 @@ public class Card : Entity
     private Guid? _cardless;
     private Guid _userId;
     private User? _user;
+    [JsonIgnore]
     private ICollection<Transaction> _transactions = new ObservableCollection<Transaction>();
 
     public string CardNumber
@@ -43,6 +45,7 @@ public class Card : Entity
         set => SetProperty(ref _user, value);
     }
 
+    [JsonIgnore]
     public virtual ICollection<Transaction> Transactions
     {
         get => _transactions;

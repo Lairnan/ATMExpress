@@ -83,7 +83,7 @@ namespace DatabaseManagement.Repositories
         public IEnumerable<Transaction> GetTransactionsForProduct(Guid productId) =>
             _dbContext.ProductTransactions
                 .Where(pt => pt.ProductsId == productId)
-                .Select(pt => pt.Transactions)
+                .Select(pt => pt.Transaction)
                 .ToList();
     }
 }

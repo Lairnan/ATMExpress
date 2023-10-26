@@ -14,9 +14,10 @@
 
     <ItemGroup>
       <None Remove="DTO\config\server.json" />
-      <AdditionalFiles Include="DTO\config\server.json">
+      <AdditionalFiles Include="config\mainsettings.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </AdditionalFiles>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
 </Project>

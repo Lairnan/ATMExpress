@@ -1,74 +1,72 @@
 ﻿using CSA.DTO.Responses;
 using CSA.Entities;
 using DatabaseManagement.Repositories;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace AccessHub.Controllers;
 
-[Authorize]
 [ApiController]
-[Route("api/users")]
-public class UserController : ControllerBase
+[Route("api/cards")]
+public class CardController : ControllerBase
 {
-    private readonly UserRepository _repository;
+    private readonly CardRepository _repository;
 
-    public UserController(UserRepository repository)
+    public CardController(CardRepository repository)
     {
         _repository = repository;
     }
 
     [HttpGet("{id:guid}")]
-    public IActionResult GetUserById(Guid id)
+    public IActionResult GetCardById(Guid id)
     {
-        var user = _repository.FindById(id);
-        if (user == null)
+        var card = _repository.FindById(id);
+        if (card == null)
             return NotFound();
 
-        var jsonUser = JsonConvert.SerializeObject(user);
+        var jsonCard = JsonConvert.SerializeObject(card);
 
         var response = new ApiResponse<string>
         {
             Success = true,
-            Message = "user_found",
-            Data = jsonUser
+            Message = "card_founded",
+            Data = jsonCard
         };
         return Ok(response);
     }
 
     [HttpGet("getall")]
-    public IActionResult GetAll()
+    public IActionResult GetAllCards()
     {
-        var users = _repository.GetAll();
-        var jsonUsers = JsonConvert.SerializeObject(users);
+        var cards = _repository.GetAll();
+        var jsonCards = JsonConvert.SerializeObject(cards);
 
-        return Ok(jsonUsers);
+        return Ok(jsonCards);
     }
 
     [HttpPost("create")]
-    public async Task<IActionResult> CreateUser([FromBody] User user)
+    public async Task<IActionResult> CreateCard([FromBody] Card card)
     {
         try
         {
-            _repository.Add(user);
+            _repository.Add(card);
             await _repository.SaveAsync();
-            var jsonUser = JsonConvert.SerializeObject(user);
+            var jsonCard = JsonConvert.SerializeObject(card);
 
             var response = new ApiResponse<string>
             {
                 Success = true,
-                Message = "user_created",
-                Data = jsonUser
+                Message = "card_created",
+                Data = jsonCard
             };
             return Ok(response);
         }
         catch (Exception ex)
         {
-            var response = new ApiResponse<string?>
+            var response = new ApiResponse<string>
             {
                 Success = false,
-                Message = "user_creation_error",
+                Message = "card_creation_error",
                 Data = ex.Message
             };
             return BadRequest(response);
@@ -76,30 +74,30 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("update/{id:guid}")]
-    public async Task<IActionResult> UpdateUser(Guid id, [FromBody] User user)
+    public async Task<IActionResult> UpdateCard(Guid id, [FromBody] Card card)
     {
         try
         {
-            user.Id = id;
-            _repository.Update(user);
+            card.Id = id;
+            _repository.Update(card);
             await _repository.SaveAsync();
 
-            var jsonUser = JsonConvert.SerializeObject(user);
+            var jsonCard = JsonConvert.SerializeObject(card);
 
             var response = new ApiResponse<string>
             {
                 Success = true,
-                Message = "user_updated",
-                Data = jsonUser
+                Message = "card_updated",
+                Data = jsonCard
             };
             return Ok(response);
         }
         catch (Exception ex)
         {
-            var response = new ApiResponse<string?>
+            var response = new ApiResponse<string>
             {
                 Success = false,
-                Message = "user_update_error",
+                Message = "card_update_error",
                 Data = ex.Message
             };
             return BadRequest(response);
@@ -107,33 +105,33 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete("delete/{id:guid}")]
-    public async Task<IActionResult> DeleteUser(Guid id)
+    public async Task<IActionResult> DeleteCard(Guid id)
     {
         try
         {
-            var user = _repository.FindById(id);
-            if (user == null)
+            var card = _repository.FindById(id);
+            if (card == null)
                 return NotFound();
 
-            _repository.Delete(user);
+            _repository.Delete(card);
             await _repository.SaveAsync();
 
-            var jsonUser = JsonConvert.SerializeObject(user);
+            var jsonCard = JsonConvert.SerializeObject(card);
 
             var response = new ApiResponse<string>
             {
                 Success = true,
-                Message = "user_deleted",
-                Data = jsonUser
+                Message = "card_deleted",
+                Data = jsonCard
             };
             return Ok(response);
         }
         catch (Exception ex)
         {
-            var response = new ApiResponse<string?>
+            var response = new ApiResponse<string>
             {
                 Success = false,
-                Message = "user_deletion_error",
+                Message = "card_deletion_error",
                 Data = ex.Message
             };
             return BadRequest(response);

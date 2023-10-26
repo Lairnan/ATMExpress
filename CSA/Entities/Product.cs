@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace CSA.Entities;
 
@@ -10,6 +11,7 @@ public class Product : Entity
     private decimal _price;
     private decimal _weight;
     private DateTime _dateCreated;
+    [JsonIgnore]
     private ICollection<ProductTransaction> _transactions;
 
     public string Name
@@ -42,6 +44,7 @@ public class Product : Entity
         set => SetProperty(ref _dateCreated, value);
     }
     
+    [JsonIgnore]
     public virtual ICollection<ProductTransaction> Transactions
     {
         get => _transactions;

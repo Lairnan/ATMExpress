@@ -65,6 +65,6 @@ namespace DatabaseManagement.Repositories
         public async Task SaveAsync() => await _dbContext.SaveChangesAsync();
         
         public IEnumerable<ProductTransaction> GetProductTransactionsForTransaction(Guid transactionId) =>
-            _dbContext.ProductTransactions.Where(pt => pt.TransactionsId == transactionId).ToList();
+            _dbContext.ProductTransactions.Where(pt => pt.TransactionId == transactionId).ToList();
     }
 }

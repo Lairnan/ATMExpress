@@ -1,74 +1,72 @@
 ﻿using CSA.DTO.Responses;
 using CSA.Entities;
 using DatabaseManagement.Repositories;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace AccessHub.Controllers;
 
-[Authorize]
 [ApiController]
-[Route("api/users")]
-public class UserController : ControllerBase
+[Route("api/products")]
+public class ProductController : ControllerBase
 {
-    private readonly UserRepository _repository;
+    private readonly ProductRepository _repository;
 
-    public UserController(UserRepository repository)
+    public ProductController(ProductRepository repository)
     {
         _repository = repository;
     }
 
     [HttpGet("{id:guid}")]
-    public IActionResult GetUserById(Guid id)
+    public IActionResult GetProductById(Guid id)
     {
-        var user = _repository.FindById(id);
-        if (user == null)
+        var product = _repository.FindById(id);
+        if (product == null)
             return NotFound();
 
-        var jsonUser = JsonConvert.SerializeObject(user);
+        var jsonProduct = JsonConvert.SerializeObject(product);
 
         var response = new ApiResponse<string>
         {
             Success = true,
-            Message = "user_found",
-            Data = jsonUser
+            Message = "product_found",
+            Data = jsonProduct
         };
         return Ok(response);
     }
 
     [HttpGet("getall")]
-    public IActionResult GetAll()
+    public IActionResult GetAllProducts()
     {
-        var users = _repository.GetAll();
-        var jsonUsers = JsonConvert.SerializeObject(users);
+        var products = _repository.GetAll();
+        var jsonProducts = JsonConvert.SerializeObject(products);
 
-        return Ok(jsonUsers);
+        return Ok(jsonProducts);
     }
 
     [HttpPost("create")]
-    public async Task<IActionResult> CreateUser([FromBody] User user)
+    public async Task<IActionResult> CreateProduct([FromBody] Product product)
     {
         try
         {
-            _repository.Add(user);
+            _repository.Add(product);
             await _repository.SaveAsync();
-            var jsonUser = JsonConvert.SerializeObject(user);
+            var jsonProduct = JsonConvert.SerializeObject(product);
 
             var response = new ApiResponse<string>
             {
                 Success = true,
-                Message = "user_created",
-                Data = jsonUser
+                Message = "product_created",
+                Data = jsonProduct
             };
             return Ok(response);
         }
         catch (Exception ex)
         {
-            var response = new ApiResponse<string?>
+            var response = new ApiResponse<string>
             {
                 Success = false,
-                Message = "user_creation_error",
+                Message = "product_creation_error",
                 Data = ex.Message
             };
             return BadRequest(response);
@@ -76,30 +74,30 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("update/{id:guid}")]
-    public async Task<IActionResult> UpdateUser(Guid id, [FromBody] User user)
+    public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] Product product)
     {
         try
         {
-            user.Id = id;
-            _repository.Update(user);
+            product.Id = id;
+            _repository.Update(product);
             await _repository.SaveAsync();
 
-            var jsonUser = JsonConvert.SerializeObject(user);
+            var jsonProduct = JsonConvert.SerializeObject(product);
 
             var response = new ApiResponse<string>
             {
                 Success = true,
-                Message = "user_updated",
-                Data = jsonUser
+                Message = "product_updated",
+                Data = jsonProduct
             };
             return Ok(response);
         }
         catch (Exception ex)
         {
-            var response = new ApiResponse<string?>
+            var response = new ApiResponse<string>
             {
                 Success = false,
-                Message = "user_update_error",
+                Message = "product_update_error",
                 Data = ex.Message
             };
             return BadRequest(response);
@@ -107,33 +105,33 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete("delete/{id:guid}")]
-    public async Task<IActionResult> DeleteUser(Guid id)
+    public async Task<IActionResult> DeleteProduct(Guid id)
     {
         try
         {
-            var user = _repository.FindById(id);
-            if (user == null)
+            var product = _repository.FindById(id);
+            if (product == null)
                 return NotFound();
 
-            _repository.Delete(user);
+            _repository.Delete(product);
             await _repository.SaveAsync();
 
-            var jsonUser = JsonConvert.SerializeObject(user);
+            var jsonProduct = JsonConvert.SerializeObject(product);
 
             var response = new ApiResponse<string>
             {
                 Success = true,
-                Message = "user_deleted",
-                Data = jsonUser
+                Message = "product_deleted",
+                Data = jsonProduct
             };
             return Ok(response);
         }
         catch (Exception ex)
         {
-            var response = new ApiResponse<string?>
+            var response = new ApiResponse<string>
             {
                 Success = false,
-                Message = "user_deletion_error",
+                Message = "product_deletion_error",
                 Data = ex.Message
             };
             return BadRequest(response);

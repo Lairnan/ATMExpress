@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace CSA.Entities;
 
@@ -9,6 +10,7 @@ public class User : Entity
     private string _login;
     private string _password;
     private DateTime _dateCreated = DateTime.Now;
+    [JsonIgnore]
     private ICollection<Card> _cards = new ObservableCollection<Card>();
 
     public string Login
@@ -29,6 +31,7 @@ public class User : Entity
         set => SetProperty(ref _dateCreated, value);
     }
 
+    [JsonIgnore]
     public virtual ICollection<Card> Cards
     {
         get => _cards;

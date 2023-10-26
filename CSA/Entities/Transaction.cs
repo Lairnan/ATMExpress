@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace CSA.Entities;
 
@@ -10,6 +11,7 @@ public class Transaction : Entity
     private DateTime _dateCreated;
     private Guid _cardId;
     private Card _card;
+    [JsonIgnore]
     private ICollection<ProductTransaction> _productTransactions = new List<ProductTransaction>();
 
     public string? Value
@@ -42,6 +44,7 @@ public class Transaction : Entity
         set => SetProperty(ref _card, value);
     }
 
+    [JsonIgnore]
     public virtual ICollection<ProductTransaction> ProductTransactions
     {
         get => _productTransactions;

@@ -3,10 +3,10 @@
 public class ProductTransaction : Entity
 {
     private Guid _productsId;
-    private Guid _transactionsId;
+    private Guid _transactionId;
     private int? _quantity;
     private Product _products = null!;
-    private Transaction _transactions = null!;
+    private Transaction _transaction = null!;
 
     public Guid ProductsId
     {
@@ -20,16 +20,16 @@ public class ProductTransaction : Entity
         set => SetProperty(ref _products, value);
     }
 
-    public Guid TransactionsId
+    public Guid TransactionId
     {
-        get => _transactionsId;
-        set => SetProperty(ref _transactionsId, value);
+        get => _transactionId;
+        set => SetProperty(ref _transactionId, value);
     }
 
-    public virtual Transaction Transactions
+    public virtual Transaction Transaction
     {
-        get => _transactions;
-        set => SetProperty(ref _transactions, value);
+        get => _transaction;
+        set => SetProperty(ref _transaction, value);
     }
 
     public int? Quantity

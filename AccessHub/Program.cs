@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using DatabaseManagement;
+using DatabaseManagement.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -18,6 +19,10 @@ internal class Program
 // Add services to the container.
 
         builder.Services.AddDbContext<DatabaseManagementContext>(s => s.UseNpgsql(postgresql));
+        builder.Services.AddScoped<UserRepository>();
+        builder.Services.AddScoped<ProductRepository>();
+        builder.Services.AddScoped<TransactionRepository>();
+        builder.Services.AddScoped<CardRepository>();
 
         builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -1,14 +1,13 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
-using System.Text.Json;
 using CSA.DTO.Requests;
 using CSA.DTO.Responses;
 using CSA.Entities;
 using DatabaseManagement;
 using DatabaseManagement.Repositories;
-using IIC.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 namespace AccessHub.Controllers;
 
@@ -17,23 +16,23 @@ namespace AccessHub.Controllers;
 [Route("api/auth")]
 public class AuthController : ControllerBase
 {
-    private readonly IRepository<User> _userRepository;
+    private readonly UserRepository _userRepository;
 
     public AuthController(DatabaseManagementContext dbContext)
     {
-        this._userRepository = new UserRepository(dbContext);
+        _userRepository = new UserRepository(dbContext);
     }
 
     [HttpPost("login")]
     public IActionResult Login([FromBody] LoginRequest request)
     {
-        if (request == null) return BadRequest(new { message = "Bad request" });
+        if (request == null) return BadRequest(new { message = "bad_request" });
         User user;
         if ((user = _userRepository.GetAll().FirstOrDefault(s => s.Login == request.Login)!) == null)
-            return Unauthorized(new { message = "Wrong login" } );
-        if (user.Password != request.Password) return Unauthorized(new { message = "Wrong password" } );
+            return Unauthorized(new { message = "wrong_login" } );
+        if (user.Password != request.Password) return Unauthorized(new { message = "wrong_password" } );
         
-        var loginResponse = JsonSerializer.Serialize(new LoginResponse
+        var loginResponse = JsonConvert.SerializeObject(new LoginResponse
         {
             Token = GetToken(),
             UserId = user.Id
@@ -42,30 +41,40 @@ public class AuthController : ControllerBase
         var response = new ApiResponse<string>
         {
             Success = true,
-            Message = "Успешный вход",
+            Message = "user_login_successful",
             Data = loginResponse
         };
         return Ok(response);
     }
 
     [HttpPost("register")]
-    public IActionResult Register([FromBody] RegisterRequest request)
+    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
-        if (request == null) return BadRequest(new { message = "Bad request" });
-        if (string.IsNullOrWhiteSpace(request.Login)) return BadRequest(new { message = "Login can't be empty" });
-        if (string.IsNullOrWhiteSpace(request.Password)) return BadRequest(new { message = "Password can't be empty" });
-        if (_userRepository.GetAll().FirstOrDefault(s => s.Login == request.Login) != null) return BadRequest(new { message = "User login already exists" });
+        if (request == null) return BadRequest(new { message = "bad_request" });
+        if (string.IsNullOrWhiteSpace(request.Login)) return BadRequest(new { message = "login_empty" });
+        if (string.IsNullOrWhiteSpace(request.Password)) return BadRequest(new { message = "password_empty" });
+        if (_userRepository.GetAll().FirstOrDefault(s => s.Login == request.Login) != null) return BadRequest(new { message = "login_exists" });
 
         var user = new User
         {
             Login = request.Login,
             Password = request.Password
         };
-        
-        _userRepository.Add(user);
-        _userRepository.Save();
-        
-        var loginResponse = JsonSerializer.Serialize(new LoginResponse
+
+
+        try
+        {
+            _userRepository.Add(user);
+            await _userRepository.SaveAsync();
+        }
+        catch (Exception ex) when (ex is ArgumentNullException
+                                       or ArgumentException
+                                       or InvalidOperationException)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+
+        var loginResponse = JsonConvert.SerializeObject(new LoginResponse
         {
             Token = GetToken(),
             UserId = user.Id
@@ -74,7 +83,7 @@ public class AuthController : ControllerBase
         var response = new ApiResponse<string>
         {
             Success = true,
-            Message = "Успешная регистрация",
+            Message = "user_registration_successful",
             Data = loginResponse
         };
         return Ok(response);
