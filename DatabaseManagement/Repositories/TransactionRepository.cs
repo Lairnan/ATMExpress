@@ -1,64 +1,70 @@
 ﻿using CSA.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace DatabaseManagement.Repositories;
-
-public class TransactionRepository : IRepository<Transaction>
+namespace DatabaseManagement.Repositories
 {
-    private readonly DatabaseManagementContext _dbContext;
-    
-    public TransactionRepository(DatabaseManagementContext dbContext)
+    public class TransactionRepository : IRepository<Transaction>
     {
-        _dbContext = dbContext;
-    }
-    
-    public IEnumerable<Transaction> GetAll()
-        => _dbContext.Transactions
-            .Include(s => s.Card)
-            .Include(s => s.ProductTransactions)
-            .AsEnumerable();
-
-    public Transaction? FindById(Guid id)
-    {
-        var cards = _dbContext.Transactions
-            .Include(s => s.Card)
-            .Include(s => s.ProductTransactions);
-        return cards.FirstOrDefault(s => s.Id.Equals(id));
-    }
-
-    public void Add(Transaction entity)
-    {
-        if (_dbContext.Transactions.Any(s => s.Id.Equals(entity))) throw new InvalidOperationException("Element already exists");
-        if (entity.Card == null) throw new InvalidOperationException("Card can't be empty");
+        private readonly DatabaseManagementContext _dbContext;
         
-        entity.DateCreated = DateTime.Now;
-        _dbContext.Transactions.Add(entity);
+        public TransactionRepository(DatabaseManagementContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+        
+        public IEnumerable<Transaction> GetAll() => _dbContext.Transactions
+            .Include(t => t.Card)
+            .AsEnumerable();
+        
+        public Transaction? FindById(Guid id) => _dbContext.Transactions
+            .Include(t => t.Card)
+            .FirstOrDefault(t => t.Id == id);
+        
+        public void Add(Transaction entity)
+        {
+            if (_dbContext.Transactions.Any(t => t.Id == entity.Id))
+                throw new InvalidOperationException("Transaction with the same ID already exists");
+            
+            if (entity.Card == null)
+                throw new InvalidOperationException("Card can't be empty");
+            
+            entity.DateCreated = DateTime.Now;
+            _dbContext.Transactions.Add(entity);
+        }
+        
+        public void Update(Transaction entity)
+        {
+            var existingTransaction = _dbContext.Transactions
+                .Include(t => t.Card)
+                .Include(t => t.ProductTransactions)
+                .FirstOrDefault(t => t.Id == entity.Id);
+            
+            if (existingTransaction == null)
+                throw new InvalidOperationException("Transaction not found");
+            
+            if (entity.Card == null)
+                throw new InvalidOperationException("Card can't be empty");
+            
+            existingTransaction.Card = entity.Card;
+            existingTransaction.CardId = entity.CardId;
+            existingTransaction.ProductTransactions = entity.ProductTransactions;
+            existingTransaction.Value = entity.Value;
+            existingTransaction.TransactionType = entity.TransactionType;
+        }
+        
+        public void Delete(Transaction entity)
+        {
+            var existingTransaction = _dbContext.Transactions.FirstOrDefault(t => t.Id == entity.Id);
+            
+            if (existingTransaction == null)
+                throw new InvalidOperationException("Transaction already deleted");
+            
+            _dbContext.Transactions.Remove(existingTransaction);
+        }
+        
+        public async Task SaveAsync() => await _dbContext.SaveChangesAsync();
+        
+        public IEnumerable<ProductTransaction> GetProductTransactionsForTransaction(Guid transactionId) =>
+            _dbContext.ProductTransactions.Where(pt => pt.TransactionsId == transactionId).ToList();
     }
-
-    public void Update(Transaction entity)
-    {
-        var ent = _dbContext.Transactions
-            .Include(s => s.Card)
-            .Include(s => s.ProductTransactions)
-            .FirstOrDefault(s => s.Id.Equals(entity.Id));
-        if (ent == null) throw new ArgumentNullException(nameof(ent), "Element not found");
-        if (entity.Card == null) throw new InvalidOperationException("Card can't be empty");
-
-        ent.Card = entity.Card;
-        ent.CardId = entity.CardId;
-        ent.ProductTransactions = entity.ProductTransactions;
-        ent.Value = entity.Value;
-        ent.TransactionType = entity.TransactionType;
-    }
-
-    public void Delete(Transaction entity)
-    {
-        var ent = _dbContext.Transactions.FirstOrDefault(s => s.Id.Equals(entity.Id));
-        if (ent == null) throw new ArgumentNullException(nameof(ent), "Element already deleted");
-
-        _dbContext.Transactions.Remove(ent);
-    }
-
-    public async void Save() 
-        => await _dbContext.SaveChangesAsync();
 }

@@ -12,47 +12,62 @@ public class UserRepository : IRepository<User>
         _dbContext = dbContext;
     }
 
-    public IEnumerable<User> GetAll()
-        => _dbContext.Users.Include(s => s.Cards).AsEnumerable();
+    public IEnumerable<User> GetAll() => _dbContext.Users.ToList();
 
-    public User? FindById(Guid id)
-    {
-        var users = _dbContext.Users.Include(s => s.Cards);
-        return users.FirstOrDefault(s => s.Id.Equals(id));
-    }
+    public User? FindById(Guid id) => _dbContext.Users.Find(id);
 
     public void Add(User entity)
     {
-        if (string.IsNullOrWhiteSpace(entity.Login)) throw new ArgumentNullException(nameof(entity.Login), "Login can't be empty");
-        if (string.IsNullOrWhiteSpace(entity.Password)) throw new ArgumentNullException(nameof(entity.Password), "Password can't be empty");
-        if (_dbContext.Users.ToList().Any(s => s.Id.Equals(entity.Id))) throw new InvalidOperationException("Element already exists");
-        if (_dbContext.Users.ToList().Any(s => string.Equals(s.Login.Trim(), entity.Login.Trim(), StringComparison.CurrentCultureIgnoreCase)))
-            throw new InvalidOperationException("Login already exists");
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity), "User entity is null");
 
-        entity.DateCreated = DateTime.Now;
-        _dbContext.Users.Add(entity);
+            if (string.IsNullOrWhiteSpace(entity.Login))
+                throw new ArgumentException("Login can't be empty", nameof(entity.Login));
+
+            if (string.IsNullOrWhiteSpace(entity.Password))
+                throw new ArgumentException("Password can't be empty", nameof(entity.Password));
+
+            if (_dbContext.Users.Any(u => u.Id == entity.Id))
+                throw new InvalidOperationException("User with the same ID already exists");
+
+            if (_dbContext.Users.Any(u => string.Equals(u.Login.Trim(), entity.Login.Trim(), StringComparison.CurrentCultureIgnoreCase)))
+                throw new InvalidOperationException("User with the same login already exists");
+
+            entity.DateCreated = DateTime.Now;
+            _dbContext.Users.Add(entity);
     }
 
     public void Update(User entity)
     {
-        if (string.IsNullOrWhiteSpace(entity.Login)) throw new ArgumentNullException(nameof(entity.Login), "Login can't be empty");
-        if (string.IsNullOrWhiteSpace(entity.Password)) throw new ArgumentNullException(nameof(entity.Password), "Password can't be empty");
-        var ent = _dbContext.Users.Include(s => s.Cards).FirstOrDefault(s => s.Id.Equals(entity.Id));
-        if (ent == null) throw new ArgumentNullException(nameof(ent), "Element not found");
+        if (entity == null)
+            throw new ArgumentNullException(nameof(entity), "User entity is null");
 
-        ent.Login = entity.Login;
-        ent.Password = entity.Password;
-        ent.Cards = entity.Cards;
+        var existingUser = _dbContext.Users
+            .Include(u => u.Cards)
+            .SingleOrDefault(u => u.Id == entity.Id);
+
+        if (existingUser == null)
+            throw new InvalidOperationException("User not found");
+
+        existingUser.Login = entity.Login;
+        existingUser.Password = entity.Password;
+        existingUser.Cards = entity.Cards;
     }
 
     public void Delete(User entity)
     {
-        var ent = _dbContext.Users.FirstOrDefault(s => s.Id.Equals(entity.Id));
-        if (ent == null) throw new ArgumentNullException(nameof(ent), "Element already deleted");
+        if (entity == null)
+            throw new ArgumentNullException(nameof(entity), "User entity is null");
 
-        _dbContext.Users.Remove(ent);
+        var existingUser = _dbContext.Users.Find(entity.Id);
+
+        if (existingUser == null)
+            throw new InvalidOperationException("User not found");
+
+        _dbContext.Users.Remove(existingUser);
     }
 
-    public async void Save() 
-        => await _dbContext.SaveChangesAsync();
+    public async Task SaveAsync() => await _dbContext.SaveChangesAsync();
+    public IEnumerable<Card> GetCardsForUser(Guid userId) => _dbContext.Cards.Where(c => c.UserId == userId).ToList();
+
 }
