@@ -11,7 +11,7 @@ public static class Translate
     {
         var doc = XDocument.Load("Globalization/languages.xml");
 
-        foreach (var el in doc.Root!.Elements("tr"))
+        foreach (var el in doc.Elements("languages").Elements("tr"))
         {
             var id = el.Attribute("id")!.Value;
             var translations = el.Elements()

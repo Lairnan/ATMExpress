@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<root>
+<languages>
     <tr id="InsertKey">
         <en>Insert key</en>
         <ru>Введите код</ru>
@@ -96,4 +96,144 @@
         <en>InputPassword</en>
         <ru>Введите пароль</ru>
     </tr>
-</root>
+    <tr id="card_founded">
+        <en>Card found</en>
+        <ru>Карта найдена</ru>
+    </tr>
+    <tr id="card_created">
+        <en>Card created</en>
+        <ru>Карта успешно создана</ru>
+    </tr>
+    <tr id="card_creation_error">
+        <en>Error creating card: </en>
+        <ru>Ошибка при создании карты: </ru>
+    </tr>
+    <tr id="card_updated">
+        <en>Card updated</en>
+        <ru>Карта успешно обновлена</ru>
+    </tr>
+    <tr id="card_update_error">
+        <en>Error updating card: </en>
+        <ru>Ошибка при обновлении карты: </ru>
+    </tr>
+    <tr id="card_deleted">
+        <en>Card deleted</en>
+        <ru>Карта успешно удалена</ru>
+    </tr>
+    <tr id="card_deletion_error">
+        <en>Error deleting card: </en>
+        <ru>Ошибка при удалении карты: </ru>
+    </tr>
+    <tr id="product_found">
+        <en>Product found</en>
+        <ru>Продукт найден</ru>
+    </tr>
+    <tr id="product_created">
+        <en>Product created</en>
+        <ru>Продукт успешно создан</ru>
+    </tr>
+    <tr id="product_creation_error">
+        <en>Error creating product: </en>
+        <ru>Ошибка при создании продукта: </ru>
+    </tr>
+    <tr id="product_updated">
+        <en>Product updated</en>
+        <ru>Продукт успешно обновлен</ru>
+    </tr>
+    <tr id="product_update_error">
+        <en>Error updating product: </en>
+        <ru>Ошибка при обновлении продукта: </ru>
+    </tr>
+    <tr id="product_deleted">
+        <en>Product deleted</en>
+        <ru>Продукт успешно удален</ru>
+    </tr>
+    <tr id="product_deletion_error">
+        <en>Error deleting product: </en>
+        <ru>Ошибка при удалении продукта: </ru>
+    </tr>
+    <tr id="user_login_successful">
+        <en>Successful login</en>
+        <ru>Успешный вход</ru>
+    </tr>
+    <tr id="user_created">
+        <en>User created</en>
+        <ru>Пользователь успешно создан</ru>
+    </tr>
+    <tr id="user_creation_error">
+        <en>Error creating user: </en>
+        <ru>Ошибка при создании пользователя: </ru>
+    </tr>
+    <tr id="user_updated">
+        <en>User updated</en>
+        <ru>Пользователь успешно обновлен</ru>
+    </tr>
+    <tr id="user_update_error">
+        <en>Error updating user: </en>
+        <ru>Ошибка при обновлении пользователя: </ru>
+    </tr>
+    <tr id="user_deleted">
+        <en>User deleted</en>
+        <ru>Пользователь успешно удален</ru>
+    </tr>
+    <tr id="user_deletion_error">
+        <en>Error deleting user: </en>
+        <ru>Ошибка при удалении пользователя: </ru>
+    </tr>
+    <tr id="transaction_found">
+        <en>Transaction found</en>
+        <ru>Транзакция найдена</ru>
+    </tr>
+    <tr id="transaction_created">
+        <en>Transaction created</en>
+        <ru>Транзакция успешно создана</ru>
+    </tr>
+    <tr id="transaction_creation_error">
+        <en>Error creating transaction: </en>
+        <ru>Ошибка при создании транзакции: </ru>
+    </tr>
+    <tr id="transaction_updated">
+        <en>Transaction updated</en>
+        <ru>Транзакция успешно обновлена</ru>
+    </tr>
+    <tr id="transaction_update_error">
+        <en>Error updating transaction: </en>
+        <ru>Ошибка при обновлении транзакции: </ru>
+    </tr>
+    <tr id="transaction_deleted">
+        <en>Transaction deleted</en>
+        <ru>Транзакция успешно удалена</ru>
+    </tr>
+    <tr id="transaction_deletion_error">
+        <en>Error deleting transaction: </en>
+        <ru>Ошибка при удалении транзакции: </ru>
+    </tr>
+    <tr id="bad_request">
+        <en>Bad request</en>
+        <ru>Плохой запрос</ru>
+    </tr>
+    <tr id="wrong_login">
+        <en>Wrong login</en>
+        <ru>Неверный логин</ru>
+    </tr>
+    <tr id="wrong_password">
+        <en>Wrong password</en>
+        <ru>Неверный пароль</ru>
+    </tr>
+    <tr id="login_empty">
+        <en>Login can't be empty</en>
+        <ru>Логин не может быть пустым</ru>
+    </tr>
+    <tr id="password_empty">
+        <en>Password can't be empty</en>
+        <ru>Пароль не может быть пустым</ru>
+    </tr>
+    <tr id="login_exists">
+        <en>User login already exists</en>
+        <ru>Логин пользователя уже существует</ru>
+    </tr>
+    <tr id="user_registration_successful">
+        <en>Successful registration</en>
+        <ru>Успешная регистрация</ru>
+    </tr>
+</languages>
