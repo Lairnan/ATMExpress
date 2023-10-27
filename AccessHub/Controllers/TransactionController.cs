@@ -28,7 +28,7 @@ namespace AccessHub.Controllers
 
             var jsonTransaction = JsonConvert.SerializeObject(transaction);
 
-            var response = new ApiResponse<string>
+            var response = new ApiResponse
             {
                 Success = true,
                 Message = "transaction_found",
@@ -55,7 +55,7 @@ namespace AccessHub.Controllers
                 await _repository.SaveAsync();
                 var jsonTransaction = JsonConvert.SerializeObject(transaction);
 
-                var response = new ApiResponse<string>
+                var response = new ApiResponse
                 {
                     Success = true,
                     Message = "transaction_created",
@@ -65,7 +65,7 @@ namespace AccessHub.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ApiResponse<string>
+                var response = new ApiResponse
                 {
                     Success = false,
                     Message = "transaction_creation_error",
@@ -86,7 +86,7 @@ namespace AccessHub.Controllers
 
                 var jsonTransaction = JsonConvert.SerializeObject(transaction);
 
-                var response = new ApiResponse<string>
+                var response = new ApiResponse
                 {
                     Success = true,
                     Message = "transaction_updated",
@@ -96,7 +96,7 @@ namespace AccessHub.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ApiResponse<string>
+                var response = new ApiResponse
                 {
                     Success = false,
                     Message = "transaction_update_error",
@@ -120,7 +120,7 @@ namespace AccessHub.Controllers
 
                 var jsonTransaction = JsonConvert.SerializeObject(transaction);
 
-                var response = new ApiResponse<string>
+                var response = new ApiResponse
                 {
                     Success = true,
                     Message = "transaction_deleted",
@@ -130,7 +130,7 @@ namespace AccessHub.Controllers
             }
             catch (Exception ex)
             {
-                var response = new ApiResponse<string>
+                var response = new ApiResponse
                 {
                     Success = false,
                     Message = "transaction_deletion_error",

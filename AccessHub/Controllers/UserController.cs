@@ -28,7 +28,7 @@ public class UserController : ControllerBase
 
         var jsonUser = JsonConvert.SerializeObject(user);
 
-        var response = new ApiResponse<string>
+        var response = new ApiResponse
         {
             Success = true,
             Message = "user_found",
@@ -55,7 +55,7 @@ public class UserController : ControllerBase
             await _repository.SaveAsync();
             var jsonUser = JsonConvert.SerializeObject(user);
 
-            var response = new ApiResponse<string>
+            var response = new ApiResponse
             {
                 Success = true,
                 Message = "user_created",
@@ -65,7 +65,7 @@ public class UserController : ControllerBase
         }
         catch (Exception ex)
         {
-            var response = new ApiResponse<string?>
+            var response = new ApiResponse
             {
                 Success = false,
                 Message = "user_creation_error",
@@ -86,7 +86,7 @@ public class UserController : ControllerBase
 
             var jsonUser = JsonConvert.SerializeObject(user);
 
-            var response = new ApiResponse<string>
+            var response = new ApiResponse
             {
                 Success = true,
                 Message = "user_updated",
@@ -96,7 +96,7 @@ public class UserController : ControllerBase
         }
         catch (Exception ex)
         {
-            var response = new ApiResponse<string?>
+            var response = new ApiResponse
             {
                 Success = false,
                 Message = "user_update_error",
@@ -120,7 +120,7 @@ public class UserController : ControllerBase
 
             var jsonUser = JsonConvert.SerializeObject(user);
 
-            var response = new ApiResponse<string>
+            var response = new ApiResponse
             {
                 Success = true,
                 Message = "user_deleted",
@@ -130,7 +130,7 @@ public class UserController : ControllerBase
         }
         catch (Exception ex)
         {
-            var response = new ApiResponse<string?>
+            var response = new ApiResponse
             {
                 Success = false,
                 Message = "user_deletion_error",

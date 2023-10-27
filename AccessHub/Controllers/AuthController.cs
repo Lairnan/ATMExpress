@@ -45,7 +45,7 @@ public class AuthController : ControllerBase
         
         var jsonStr = JsonConvert.SerializeObject(loginResponse);
 
-        var response = new ApiResponse<string>
+        var response = new ApiResponse
         {
             Success = true,
             Message = "user_login_successful",
@@ -70,7 +70,7 @@ public class AuthController : ControllerBase
         IActionResult badRequest;
         if ((badRequest = await TryAddUser(user)) != Ok()) return badRequest;
         
-        var response = new ApiResponse<string>
+        var response = new ApiResponse
         {
             Success = true,
             Message = "user_registration_successful",
@@ -108,14 +108,14 @@ public class AuthController : ControllerBase
         };
         if (LogonHelper.InvalidTokens.TryGetValue(loginResponse, out _)) LogonHelper.InvalidTokens[loginResponse] = false;
         else
-            return BadRequest(new ApiResponse<string>
+            return BadRequest(new ApiResponse
             {
                 Success = false,
                 Message = "unable_logout",
                 Data = ""
             });
 
-        return Ok(new ApiResponse<string>
+        return Ok(new ApiResponse
         {
             Success = true,
             Message = ""

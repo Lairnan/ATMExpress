@@ -26,7 +26,7 @@ public class CardController : ControllerBase
 
         var jsonCard = JsonConvert.SerializeObject(card);
 
-        var response = new ApiResponse<string>
+        var response = new ApiResponse
         {
             Success = true,
             Message = "card_founded",
@@ -53,7 +53,7 @@ public class CardController : ControllerBase
             await _repository.SaveAsync();
             var jsonCard = JsonConvert.SerializeObject(card);
 
-            var response = new ApiResponse<string>
+            var response = new ApiResponse
             {
                 Success = true,
                 Message = "card_created",
@@ -63,7 +63,7 @@ public class CardController : ControllerBase
         }
         catch (Exception ex)
         {
-            var response = new ApiResponse<string>
+            var response = new ApiResponse
             {
                 Success = false,
                 Message = "card_creation_error",
@@ -84,7 +84,7 @@ public class CardController : ControllerBase
 
             var jsonCard = JsonConvert.SerializeObject(card);
 
-            var response = new ApiResponse<string>
+            var response = new ApiResponse
             {
                 Success = true,
                 Message = "card_updated",
@@ -94,7 +94,7 @@ public class CardController : ControllerBase
         }
         catch (Exception ex)
         {
-            var response = new ApiResponse<string>
+            var response = new ApiResponse
             {
                 Success = false,
                 Message = "card_update_error",
@@ -118,7 +118,7 @@ public class CardController : ControllerBase
 
             var jsonCard = JsonConvert.SerializeObject(card);
 
-            var response = new ApiResponse<string>
+            var response = new ApiResponse
             {
                 Success = true,
                 Message = "card_deleted",
@@ -128,7 +128,7 @@ public class CardController : ControllerBase
         }
         catch (Exception ex)
         {
-            var response = new ApiResponse<string>
+            var response = new ApiResponse
             {
                 Success = false,
                 Message = "card_deletion_error",

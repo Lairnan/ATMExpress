@@ -1,6 +1,6 @@
 ﻿namespace CSA.DTO.Requests;
 
-public class RegisterRequest
+public class RegisterRequest : IRequest
 {
     public string Login { get; set; }
     public string Password { get; set; }

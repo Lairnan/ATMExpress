@@ -26,7 +26,7 @@ public class ProductController : ControllerBase
 
         var jsonProduct = JsonConvert.SerializeObject(product);
 
-        var response = new ApiResponse<string>
+        var response = new ApiResponse
         {
             Success = true,
             Message = "product_found",
@@ -53,7 +53,7 @@ public class ProductController : ControllerBase
             await _repository.SaveAsync();
             var jsonProduct = JsonConvert.SerializeObject(product);
 
-            var response = new ApiResponse<string>
+            var response = new ApiResponse
             {
                 Success = true,
                 Message = "product_created",
@@ -63,7 +63,7 @@ public class ProductController : ControllerBase
         }
         catch (Exception ex)
         {
-            var response = new ApiResponse<string>
+            var response = new ApiResponse
             {
                 Success = false,
                 Message = "product_creation_error",
@@ -84,7 +84,7 @@ public class ProductController : ControllerBase
 
             var jsonProduct = JsonConvert.SerializeObject(product);
 
-            var response = new ApiResponse<string>
+            var response = new ApiResponse
             {
                 Success = true,
                 Message = "product_updated",
@@ -94,7 +94,7 @@ public class ProductController : ControllerBase
         }
         catch (Exception ex)
         {
-            var response = new ApiResponse<string>
+            var response = new ApiResponse
             {
                 Success = false,
                 Message = "product_update_error",
@@ -118,7 +118,7 @@ public class ProductController : ControllerBase
 
             var jsonProduct = JsonConvert.SerializeObject(product);
 
-            var response = new ApiResponse<string>
+            var response = new ApiResponse
             {
                 Success = true,
                 Message = "product_deleted",
@@ -128,7 +128,7 @@ public class ProductController : ControllerBase
         }
         catch (Exception ex)
         {
-            var response = new ApiResponse<string>
+            var response = new ApiResponse
             {
                 Success = false,
                 Message = "product_deletion_error",

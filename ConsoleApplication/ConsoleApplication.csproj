@@ -21,7 +21,7 @@
   <ItemGroup>
     <None Remove="Translate\languages.xml" />
     <AdditionalFiles Include="Globalization\languages.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </AdditionalFiles>
   </ItemGroup>
 

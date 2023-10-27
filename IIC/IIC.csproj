@@ -16,9 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="config\logger.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Remove="config\logger.json" />
+    <AdditionalFiles Include="config\logger.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AdditionalFiles>
   </ItemGroup>
 
 </Project>
