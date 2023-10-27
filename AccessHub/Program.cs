@@ -1,4 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using DatabaseManagement;
 using DatabaseManagement.Repositories;
@@ -6,15 +5,18 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-internal class Program
+namespace AccessHub;
+
+internal static class Program
 {
+    public static ConfigurationManager Configuration { get; private set; } = null!;
+
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        var connectionString = builder.Configuration.GetSection("ConnectionString");
+        Configuration = builder.Configuration;
+        var connectionString = Configuration.GetSection("ConnectionString");
         var postgresql = connectionString.GetSection("postgresql").Value;
-        AuthOptions.SymmetricSecurityKey =
-            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["AppSettings:Secret"]!));
 
 // Add services to the container.
 
@@ -35,11 +37,11 @@ internal class Program
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = false,
-                    ValidIssuer = AuthOptions.ISSUER,
+                    ValidIssuer = Configuration["AppSettings:issuer"],
                     ValidateAudience = false,
-                    ValidAudience = AuthOptions.AUDIENCE,
+                    ValidAudience = Configuration["AppSettings:audience"],
                     ValidateLifetime = true,
-                    IssuerSigningKey = AuthOptions.SymmetricSecurityKey,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["AppSettings:secret"]!)),
                     ValidateIssuerSigningKey = true,
                 };
             });
@@ -58,25 +60,8 @@ internal class Program
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.Map("/api/auth", () =>
-        {
-            var jwt = new JwtSecurityToken(
-                expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)),
-                signingCredentials: new SigningCredentials(AuthOptions.SymmetricSecurityKey,
-                    SecurityAlgorithms.HmacSha256));
-
-            return new JwtSecurityTokenHandler().WriteToken(jwt);
-        });
-
         app.MapControllers();
 
         app.Run();
     }
-}
-
-public class AuthOptions
-{
-    public const string ISSUER = "MyAuthServer";
-    public const string AUDIENCE = "MyAuthClient";
-    public static SymmetricSecurityKey SymmetricSecurityKey { get; set; }
 }

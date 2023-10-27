@@ -1,4 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using AccessHub.BehaviorsFiles;
 using CSA.DTO.Requests;
 using CSA.DTO.Responses;
 using CSA.Entities;
@@ -31,18 +34,22 @@ public class AuthController : ControllerBase
         if ((user = _userRepository.GetAll().FirstOrDefault(s => s.Login == request.Login)!) == null)
             return Unauthorized(new { message = "wrong_login" } );
         if (user.Password != request.Password) return Unauthorized(new { message = "wrong_password" } );
-        
-        var loginResponse = JsonConvert.SerializeObject(new LoginResponse
+
+        var loginResponse = new LoginResponse
         {
-            Token = GetToken(),
+            Token = GetToken(user.Login),
             UserId = user.Id
-        });
+        };
+        if (!LogonHelper.InvalidTokens.TryAdd(loginResponse, true))
+            return BadRequest("user_already_logon");
         
+        var jsonStr = JsonConvert.SerializeObject(loginResponse);
+
         var response = new ApiResponse<string>
         {
             Success = true,
             Message = "user_login_successful",
-            Data = loginResponse
+            Data = jsonStr
         };
         return Ok(response);
     }
@@ -60,8 +67,20 @@ public class AuthController : ControllerBase
             Login = request.Login,
             Password = request.Password
         };
+        IActionResult badRequest;
+        if ((badRequest = await TryAddUser(user)) != Ok()) return badRequest;
+        
+        var response = new ApiResponse<string>
+        {
+            Success = true,
+            Message = "user_registration_successful",
+            Data = ""
+        };
+        return Ok(response);
+    }
 
-
+    private async Task<IActionResult> TryAddUser(User user)
+    {
         try
         {
             _userRepository.Add(user);
@@ -74,28 +93,46 @@ public class AuthController : ControllerBase
             return BadRequest(new { message = ex.Message });
         }
 
-        var loginResponse = JsonConvert.SerializeObject(new LoginResponse
-        {
-            Token = GetToken(),
-            UserId = user.Id
-        });
-        
-        var response = new ApiResponse<string>
-        {
-            Success = true,
-            Message = "user_registration_successful",
-            Data = loginResponse
-        };
-        return Ok(response);
+        return Ok();
     }
 
-    private static string GetToken()
+    [Authorize]
+    [HttpPost("logout")]
+    public IActionResult Logout(Guid userId)
     {
-        var jwt = new JwtSecurityToken(
-            expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(2)),
-            signingCredentials: new SigningCredentials(AuthOptions.SymmetricSecurityKey,
-                SecurityAlgorithms.HmacSha256));
+        var token = this.Request.Headers.Authorization.ToString().Replace("Bearer ", "");
+        var loginResponse = new LoginResponse
+        {
+            Token = token,
+            UserId = userId
+        };
+        if (LogonHelper.InvalidTokens.TryGetValue(loginResponse, out _)) LogonHelper.InvalidTokens[loginResponse] = false;
+        else
+            return BadRequest(new ApiResponse<string>
+            {
+                Success = false,
+                Message = "unable_logout",
+                Data = ""
+            });
 
-        return new JwtSecurityTokenHandler().WriteToken(jwt);
+        return Ok(new ApiResponse<string>
+        {
+            Success = true,
+            Message = ""
+        });
+    }
+
+    private static string GetToken(string login)
+    {
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Program.Configuration["AppSettings:secret"]!));
+        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        var token = new JwtSecurityToken(
+            issuer: Program.Configuration["AppSettings:issuer"],
+            audience: Program.Configuration["AppSettings:audience"],
+            claims: new[] { new Claim(ClaimTypes.Name, login) },
+            expires: DateTime.Now.AddMinutes(30),
+            signingCredentials: credentials);
+        
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }
