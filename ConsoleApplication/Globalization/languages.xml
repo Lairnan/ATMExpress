@@ -1,98 +1,98 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <languages>
-    <tr id="InsertKey">
+    <tr id="insert_key">
         <en>Insert key</en>
         <ru>Введите код</ru>
     </tr>
-    <tr id="Exit">
+    <tr id="exit">
         <en>Exit</en>
         <ru>Выход</ru>
     </tr>
-    <tr id="Settings">
+    <tr id="settings">
         <en>View settings</en>
         <ru>Посмотреть настройки</ru>
     </tr>
-    <tr id="Products">
+    <tr id="products">
         <en>View products</en>
         <ru>Посмотреть продукты</ru>
     </tr>
-    <tr id="ViewBalance">
+    <tr id="view_balance">
         <en>View balance</en>
         <ru>Посмотреть баланс</ru>
     </tr>
-    <tr id="WithdrawCash">
+    <tr id="withdraw_cash">
         <en>Withdraw cash</en>
         <ru>Снять наличные</ru>
     </tr>
-    <tr id="DepositCash">
+    <tr id="deposit_cash">
         <en>Deposit cash</en>
         <ru>Положить наличные</ru>
     </tr>
-    <tr id="QuickTransfer">
+    <tr id="quick_transfer">
         <en>Quick transfer</en>
         <ru>Быстрый перевод</ru>
     </tr>
-    <tr id="TransactionHistory">
+    <tr id="transaction_history">
         <en>Transaction history</en>
         <ru>История транзакций</ru>
     </tr>
-    <tr id="CardlessCash">
+    <tr id="cardless_cash">
         <en>Generate cardless code</en>
         <ru>Сгенерировать безкарточный код</ru>
     </tr>
-    <tr id="ManageCards">
+    <tr id="manage_cards">
         <en>Manage cards</en>
         <ru>Управление картами</ru>
     </tr>
-    <tr id="PromotionsAndOffers">
+    <tr id="promotions_and_offers">
         <en>Promotions and offers</en>
         <ru>Акции и предложения</ru>
     </tr>
-    <tr id="Authorize">
+    <tr id="authorize">
         <en>Authorization</en>
         <ru>Авторизация</ru>
     </tr>
-    <tr id="Register">
+    <tr id="register">
         <en>Registration</en>
         <ru>Регистрация</ru>
     </tr>
-    <tr id="Back">
+    <tr id="back">
         <en>Back</en>
         <ru>Назад</ru>
     </tr>
-    <tr id="AccountInformation">
+    <tr id="account_information">
         <en>Account information</en>
         <ru>Информация об аккаунте</ru>
     </tr>
-    <tr id="SecuritySettings">
+    <tr id="security_settings">
         <en>Security settings</en>
         <ru>Настройки безопасности</ru>
     </tr>
-    <tr id="ChangeLanguage">
+    <tr id="change_language">
         <en>Change language</en>
         <ru>Сменить язык</ru>
     </tr>
-    <tr id="ChangePassword">
+    <tr id="change_password">
         <en>Change password</en>
         <ru>Изменить пароль</ru>
     </tr>
-    <tr id="ChangeName">
+    <tr id="change_name">
         <en>Change name</en>
         <ru>Изменить имя</ru>
     </tr>
-    <tr id="PressAnyKey">
+    <tr id="press_any_key">
         <en>Press any key to continue</en>
         <ru>Нажмите любую кнопку чтобы продолжить</ru>
     </tr>
-    <tr id="CloseApp">
+    <tr id="close_app">
         <en>Closing application...</en>
         <ru>Закрытие приложения...</ru>
     </tr>
-    <tr id="InputLogin">
+    <tr id="input_login">
         <en>Input login</en>
         <ru>Введите логин</ru>
     </tr>
-    <tr id="InputPassword">
+    <tr id="input_password">
         <en>InputPassword</en>
         <ru>Введите пароль</ru>
     </tr>

@@ -1,6 +1,6 @@
 ﻿{
   "AppSettings": {
-    "baseurl": "https://localhost:7173/",
+    "baseurl": "https://localhost:7173/api",
     "logPath": "./logs/"
   }
 }
