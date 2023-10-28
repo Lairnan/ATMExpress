@@ -1,27 +1,19 @@
-﻿using CSA.DTO.Responses;
+﻿using System.Collections.ObjectModel;
+using AccessHub.Models;
+using CSA.DTO.Responses;
 
 namespace AccessHub.BehaviorsFiles;
 
 public static class LogonHelper
 {
-    public static readonly Dictionary<LoginResponse, bool> InvalidTokens = new(new LoginResponseEqualityComparer());
-}
+    public static readonly ObservableCollection<UserToken> UsersToken = new();
 
-public class LoginResponseEqualityComparer : IEqualityComparer<LoginResponse>
-{
-    public bool Equals(LoginResponse? x, LoginResponse? y)
+    public static UserToken? GetUserAuthorize(UserToken userToken)
     {
-        if (x == null || y == null) return false;
+        UserToken? user = new();
+        if (!string.IsNullOrWhiteSpace(userToken.Token)) user = UsersToken.FirstOrDefault(s => s.Token == userToken.Token);
+        if (user == null && userToken.UserId != Guid.Empty) user = UsersToken.FirstOrDefault(s => s.UserId.Equals(userToken.UserId));
         
-        if (ReferenceEquals(x, y)) return true;
-        if (ReferenceEquals(x, null)) return false;
-        if (ReferenceEquals(y, null)) return false;
-        if (x.GetType() != y.GetType()) return false;
-        return x.Token == y.Token || x.UserId.Equals(y.UserId);
-    }
-
-    public int GetHashCode(LoginResponse obj)
-    {
-        return obj.UserId.ToString().GetHashCode(StringComparison.OrdinalIgnoreCase);
+        return user;
     }
 }

@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using AccessHub.BehaviorsFiles;
+using AccessHub.Models;
 using CSA.DTO.Requests;
 using CSA.DTO.Responses;
 using CSA.Entities;
@@ -40,8 +41,20 @@ public class AuthController : ControllerBase
             Token = GetToken(user.Login),
             UserId = user.Id
         };
-        if (!LogonHelper.InvalidTokens.TryAdd(loginResponse, true))
-            return BadRequest("user_already_logon");
+
+        var userToken = LogonHelper.GetUserAuthorize(new UserToken(loginResponse.Token, loginResponse.UserId));
+        
+        switch (userToken)
+        {
+            case { Valid: false }:
+                userToken.Valid = true;
+                break;
+            case { Valid: true }:
+                return BadRequest("user_already_logon");
+            default:
+                LogonHelper.UsersToken.Add(new UserToken(true, loginResponse.Token, loginResponse.UserId));
+                break;
+        }
         
         var jsonStr = JsonConvert.SerializeObject(loginResponse);
 
@@ -98,17 +111,14 @@ public class AuthController : ControllerBase
 
     [Authorize]
     [HttpPost("logout")]
-    public IActionResult Logout(Guid userId)
+    public IActionResult Logout([FromBody] Guid userId)
     {
         var token = this.Request.Headers.Authorization.ToString().Replace("Bearer ", "");
-        var loginResponse = new LoginResponse
-        {
-            Token = token,
-            UserId = userId
-        };
-        if (LogonHelper.InvalidTokens.TryGetValue(loginResponse, out _)) LogonHelper.InvalidTokens[loginResponse] = false;
-        else
-            return BadRequest(new ApiResponse
+
+        var userToken = LogonHelper.GetUserAuthorize(new UserToken(token, userId));
+        
+        if (userToken is { Valid: true }) userToken.Valid = false;
+        else return BadRequest(new ApiResponse
             {
                 Success = false,
                 Message = "unable_logout",
@@ -118,8 +128,23 @@ public class AuthController : ControllerBase
         return Ok(new ApiResponse
         {
             Success = true,
-            Message = ""
+            Message = "success_logout"
         });
+    }
+
+    [Authorize]
+    [HttpGet("get_logon_tokens")]
+    public IActionResult GetLogonTokens(string secret)
+    {
+        var token = this.Request.Headers.Authorization.ToString().Replace("Bearer ", "");
+        
+        var userToken = LogonHelper.GetUserAuthorize(new UserToken(token));
+        if(userToken is not { Valid: true }) return Unauthorized("Not Authorized");
+
+        if (string.IsNullOrWhiteSpace(secret) || secret != Program.Configuration["AppSettings:secret"])
+            return Forbid();
+        
+        return Ok(JsonConvert.SerializeObject(LogonHelper.UsersToken));
     }
 
     private static string GetToken(string login)
