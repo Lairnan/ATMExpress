@@ -1,7 +1,9 @@
 using System.Text;
+using AccessHub.BehaviorsFiles;
 using DatabaseManagement;
 using DatabaseManagement.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -26,11 +28,9 @@ internal static class Program
         builder.Services.AddScoped<TransactionRepository>();
         builder.Services.AddScoped<CardRepository>();
 
-        builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-        builder.Services.AddAuthorization();
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -45,6 +45,12 @@ internal static class Program
                     ValidateIssuerSigningKey = true,
                 };
             });
+        builder.Services.AddAuthorization();
+        builder.Services.AddControllers(o =>
+        {
+            o.Filters.Add<AllowAnonymousFilter>();
+            o.Filters.Add<UserTokenAuthorizationFilter>();
+        });
 
         var app = builder.Build();
 

@@ -6,7 +6,6 @@ using AccessHub.Models;
 using CSA.DTO.Requests;
 using CSA.DTO.Responses;
 using CSA.Entities;
-using DatabaseManagement;
 using DatabaseManagement.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,22 +14,22 @@ using Newtonsoft.Json;
 
 namespace AccessHub.Controllers;
 
-[AllowAnonymous]
 [ApiController]
 [Route("api/auth")]
 public class AuthController : ControllerBase
 {
     private readonly UserRepository _userRepository;
 
-    public AuthController(DatabaseManagementContext dbContext)
+    public AuthController(UserRepository userRepository)
     {
-        _userRepository = new UserRepository(dbContext);
+        _userRepository = userRepository;
     }
 
     [HttpPost("login")]
+    [AllowAnonymous]
     public IActionResult Login([FromBody] LoginRequest request)
     {
-        if (request == null) return BadRequest(new { message = "bad_request" });
+        if (request == null) return BadRequest(new { message = "null_request" });
         User user;
         if ((user = _userRepository.GetAll().FirstOrDefault(s => s.Login == request.Login)!) == null)
             return Unauthorized(new { message = "wrong_login" } );
@@ -68,6 +67,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
+    [AllowAnonymous]
     public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
         if (request == null) return BadRequest(new { message = "bad_request" });
@@ -109,8 +109,8 @@ public class AuthController : ControllerBase
         return Ok();
     }
 
-    [Authorize]
     [HttpPost("logout")]
+    [Authorize]
     public IActionResult Logout([FromBody] Guid userId)
     {
         var token = this.Request.Headers.Authorization.ToString().Replace("Bearer ", "");
@@ -132,15 +132,10 @@ public class AuthController : ControllerBase
         });
     }
 
-    [Authorize]
     [HttpGet("get_logon_tokens")]
+    [Authorize]
     public IActionResult GetLogonTokens(string secret)
     {
-        var token = this.Request.Headers.Authorization.ToString().Replace("Bearer ", "");
-        
-        var userToken = LogonHelper.GetUserAuthorize(new UserToken(token));
-        if(userToken is not { Valid: true }) return Unauthorized("Not Authorized");
-
         if (string.IsNullOrWhiteSpace(secret) || secret != Program.Configuration["AppSettings:secret"])
             return Forbid();
         

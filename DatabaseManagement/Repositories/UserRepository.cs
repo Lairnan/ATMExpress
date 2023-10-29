@@ -6,12 +6,10 @@ namespace DatabaseManagement.Repositories;
 public class UserRepository : IRepository<User>
 {
     private readonly DatabaseManagementContext _dbContext;
-    public readonly DbSet<User> Users;
     
     public UserRepository(DatabaseManagementContext dbContext)
     {
         _dbContext = dbContext;
-        Users = _dbContext.Users;
     }
 
     public IEnumerable<User> GetAll() => _dbContext.Users.ToList();

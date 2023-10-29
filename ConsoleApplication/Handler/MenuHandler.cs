@@ -4,7 +4,7 @@ namespace ConsoleApplication.Handler;
 
 public partial class MenuHandler
 {
-    public async Task<IMenu?> Switch(IMenu menu, int key)
+    public async Task<IMenu?> Switch(IMenu menu, byte key)
     {
         Console.Clear();
         
@@ -20,55 +20,55 @@ public partial class MenuHandler
     }
 
     #region SwitchMenus.
-    private async Task<IMenu?> SwitchStartMenu(int key)
+    private async Task<IMenu?> SwitchStartMenu(byte key)
     {
         return key switch
         {
-            (int)StartMenuInfo.Exit => null,
-            (int)StartMenuInfo.Authorize => await Authorization(),
-            (int)StartMenuInfo.Register => await Registration(),
+            (byte)StartMenuInfo.Exit => null,
+            (byte)StartMenuInfo.Authorize => await Authorization(),
+            (byte)StartMenuInfo.Register => await Registration(),
             _ => IoC.Resolve<StartMenu>(),
         };
     }
 
-    private Task<IMenu?> SwitchMainMenu(int key)
+    private Task<IMenu?> SwitchMainMenu(byte key)
     {
         return Task.FromResult<IMenu?>(key switch
         {
-            (int)MainMenuInfo.Exit => null,
-            (int)MainMenuInfo.Settings => IoC.Resolve<SettingsMenu>(),
-            (int)MainMenuInfo.Products => IoC.Resolve<MainMenu>(),
-            (int)MainMenuInfo.ViewBalance => IoC.Resolve<MainMenu>(),
-            (int)MainMenuInfo.WithdrawCash => IoC.Resolve<MainMenu>(),
-            (int)MainMenuInfo.DepositCash => IoC.Resolve<MainMenu>(),
-            (int)MainMenuInfo.QuickTransfer => IoC.Resolve<MainMenu>(),
-            (int)MainMenuInfo.TransactionHistory => IoC.Resolve<MainMenu>(),
-            (int)MainMenuInfo.CardlessCash => IoC.Resolve<MainMenu>(),
-            (int)MainMenuInfo.ManageCards => IoC.Resolve<MainMenu>(),
-            (int)MainMenuInfo.PromotionsAndOffers => IoC.Resolve<MainMenu>(),
+            (byte)MainMenuInfo.Exit => null,
+            (byte)MainMenuInfo.Settings => IoC.Resolve<SettingsMenu>(),
+            (byte)MainMenuInfo.Products => IoC.Resolve<MainMenu>(),
+            (byte)MainMenuInfo.ViewBalance => IoC.Resolve<MainMenu>(),
+            (byte)MainMenuInfo.WithdrawCash => IoC.Resolve<MainMenu>(),
+            (byte)MainMenuInfo.DepositCash => IoC.Resolve<MainMenu>(),
+            (byte)MainMenuInfo.QuickTransfer => IoC.Resolve<MainMenu>(),
+            (byte)MainMenuInfo.TransactionHistory => IoC.Resolve<MainMenu>(),
+            (byte)MainMenuInfo.CardlessCash => IoC.Resolve<MainMenu>(),
+            (byte)MainMenuInfo.ManageCards => IoC.Resolve<MainMenu>(),
+            (byte)MainMenuInfo.PromotionsAndOffers => IoC.Resolve<MainMenu>(),
             _ => IoC.Resolve<MainMenu>(),
         });
     }
 
-    private Task<IMenu> SwitchSettingsMenu(int key)
+    private Task<IMenu> SwitchSettingsMenu(byte key)
     {
         return Task.FromResult<IMenu>(key switch
         {
-            (int)SettingsMenuInfo.Back => IoC.Resolve<MainMenu>(),
-            (int)SettingsMenuInfo.AccountInformation => IoC.Resolve<SettingsMenu>(),
-            (int)SettingsMenuInfo.SecuritySettings => IoC.Resolve<MainMenu>(),
-            (int)SettingsMenuInfo.ChangeLanguage => IoC.Resolve<MainMenu>(),
+            (byte)SettingsMenuInfo.Back => IoC.Resolve<MainMenu>(),
+            (byte)SettingsMenuInfo.AccountInformation => IoC.Resolve<SettingsMenu>(),
+            (byte)SettingsMenuInfo.SecuritySettings => IoC.Resolve<MainMenu>(),
+            (byte)SettingsMenuInfo.ChangeLanguage => IoC.Resolve<MainMenu>(),
             _ => IoC.Resolve<SettingsMenu>(),
         });
     }
 
-    private Task<IMenu> SwitchSecurityMenu(int key)
+    private Task<IMenu> SwitchSecurityMenu(byte key)
     {
         return Task.FromResult<IMenu>(key switch
         {
-            (int)SecurityMenuInfo.Back => IoC.Resolve<SecurityMenu>(),
-            (int)SecurityMenuInfo.ChangePassword => IoC.Resolve<SettingsMenu>(),
-            (int)SecurityMenuInfo.ChangeName => IoC.Resolve<MainMenu>(),
+            (byte)SecurityMenuInfo.Back => IoC.Resolve<SecurityMenu>(),
+            (byte)SecurityMenuInfo.ChangePassword => IoC.Resolve<SettingsMenu>(),
+            (byte)SecurityMenuInfo.ChangeName => IoC.Resolve<MainMenu>(),
             _ => IoC.Resolve<SecurityMenu>(),
         });
     }

@@ -93,7 +93,7 @@
         <ru>Введите логин</ru>
     </tr>
     <tr id="input_password">
-        <en>InputPassword</en>
+        <en>Input password</en>
         <ru>Введите пароль</ru>
     </tr>
     <tr id="card_founded">
@@ -235,5 +235,9 @@
     <tr id="user_registration_successful">
         <en>Successful registration</en>
         <ru>Успешная регистрация</ru>
+    </tr>
+    <tr id="null_request">
+        <en>Request is empty</en>
+        <ru>Пустой запрос</ru>
     </tr>
 </languages>
