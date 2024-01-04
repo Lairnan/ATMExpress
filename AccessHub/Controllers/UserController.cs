@@ -12,9 +12,9 @@ namespace AccessHub.Controllers;
 [Route("api/users")]
 public class UserController : ControllerBase
 {
-    private readonly UserRepository _repository;
+    private readonly IRepository<User> _repository;
 
-    public UserController(UserRepository repository)
+    public UserController(IRepository<User> repository)
     {
         _repository = repository;
     }
@@ -51,8 +51,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            _repository.Add(user);
-            await _repository.SaveAsync();
+            await _repository.AddAsync(user);
             var jsonUser = JsonConvert.SerializeObject(user);
 
             var response = new ApiResponse
@@ -81,8 +80,7 @@ public class UserController : ControllerBase
         try
         {
             user.Id = id;
-            _repository.Update(user);
-            await _repository.SaveAsync();
+            await _repository.UpdateAsync(user);
 
             var jsonUser = JsonConvert.SerializeObject(user);
 
@@ -115,8 +113,7 @@ public class UserController : ControllerBase
             if (user == null)
                 return NotFound();
 
-            _repository.Delete(user);
-            await _repository.SaveAsync();
+            await _repository.DeleteAsync(user);
 
             var jsonUser = JsonConvert.SerializeObject(user);
 

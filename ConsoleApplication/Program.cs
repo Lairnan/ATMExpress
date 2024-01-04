@@ -2,6 +2,8 @@
 using ConsoleApplication.Globalization;
 using ConsoleApplication.Handler;
 using ConsoleApplication.Menus;
+using CSA.DTO.Handlers;
+using CSA.DTO.Requests;
 
 args.HandleArguments();
         
@@ -14,5 +16,11 @@ do
     Console.Clear();
 } while (result != null);
 
+if (Application.User != null)
+{
+    Console.WriteLine(Translate.GetString("logout"));
+    var response = await RequestHandler.Logout(new ApiRequest(Application.User));
+    Console.WriteLine(Translate.GetString(response.Message));
+}
 Console.Write($"\n{Translate.GetString("close_app")}");
 await Task.Delay(1000);

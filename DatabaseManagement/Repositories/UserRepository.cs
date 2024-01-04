@@ -15,28 +15,40 @@ public class UserRepository : IRepository<User>
     public IEnumerable<User> GetAll() => _dbContext.Users.ToList();
     public User? FindById(Guid id) => _dbContext.Users.Find(id);
 
-    public void Add(User entity)
+    public async Task AddAsync(User entity)
     {
         if (entity == null)
             throw new ArgumentNullException(nameof(entity), "User entity is null");
 
         if (string.IsNullOrWhiteSpace(entity.Login))
-            throw new ArgumentException("Login can't be empty", nameof(entity.Login));
+            throw new ArgumentException("Login can't be empty");
 
         if (string.IsNullOrWhiteSpace(entity.Password))
-            throw new ArgumentException("Password can't be empty", nameof(entity.Password));
-
-        if (_dbContext.Users.Any(u => u.Id == entity.Id))
+            throw new ArgumentException("Password can't be empty");
+        
+        if (_dbContext.Users.ToList().Any(u => u.Id == entity.Id))
             throw new InvalidOperationException("User with the same ID already exists");
 
-        if (_dbContext.Users.Any(u => string.Equals(u.Login.Trim(), entity.Login.Trim(), StringComparison.CurrentCultureIgnoreCase)))
+        if (_dbContext.Users.ToList().Any(u => string.Equals(u.Login.Trim(), entity.Login.Trim(), StringComparison.CurrentCultureIgnoreCase)))
             throw new InvalidOperationException("User with the same login already exists");
 
-        entity.DateCreated = DateTime.Now;
-        _dbContext.Users.Add(entity);
+        await using var transaction = await _dbContext.Database.BeginTransactionAsync();
+        
+        try
+        {
+            entity.DateCreated = DateTime.Now;
+            _dbContext.Users.Add(entity);
+            await _dbContext.SaveChangesAsync();
+            await transaction.CommitAsync();
+        }
+        catch (Exception ex)
+        {
+            await transaction.RollbackAsync();
+            throw new InvalidOperationException("Error while adding user to the database", ex);
+        }
     }
 
-    public void Update(User entity)
+    public async Task UpdateAsync(User entity)
     {
         if (entity == null)
             throw new ArgumentNullException(nameof(entity), "User entity is null");
@@ -51,22 +63,47 @@ public class UserRepository : IRepository<User>
         existingUser.Login = entity.Login;
         existingUser.Password = entity.Password;
         existingUser.Cards = entity.Cards;
+
+        await using var transaction = await _dbContext.Database.BeginTransactionAsync();
+        
+        try
+        {
+            await _dbContext.SaveChangesAsync();
+            await transaction.CommitAsync();
+        }
+        catch (Exception ex)
+        {
+            await transaction.RollbackAsync();
+            throw new InvalidOperationException("Error while updating user in the database", ex);
+        }
     }
 
-    public void Delete(User entity)
+    public async Task DeleteAsync(User entity)
     {
         if (entity == null)
             throw new ArgumentNullException(nameof(entity), "User entity is null");
 
-        var existingUser = _dbContext.Users.Find(entity.Id);
+        var existingUser = await _dbContext.Users.FindAsync(entity.Id);
 
         if (existingUser == null)
             throw new InvalidOperationException("User not found");
 
         _dbContext.Users.Remove(existingUser);
+
+        await using var transaction = await _dbContext.Database.BeginTransactionAsync();
+        
+        try
+        {
+            await _dbContext.SaveChangesAsync();
+            await transaction.CommitAsync();
+        }
+        catch (Exception ex)
+        {
+            await transaction.RollbackAsync();
+            throw new InvalidOperationException("Error while deleting user from the database", ex);
+        }
     }
 
-    public async Task SaveAsync() => await _dbContext.SaveChangesAsync();
     public IEnumerable<Card> GetCardsForUser(Guid userId) => _dbContext.Cards.Where(c => c.UserId == userId).ToList();
 
 }

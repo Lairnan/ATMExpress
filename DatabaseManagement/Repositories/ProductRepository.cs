@@ -1,24 +1,26 @@
 ﻿using CSA.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace DatabaseManagement.Repositories
+namespace DatabaseManagement.Repositories;
+
+public class ProductRepository : IRepository<Product>
 {
-    public class ProductRepository : IRepository<Product>
+    private readonly DatabaseManagementContext _dbContext;
+
+    public ProductRepository(DatabaseManagementContext dbContext)
     {
-        private readonly DatabaseManagementContext _dbContext;
+        _dbContext = dbContext;
+    }
 
-        public ProductRepository(DatabaseManagementContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+    public IEnumerable<Product> GetAll() => _dbContext.Products
+        .AsEnumerable();
 
-        public IEnumerable<Product> GetAll() => _dbContext.Products
-            .AsEnumerable();
+    public Product? FindById(Guid id) => _dbContext.Products
+        .FirstOrDefault(p => p.Id == id);
 
-        public Product? FindById(Guid id) => _dbContext.Products
-            .FirstOrDefault(p => p.Id == id);
-
-        public void Add(Product entity)
+    public async Task AddAsync(Product entity)
+    {
+        try
         {
             if (_dbContext.Products.Any(p => p.Id == entity.Id))
                 throw new InvalidOperationException("Product with the same ID already exists");
@@ -37,9 +39,17 @@ namespace DatabaseManagement.Repositories
 
             entity.DateCreated = DateTime.Now;
             _dbContext.Products.Add(entity);
+            await _dbContext.SaveChangesAsync();
         }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException("Error while adding product to the database", ex);
+        }
+    }
 
-        public void Update(Product entity)
+    public async Task UpdateAsync(Product entity)
+    {
+        try
         {
             var existingProduct = _dbContext.Products
                 .Include(p => p.Transactions)
@@ -66,9 +76,18 @@ namespace DatabaseManagement.Repositories
             existingProduct.Weight = entity.Weight;
             existingProduct.DateCreated = entity.DateCreated;
             existingProduct.Transactions = entity.Transactions;
-        }
 
-        public void Delete(Product entity)
+            await _dbContext.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException("Error while updating product in the database", ex);
+        }
+    }
+
+    public async Task DeleteAsync(Product entity)
+    {
+        try
         {
             var existingProduct = _dbContext.Products.FirstOrDefault(p => p.Id == entity.Id);
 
@@ -76,14 +95,17 @@ namespace DatabaseManagement.Repositories
                 throw new InvalidOperationException("Product already deleted");
 
             _dbContext.Products.Remove(existingProduct);
+            await _dbContext.SaveChangesAsync();
         }
-
-        public async Task SaveAsync() => await _dbContext.SaveChangesAsync();
-        
-        public IEnumerable<Transaction> GetTransactionsForProduct(Guid productId) =>
-            _dbContext.ProductTransactions
-                .Where(pt => pt.ProductsId == productId)
-                .Select(pt => pt.Transaction)
-                .ToList();
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException("Error while deleting product from the database", ex);
+        }
     }
+
+    public IEnumerable<Transaction> GetTransactionsForProduct(Guid productId) =>
+        _dbContext.ProductTransactions
+            .Where(pt => pt.ProductsId == productId)
+            .Select(pt => pt.Transaction)
+            .ToList();
 }

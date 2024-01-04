@@ -7,7 +7,7 @@ namespace IIC.Implements;
 public class Logger : ILogger
 {
 	private readonly string _logFilePath;
-	private static readonly Dictionary<LogType, ConsoleColor> LogTypeColors = new()
+	private static readonly Dictionary<LogType, ConsoleColor> logTypeColors = new()
     {
 		{ LogType.Error, ConsoleColor.DarkRed },
 		{ LogType.Warning, ConsoleColor.Yellow },
@@ -21,7 +21,7 @@ public class Logger : ILogger
 
 		var configuration = new ConfigurationBuilder()
 			.SetBasePath(Directory.GetCurrentDirectory() + "/config")
-			.AddJsonFile("logger.json", true, true)
+			.AddJsonFile("mainsettings.json", true, true)
 			.Build();
 
 		var path = new StringBuilder(configuration["AppSettings:logPath"]);
@@ -73,7 +73,7 @@ public class Logger : ILogger
         if (!string.IsNullOrWhiteSpace(_logFilePath)) return;
         
         var consoleColor = Console.ForegroundColor;
-        Console.ForegroundColor = LogTypeColors[LogType.Error];
+        Console.ForegroundColor = logTypeColors[LogType.Error];
         Console.WriteLine($"[{LogType.Error}] {DateTime.Now, 0:dd/MM/yyyy HH:mm} Path could not be empty");
         Console.ForegroundColor = consoleColor;
         throw new ArgumentNullException(nameof(_logFilePath));
@@ -87,7 +87,7 @@ public class Logger : ILogger
 
 		try
 		{
-			Console.ForegroundColor = LogTypeColors[logType];
+			Console.ForegroundColor = logTypeColors[logType];
 
             await using var writer = new StreamWriter(logFilePath, true);
 			Console.WriteLine($"[{logType}] {DateTime.Now, 0:dd/MM/yyyy HH:mm} {message}");
@@ -96,7 +96,7 @@ public class Logger : ILogger
 		}
 		catch (Exception ex)
 		{
-			Console.ForegroundColor = LogTypeColors[LogType.Error];
+			Console.ForegroundColor = logTypeColors[LogType.Error];
 			Console.WriteLine($"[{LogType.Error}] {DateTime.Now, 0:dd/MM/yyyy HH:mm} {ex}");
 		}
 		Console.ForegroundColor = consoleColor;

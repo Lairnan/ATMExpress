@@ -10,9 +10,9 @@ namespace AccessHub.Controllers;
 [Route("api/products")]
 public class ProductController : ControllerBase
 {
-    private readonly ProductRepository _repository;
+    private readonly IRepository<Product> _repository;
 
-    public ProductController(ProductRepository repository)
+    public ProductController(IRepository<Product> repository)
     {
         _repository = repository;
     }
@@ -49,8 +49,7 @@ public class ProductController : ControllerBase
     {
         try
         {
-            _repository.Add(product);
-            await _repository.SaveAsync();
+            await _repository.AddAsync(product);
             var jsonProduct = JsonConvert.SerializeObject(product);
 
             var response = new ApiResponse
@@ -79,8 +78,7 @@ public class ProductController : ControllerBase
         try
         {
             product.Id = id;
-            _repository.Update(product);
-            await _repository.SaveAsync();
+            await _repository.UpdateAsync(product);
 
             var jsonProduct = JsonConvert.SerializeObject(product);
 
@@ -113,8 +111,7 @@ public class ProductController : ControllerBase
             if (product == null)
                 return NotFound();
 
-            _repository.Delete(product);
-            await _repository.SaveAsync();
+            await _repository.DeleteAsync(product);
 
             var jsonProduct = JsonConvert.SerializeObject(product);
 

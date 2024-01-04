@@ -1,87 +1,87 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <languages>
     <tr id="insert_key">
-        <en>Insert key</en>
-        <ru>Введите код</ru>
+        <en>Insert key: </en>
+        <ru>Введите код: </ru>
     </tr>
     <tr id="exit">
-        <en>Exit</en>
-        <ru>Выход</ru>
+        <en>Exit.</en>
+        <ru>Выход.</ru>
     </tr>
     <tr id="settings">
-        <en>View settings</en>
-        <ru>Посмотреть настройки</ru>
+        <en>View settings.</en>
+        <ru>Посмотреть настройки.</ru>
     </tr>
     <tr id="products">
-        <en>View products</en>
-        <ru>Посмотреть продукты</ru>
+        <en>View products.</en>
+        <ru>Посмотреть продукты.</ru>
     </tr>
     <tr id="view_balance">
-        <en>View balance</en>
-        <ru>Посмотреть баланс</ru>
+        <en>View balance.</en>
+        <ru>Посмотреть баланс.</ru>
     </tr>
     <tr id="withdraw_cash">
-        <en>Withdraw cash</en>
-        <ru>Снять наличные</ru>
+        <en>Withdraw cash.</en>
+        <ru>Снять наличные.</ru>
     </tr>
     <tr id="deposit_cash">
-        <en>Deposit cash</en>
-        <ru>Положить наличные</ru>
+        <en>Deposit cash.</en>
+        <ru>Положить наличные.</ru>
     </tr>
     <tr id="quick_transfer">
-        <en>Quick transfer</en>
-        <ru>Быстрый перевод</ru>
+        <en>Quick transfer.</en>
+        <ru>Быстрый перевод.</ru>
     </tr>
     <tr id="transaction_history">
-        <en>Transaction history</en>
-        <ru>История транзакций</ru>
+        <en>Transaction history.</en>
+        <ru>История транзакций.</ru>
     </tr>
     <tr id="cardless_cash">
-        <en>Generate cardless code</en>
-        <ru>Сгенерировать безкарточный код</ru>
+        <en>Generate cardless code.</en>
+        <ru>Сгенерировать безкарточный код.</ru>
     </tr>
     <tr id="manage_cards">
-        <en>Manage cards</en>
-        <ru>Управление картами</ru>
+        <en>Manage cards.</en>
+        <ru>Управление картами.</ru>
     </tr>
     <tr id="promotions_and_offers">
-        <en>Promotions and offers</en>
-        <ru>Акции и предложения</ru>
+        <en>Promotions and offers.</en>
+        <ru>Акции и предложения.</ru>
     </tr>
     <tr id="authorize">
-        <en>Authorization</en>
-        <ru>Авторизация</ru>
+        <en>Authorization.</en>
+        <ru>Авторизация.</ru>
     </tr>
     <tr id="register">
-        <en>Registration</en>
-        <ru>Регистрация</ru>
+        <en>Registration.</en>
+        <ru>Регистрация.</ru>
     </tr>
     <tr id="back">
-        <en>Back</en>
-        <ru>Назад</ru>
+        <en>Back.</en>
+        <ru>Назад.</ru>
     </tr>
     <tr id="account_information">
-        <en>Account information</en>
-        <ru>Информация об аккаунте</ru>
+        <en>Account information.</en>
+        <ru>Информация об аккаунте.</ru>
     </tr>
     <tr id="security_settings">
-        <en>Security settings</en>
-        <ru>Настройки безопасности</ru>
+        <en>Security settings.</en>
+        <ru>Настройки безопасности.</ru>
     </tr>
     <tr id="change_language">
-        <en>Change language</en>
-        <ru>Сменить язык</ru>
+        <en>Change language.</en>
+        <ru>Сменить язык.</ru>
     </tr>
     <tr id="change_password">
-        <en>Change password</en>
-        <ru>Изменить пароль</ru>
+        <en>Change password.</en>
+        <ru>Изменить пароль.</ru>
     </tr>
     <tr id="change_name">
-        <en>Change name</en>
-        <ru>Изменить имя</ru>
+        <en>Change name.</en>
+        <ru>Изменить имя.</ru>
     </tr>
     <tr id="press_any_key">
-        <en>Press any key to continue</en>
+        <en>Press any key to continue.</en>
         <ru>Нажмите любую кнопку чтобы продолжить</ru>
     </tr>
     <tr id="close_app">
@@ -89,155 +89,167 @@
         <ru>Закрытие приложения...</ru>
     </tr>
     <tr id="input_login">
-        <en>Input login</en>
-        <ru>Введите логин</ru>
+        <en>Input login: </en>
+        <ru>Введите логин: </ru>
     </tr>
     <tr id="input_password">
-        <en>Input password</en>
-        <ru>Введите пароль</ru>
+        <en>Input password: </en>
+        <ru>Введите пароль: </ru>
     </tr>
     <tr id="card_founded">
-        <en>Card found</en>
-        <ru>Карта найдена</ru>
+        <en>Card found.</en>
+        <ru>Карта найдена.</ru>
     </tr>
     <tr id="card_created">
-        <en>Card created</en>
-        <ru>Карта успешно создана</ru>
+        <en>Card created.</en>
+        <ru>Карта успешно создана.</ru>
     </tr>
     <tr id="card_creation_error">
         <en>Error creating card: </en>
         <ru>Ошибка при создании карты: </ru>
     </tr>
     <tr id="card_updated">
-        <en>Card updated</en>
-        <ru>Карта успешно обновлена</ru>
+        <en>Card updated.</en>
+        <ru>Карта успешно обновлена.</ru>
     </tr>
     <tr id="card_update_error">
         <en>Error updating card: </en>
-        <ru>Ошибка при обновлении карты: </ru>
+        <ru>Ошибка при обновлении карты: .</ru>
     </tr>
     <tr id="card_deleted">
-        <en>Card deleted</en>
-        <ru>Карта успешно удалена</ru>
+        <en>Card deleted.</en>
+        <ru>Карта успешно удалена.</ru>
     </tr>
     <tr id="card_deletion_error">
         <en>Error deleting card: </en>
         <ru>Ошибка при удалении карты: </ru>
     </tr>
     <tr id="product_found">
-        <en>Product found</en>
-        <ru>Продукт найден</ru>
+        <en>Product found.</en>
+        <ru>Продукт найден.</ru>
     </tr>
     <tr id="product_created">
-        <en>Product created</en>
-        <ru>Продукт успешно создан</ru>
+        <en>Product created.</en>
+        <ru>Продукт успешно создан.</ru>
     </tr>
     <tr id="product_creation_error">
         <en>Error creating product: </en>
         <ru>Ошибка при создании продукта: </ru>
     </tr>
     <tr id="product_updated">
-        <en>Product updated</en>
-        <ru>Продукт успешно обновлен</ru>
+        <en>Product updated.</en>
+        <ru>Продукт успешно обновлен.</ru>
     </tr>
     <tr id="product_update_error">
         <en>Error updating product: </en>
         <ru>Ошибка при обновлении продукта: </ru>
     </tr>
     <tr id="product_deleted">
-        <en>Product deleted</en>
-        <ru>Продукт успешно удален</ru>
+        <en>Product deleted.</en>
+        <ru>Продукт успешно удален.</ru>
     </tr>
     <tr id="product_deletion_error">
         <en>Error deleting product: </en>
         <ru>Ошибка при удалении продукта: </ru>
     </tr>
     <tr id="user_login_successful">
-        <en>Successful login</en>
-        <ru>Успешный вход</ru>
+        <en>Successful login.</en>
+        <ru>Успешный вход.</ru>
     </tr>
     <tr id="user_created">
-        <en>User created</en>
-        <ru>Пользователь успешно создан</ru>
+        <en>User created.</en>
+        <ru>Пользователь успешно создан.</ru>
     </tr>
     <tr id="user_creation_error">
         <en>Error creating user: </en>
         <ru>Ошибка при создании пользователя: </ru>
     </tr>
     <tr id="user_updated">
-        <en>User updated</en>
-        <ru>Пользователь успешно обновлен</ru>
+        <en>User updated.</en>
+        <ru>Пользователь успешно обновлен.</ru>
     </tr>
     <tr id="user_update_error">
         <en>Error updating user: </en>
         <ru>Ошибка при обновлении пользователя: </ru>
     </tr>
     <tr id="user_deleted">
-        <en>User deleted</en>
-        <ru>Пользователь успешно удален</ru>
+        <en>User deleted.</en>
+        <ru>Пользователь успешно удален.</ru>
     </tr>
     <tr id="user_deletion_error">
         <en>Error deleting user: </en>
         <ru>Ошибка при удалении пользователя: </ru>
     </tr>
     <tr id="transaction_found">
-        <en>Transaction found</en>
-        <ru>Транзакция найдена</ru>
+        <en>Transaction found.</en>
+        <ru>Транзакция найдена.</ru>
     </tr>
     <tr id="transaction_created">
-        <en>Transaction created</en>
-        <ru>Транзакция успешно создана</ru>
+        <en>Transaction created.</en>
+        <ru>Транзакция успешно создана.</ru>
     </tr>
     <tr id="transaction_creation_error">
         <en>Error creating transaction: </en>
         <ru>Ошибка при создании транзакции: </ru>
     </tr>
     <tr id="transaction_updated">
-        <en>Transaction updated</en>
-        <ru>Транзакция успешно обновлена</ru>
+        <en>Transaction updated.</en>
+        <ru>Транзакция успешно обновлена.</ru>
     </tr>
     <tr id="transaction_update_error">
         <en>Error updating transaction: </en>
         <ru>Ошибка при обновлении транзакции: </ru>
     </tr>
     <tr id="transaction_deleted">
-        <en>Transaction deleted</en>
-        <ru>Транзакция успешно удалена</ru>
+        <en>Transaction deleted.</en>
+        <ru>Транзакция успешно удалена.</ru>
     </tr>
     <tr id="transaction_deletion_error">
         <en>Error deleting transaction: </en>
         <ru>Ошибка при удалении транзакции: </ru>
     </tr>
     <tr id="bad_request">
-        <en>Bad request</en>
-        <ru>Плохой запрос</ru>
+        <en>Bad request.</en>
+        <ru>Плохой запрос.</ru>
     </tr>
     <tr id="wrong_login">
-        <en>Wrong login</en>
-        <ru>Неверный логин</ru>
+        <en>Wrong login.</en>
+        <ru>Неверный логин.</ru>
     </tr>
     <tr id="wrong_password">
-        <en>Wrong password</en>
-        <ru>Неверный пароль</ru>
+        <en>Wrong password.</en>
+        <ru>Неверный пароль.</ru>
     </tr>
     <tr id="login_empty">
-        <en>Login can't be empty</en>
-        <ru>Логин не может быть пустым</ru>
+        <en>Login can't be empty.</en>
+        <ru>Логин не может быть пустым.</ru>
     </tr>
     <tr id="password_empty">
-        <en>Password can't be empty</en>
-        <ru>Пароль не может быть пустым</ru>
+        <en>Password can't be empty.</en>
+        <ru>Пароль не может быть пустым.</ru>
     </tr>
     <tr id="login_exists">
-        <en>User login already exists</en>
-        <ru>Логин пользователя уже существует</ru>
+        <en>User login already exists.</en>
+        <ru>Логин пользователя уже существует.</ru>
     </tr>
     <tr id="user_registration_successful">
-        <en>Successful registration</en>
-        <ru>Успешная регистрация</ru>
+        <en>Successful registration.</en>
+        <ru>Успешная регистрация.</ru>
     </tr>
     <tr id="null_request">
-        <en>Request is empty</en>
-        <ru>Пустой запрос</ru>
+        <en>Request is empty.</en>
+        <ru>Пустой запрос.</ru>
+    </tr>
+    <tr id="logout">
+        <en>Logging out of your account, please wait...</en>
+        <ru>Выполняется выход из аккаунта, пожалуйста подождите...</ru>
+    </tr>
+    <tr id="unable_logout">
+        <en>Logging out of your account, please wait...</en>
+        <ru>Не удалось выйти из аккаунта.</ru>
+    </tr>
+    <tr id="success_logout">
+        <en>Logging out of your account, please wait...</en>
+        <ru>Успешно вышли из аккаунта..</ru>
     </tr>
 </languages>

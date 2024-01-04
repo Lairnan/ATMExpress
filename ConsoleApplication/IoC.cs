@@ -8,10 +8,10 @@ namespace ConsoleApplication;
 
 public static class IoC
 {
-    private static readonly IServiceProvider Provider;
+    private static readonly IServiceProvider provider;
 
     public static T Resolve<T>() where T : notnull
-        => Provider.GetRequiredService<T>();
+        => provider.GetRequiredService<T>();
     
     static IoC()
     {
@@ -23,10 +23,10 @@ public static class IoC
         services.AddSingleton<Application>();
         services.AddMenusToService();
         
-        Provider = services.BuildServiceProvider();
+        provider = services.BuildServiceProvider();
         
         foreach (var service in services.Where(s => s.Lifetime == ServiceLifetime.Singleton))
-            Provider.GetRequiredService(service.ServiceType);
+            provider.GetRequiredService(service.ServiceType);
     }
 
     private static void AddMenusToService(this IServiceCollection services)

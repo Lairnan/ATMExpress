@@ -1,44 +1,56 @@
 ﻿using ConsoleApplication.Globalization;
 using ConsoleApplication.Menus;
-using CSA.DTO;
+using CSA.DTO.Handlers;
 using CSA.DTO.Requests;
 using CSA.DTO.Responses;
 using CSA.Entities;
-using Newtonsoft.Json;
 
 namespace ConsoleApplication.Handler;
 
 public partial class MenuHandler
 {
+    private async Task<IMenu?> SwitchStartMenu(int key)
+    {
+        return key switch
+        {
+            (int)StartMenuInfo.Exit => null,
+            (int)StartMenuInfo.Authorize => await Authorization(),
+            (int)StartMenuInfo.Register => await Registration(),
+            _ => IoC.Resolve<StartMenu>(),
+        };
+    }
+    
     private async Task<IMenu> Authorization()
     {
         var user = GetUserLogon();
         var request = new LoginRequest(user.Login, user.Password);
-        var response = await RequestHandler.DoRequest(RequestType.Post, request, "auth/login");
-
-        IMenu menu;
-        if (response is not { Success: true })
+        var response = await RequestHandler.Login(request);
+        
+        if (response is ApiResponse apiResponse)
         {
-            if(response == null || (string.IsNullOrWhiteSpace(response.Message) && string.IsNullOrWhiteSpace(response.Data)))
-                Console.WriteLine(Translate.GetString("bad_request"));
-            else Console.WriteLine(Translate.GetString(response.Message));
-            menu = IoC.Resolve<StartMenu>();
+            Console.WriteLine(Translate.GetString(apiResponse.Message));
             Application.WaitEnter();
-        }
-        else
-        {
-            Console.WriteLine(response.Message);
-            var loginResp = JsonConvert.DeserializeObject<LoginResponse>(response.Data);
-            Application.User = loginResp;
-            menu = IoC.Resolve<MainMenu>();
+            return IoC.Resolve<StartMenu>();
         }
 
-        return menu;
+        var loginResponse = response as LoginResponse;
+        Application.User = loginResponse;
+        return IoC.Resolve<MainMenu>();
     }
     
-    private async Task<MainMenu> Registration()
+    private async Task<IMenu> Registration()
     {
-        return IoC.Resolve<MainMenu>();
+        var user = GetUserRegister();
+        var request = new RegisterRequest(user.Login, user.Password);
+        var response = await RequestHandler.Register(request);
+        
+        if (!response.Success)
+        {
+            Console.WriteLine(Translate.GetString(response.Message));
+            Application.WaitEnter();
+        }
+        
+        return IoC.Resolve<StartMenu>();
     }
 
     private static User GetUserLogon()
@@ -47,9 +59,9 @@ public partial class MenuHandler
         string password;
         while (true)
         {
-            Console.Write($"{Translate.GetString("input_login")}: ");
+            Console.Write(Translate.GetString("input_login"));
             login = Console.ReadLine() ?? "";
-            Console.Write($"{Translate.GetString("input_password")}: ");
+            Console.Write(Translate.GetString("input_password"));
             password = Console.ReadLine() ?? "";
             if (!string.IsNullOrWhiteSpace(login) && !string.IsNullOrWhiteSpace(password)) break;
         }
@@ -67,9 +79,9 @@ public partial class MenuHandler
         string password;
         while (true)
         {
-            Console.WriteLine($"{Translate.GetString("input_login")}");
+            Console.Write($"{Translate.GetString("input_login")}");
             login = Console.ReadLine() ?? "";
-            Console.WriteLine($"{Translate.GetString("input_password")}");
+            Console.Write($"{Translate.GetString("input_password")}");
             password = Console.ReadLine() ?? "";
             if (!string.IsNullOrWhiteSpace(login) && !string.IsNullOrWhiteSpace(password)) break;
         }

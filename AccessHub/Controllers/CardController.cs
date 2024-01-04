@@ -10,9 +10,9 @@ namespace AccessHub.Controllers;
 [Route("api/cards")]
 public class CardController : ControllerBase
 {
-    private readonly CardRepository _repository;
+    private readonly IRepository<Card> _repository;
 
-    public CardController(CardRepository repository)
+    public CardController(IRepository<Card> repository)
     {
         _repository = repository;
     }
@@ -49,8 +49,7 @@ public class CardController : ControllerBase
     {
         try
         {
-            _repository.Add(card);
-            await _repository.SaveAsync();
+            await _repository.AddAsync(card);
             var jsonCard = JsonConvert.SerializeObject(card);
 
             var response = new ApiResponse
@@ -79,8 +78,7 @@ public class CardController : ControllerBase
         try
         {
             card.Id = id;
-            _repository.Update(card);
-            await _repository.SaveAsync();
+            await _repository.UpdateAsync(card);
 
             var jsonCard = JsonConvert.SerializeObject(card);
 
@@ -113,8 +111,7 @@ public class CardController : ControllerBase
             if (card == null)
                 return NotFound();
 
-            _repository.Delete(card);
-            await _repository.SaveAsync();
+            await _repository.DeleteAsync(card);
 
             var jsonCard = JsonConvert.SerializeObject(card);
 

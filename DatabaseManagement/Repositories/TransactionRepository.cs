@@ -1,70 +1,92 @@
 ﻿using CSA.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace DatabaseManagement.Repositories
+namespace DatabaseManagement.Repositories;
+
+public class TransactionRepository : IRepository<Transaction>
 {
-    public class TransactionRepository : IRepository<Transaction>
+    private readonly DatabaseManagementContext _dbContext;
+        
+    public TransactionRepository(DatabaseManagementContext dbContext)
     {
-        private readonly DatabaseManagementContext _dbContext;
+        _dbContext = dbContext;
+    }
         
-        public TransactionRepository(DatabaseManagementContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+    public IEnumerable<Transaction> GetAll() => _dbContext.Transactions
+        .Include(t => t.Card)
+        .AsEnumerable();
         
-        public IEnumerable<Transaction> GetAll() => _dbContext.Transactions
-            .Include(t => t.Card)
-            .AsEnumerable();
+    public Transaction? FindById(Guid id) => _dbContext.Transactions
+        .Include(t => t.Card)
+        .FirstOrDefault(t => t.Id == id);
         
-        public Transaction? FindById(Guid id) => _dbContext.Transactions
-            .Include(t => t.Card)
-            .FirstOrDefault(t => t.Id == id);
-        
-        public void Add(Transaction entity)
+    public async Task AddAsync(Transaction entity)
+    {
+        try
         {
             if (_dbContext.Transactions.Any(t => t.Id == entity.Id))
                 throw new InvalidOperationException("Transaction with the same ID already exists");
-            
+                
             if (entity.Card == null)
                 throw new InvalidOperationException("Card can't be empty");
-            
+                
             entity.DateCreated = DateTime.Now;
             _dbContext.Transactions.Add(entity);
+            await _dbContext.SaveChangesAsync();
         }
-        
-        public void Update(Transaction entity)
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException("Error while adding transaction to the database", ex);
+        }
+    }
+
+    public async Task UpdateAsync(Transaction entity)
+    {
+        try
         {
             var existingTransaction = _dbContext.Transactions
                 .Include(t => t.Card)
                 .Include(t => t.ProductTransactions)
                 .FirstOrDefault(t => t.Id == entity.Id);
-            
+                
             if (existingTransaction == null)
                 throw new InvalidOperationException("Transaction not found");
-            
+                
             if (entity.Card == null)
                 throw new InvalidOperationException("Card can't be empty");
-            
+                
             existingTransaction.Card = entity.Card;
             existingTransaction.CardId = entity.CardId;
             existingTransaction.ProductTransactions = entity.ProductTransactions;
             existingTransaction.Value = entity.Value;
             existingTransaction.TransactionType = entity.TransactionType;
+                
+            await _dbContext.SaveChangesAsync();
         }
-        
-        public void Delete(Transaction entity)
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException("Error while updating transaction in the database", ex);
+        }
+    }
+
+    public async Task DeleteAsync(Transaction entity)
+    {
+        try
         {
             var existingTransaction = _dbContext.Transactions.FirstOrDefault(t => t.Id == entity.Id);
-            
+                
             if (existingTransaction == null)
-                throw new InvalidOperationException("Transaction already deleted");
-            
+                throw new InvalidOperationException("Transaction not found");
+                
             _dbContext.Transactions.Remove(existingTransaction);
+            await _dbContext.SaveChangesAsync();
         }
-        
-        public async Task SaveAsync() => await _dbContext.SaveChangesAsync();
-        
-        public IEnumerable<ProductTransaction> GetProductTransactionsForTransaction(Guid transactionId) =>
-            _dbContext.ProductTransactions.Where(pt => pt.TransactionId == transactionId).ToList();
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException("Error while deleting transaction from the database", ex);
+        }
     }
+    
+    public IEnumerable<ProductTransaction> GetProductTransactionsForTransaction(Guid transactionId) =>
+        _dbContext.ProductTransactions.Where(pt => pt.TransactionId == transactionId).ToList();
 }

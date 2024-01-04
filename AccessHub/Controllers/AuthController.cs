@@ -18,9 +18,9 @@ namespace AccessHub.Controllers;
 [Route("api/auth")]
 public class AuthController : ControllerBase
 {
-    private readonly UserRepository _userRepository;
+    private readonly IRepository<User> _userRepository;
 
-    public AuthController(UserRepository userRepository)
+    public AuthController(IRepository<User> userRepository)
     {
         _userRepository = userRepository;
     }
@@ -80,8 +80,8 @@ public class AuthController : ControllerBase
             Login = request.Login,
             Password = request.Password
         };
-        IActionResult badRequest;
-        if ((badRequest = await TryAddUser(user)) != Ok()) return badRequest;
+        
+        if (await TryAddUser(user) is BadRequestResult badRequest) return badRequest;
         
         var response = new ApiResponse
         {
@@ -96,8 +96,7 @@ public class AuthController : ControllerBase
     {
         try
         {
-            _userRepository.Add(user);
-            await _userRepository.SaveAsync();
+            await _userRepository.AddAsync(user);
         }
         catch (Exception ex) when (ex is ArgumentNullException
                                        or ArgumentException

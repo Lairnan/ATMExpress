@@ -12,9 +12,9 @@ namespace AccessHub.Controllers
     [Route("api/transactions")]
     public class TransactionController : ControllerBase
     {
-        private readonly TransactionRepository _repository;
+        private readonly IRepository<Transaction> _repository;
 
-        public TransactionController(TransactionRepository repository)
+        public TransactionController(IRepository<Transaction> repository)
         {
             _repository = repository;
         }
@@ -51,8 +51,7 @@ namespace AccessHub.Controllers
         {
             try
             {
-                _repository.Add(transaction);
-                await _repository.SaveAsync();
+                await _repository.AddAsync(transaction);
                 var jsonTransaction = JsonConvert.SerializeObject(transaction);
 
                 var response = new ApiResponse
@@ -81,8 +80,7 @@ namespace AccessHub.Controllers
             try
             {
                 transaction.Id = id;
-                _repository.Update(transaction);
-                await _repository.SaveAsync();
+                await _repository.UpdateAsync(transaction);
 
                 var jsonTransaction = JsonConvert.SerializeObject(transaction);
 
@@ -115,8 +113,7 @@ namespace AccessHub.Controllers
                 if (transaction == null)
                     return NotFound();
 
-                _repository.Delete(transaction);
-                await _repository.SaveAsync();
+                await _repository.DeleteAsync(transaction);
 
                 var jsonTransaction = JsonConvert.SerializeObject(transaction);
 

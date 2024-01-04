@@ -80,6 +80,13 @@ public class Server : IServer
         {
             var buffer = await Receive();
 
+            if (buffer != null)
+            {
+                var receivedObject = buffer.Value;
+                var jsonStr = Encoding.UTF8.GetString(receivedObject.Received, 0, receivedObject.LengthReceived);
+                return jsonStr;
+            }
+
             _logger.Success("Received object success");
             return buffer;
         }
