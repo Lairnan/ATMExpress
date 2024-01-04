@@ -20,6 +20,9 @@
 
   <ItemGroup>
     <None Remove="Translate\languages.xml" />
+    <AdditionalFiles Include="config\mainsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AdditionalFiles>
     <AdditionalFiles Include="Globalization\languages.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </AdditionalFiles>

@@ -15,11 +15,4 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="config\logger.json" />
-    <AdditionalFiles Include="config\logger.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </AdditionalFiles>
-  </ItemGroup>
-
 </Project>
