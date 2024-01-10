@@ -20,26 +20,6 @@ public partial class MenuHandler
     }
 
     #region SwitchMenus.
-
-    private Task<IMenu?> SwitchMainMenu(int key)
-    {
-        return Task.FromResult<IMenu?>(key switch
-        {
-            (int)MainMenuInfo.Exit => null,
-            (int)MainMenuInfo.Settings => IoC.Resolve<SettingsMenu>(),
-            (int)MainMenuInfo.Products => IoC.Resolve<MainMenu>(),
-            (int)MainMenuInfo.ViewBalance => IoC.Resolve<MainMenu>(),
-            (int)MainMenuInfo.WithdrawCash => IoC.Resolve<MainMenu>(),
-            (int)MainMenuInfo.DepositCash => IoC.Resolve<MainMenu>(),
-            (int)MainMenuInfo.QuickTransfer => IoC.Resolve<MainMenu>(),
-            (int)MainMenuInfo.TransactionHistory => IoC.Resolve<MainMenu>(),
-            (int)MainMenuInfo.CardlessCash => IoC.Resolve<MainMenu>(),
-            (int)MainMenuInfo.ManageCards => IoC.Resolve<MainMenu>(),
-            (int)MainMenuInfo.PromotionsAndOffers => IoC.Resolve<MainMenu>(),
-            _ => IoC.Resolve<MainMenu>(),
-        });
-    }
-
     private Task<IMenu> SwitchSettingsMenu(int key)
     {
         return Task.FromResult<IMenu>(key switch

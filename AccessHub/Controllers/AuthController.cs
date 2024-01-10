@@ -54,7 +54,8 @@ public class AuthController : ControllerBase
                 LogonHelper.UsersToken.Add(new UserToken(true, loginResponse.Token, loginResponse.UserId));
                 break;
         }
-        
+
+        if (userToken != null) loginResponse.Token = userToken.Token!;
         var jsonStr = JsonConvert.SerializeObject(loginResponse);
 
         var response = new ApiResponse
@@ -132,7 +133,6 @@ public class AuthController : ControllerBase
     }
 
     [HttpGet("get_logon_tokens")]
-    [Authorize]
     public IActionResult GetLogonTokens(string secret)
     {
         if (string.IsNullOrWhiteSpace(secret) || secret != Program.Configuration["AppSettings:secret"])

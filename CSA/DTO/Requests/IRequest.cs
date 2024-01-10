@@ -1,6 +1,3 @@
 ﻿namespace CSA.DTO.Requests;
 
-public interface IRequest
-{
-    
-}
+public interface IRequest;

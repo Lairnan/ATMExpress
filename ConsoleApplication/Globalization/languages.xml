@@ -252,4 +252,12 @@
         <en>Logging out of your account, please wait...</en>
         <ru>Успешно вышли из аккаунта..</ru>
     </tr>
+    <tr id="not_authorized">
+        <en>First of all, log in.</en>
+        <ru>Прежде всего, войдите в систему.</ru>
+    </tr>
+    <tr id="no_products">
+        <en>The product list is empty.</en>
+        <ru>Список товаров пуст.</ru>
+    </tr>
 </languages>
