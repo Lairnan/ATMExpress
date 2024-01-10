@@ -1,5 +1,6 @@
 using System.Text;
 using AccessHub.BehaviorsFiles;
+using CSA.Entities;
 using DatabaseManagement;
 using DatabaseManagement.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -23,10 +24,10 @@ internal static class Program
 // Add services to the container.
 
         builder.Services.AddDbContext<DatabaseManagementContext>(s => s.UseNpgsql(postgresql));
-        builder.Services.AddScoped<UserRepository>();
-        builder.Services.AddScoped<ProductRepository>();
-        builder.Services.AddScoped<TransactionRepository>();
-        builder.Services.AddScoped<CardRepository>();
+        builder.Services.AddScoped<IRepository<User>, UserRepository>();
+        builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
+        builder.Services.AddScoped<IRepository<Transaction>, TransactionRepository>();
+        builder.Services.AddScoped<IRepository<Card>, CardRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();

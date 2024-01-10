@@ -9,7 +9,6 @@ public abstract class ObservableProperty : INotifyPropertyChanged
 
     private void OnPropertyChanged([CallerMemberName] string property = "")
     {
-        Console.WriteLine(property);
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
     }
 
