@@ -260,4 +260,8 @@
         <en>The product list is empty.</en>
         <ru>Список товаров пуст.</ru>
     </tr>
+    <tr id="success">
+        <en>Success.</en>
+        <ru>Успех.</ru>
+    </tr>
 </languages>

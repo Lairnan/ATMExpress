@@ -13,6 +13,9 @@ public class TransactionRepository : IRepository<Transaction>
     }
         
     public IEnumerable<Transaction> GetAll() => _dbContext.Transactions
+    public IEnumerable<Transaction> GetAll(int page = 1, int pageSize = 40) => _dbContext.Transactions
+        .Skip((page - 1) * pageSize)
+        .Take(pageSize)
         .Include(t => t.Card)
         .AsEnumerable();
         

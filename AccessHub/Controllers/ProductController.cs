@@ -36,9 +36,11 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("getall")]
-    public IActionResult GetAllProducts()
+    public IActionResult GetAllProducts([FromQuery] int page = 1, [FromQuery] int pageSize = 40)
     {
-        var products = _repository.GetAll();
+        if (page < 1) page = 1;
+        if (pageSize < 1) pageSize = 40;
+        var products = _repository.GetAll(page, pageSize);
         var jsonProducts = JsonConvert.SerializeObject(products);
 
         return Ok(jsonProducts);

@@ -36,9 +36,11 @@ public class CardController : ControllerBase
     }
 
     [HttpGet("getall")]
-    public IActionResult GetAllCards()
+    public IActionResult GetAllCards([FromQuery] int page = 1, [FromQuery] int pageSize = 40)
     {
-        var cards = _repository.GetAll();
+        if (page < 1) page = 1;
+        if (pageSize < 1) pageSize = 40;
+        var cards = _repository.GetAll(page, pageSize);
         var jsonCards = JsonConvert.SerializeObject(cards);
 
         return Ok(jsonCards);

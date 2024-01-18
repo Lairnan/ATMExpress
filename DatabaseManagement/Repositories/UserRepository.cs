@@ -13,6 +13,11 @@ public class UserRepository : IRepository<User>
     }
 
     public IEnumerable<User> GetAll() => _dbContext.Users.ToList();
+    public IEnumerable<User> GetAll(int page = 1, int pageSize = 40) => _dbContext.Users
+        .Skip((page - 1) * pageSize)
+        .Take(pageSize)
+        .ToList();
+    
     public User? FindById(Guid id) => _dbContext.Users.Find(id);
 
     public async Task AddAsync(User entity)

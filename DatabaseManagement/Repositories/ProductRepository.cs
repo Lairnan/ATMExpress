@@ -13,6 +13,9 @@ public class ProductRepository : IRepository<Product>
     }
 
     public IEnumerable<Product> GetAll() => _dbContext.Products
+    public IEnumerable<Product> GetAll(int page = 1, int pageSize = 40) => _dbContext.Products
+        .Skip((page - 1) * pageSize)
+        .Take(pageSize)
         .AsEnumerable();
 
     public Product? FindById(Guid id) => _dbContext.Products

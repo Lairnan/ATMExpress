@@ -13,7 +13,10 @@ public class CardRepository : IRepository<Card>
     }
 
     public IEnumerable<Card> GetAll() => _dbContext.Cards
+    public IEnumerable<Card> GetAll(int page = 1, int pageSize = 40) => _dbContext.Cards
         .Include(c => c.User)
+        .Skip((page - 1) * pageSize)
+        .Take(pageSize)
         .AsEnumerable();
 
     public Card? FindById(Guid id) => _dbContext.Cards

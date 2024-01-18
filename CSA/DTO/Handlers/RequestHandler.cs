@@ -18,7 +18,7 @@ public static partial class RequestHandler
     /// <param name="headers">The optional request headers.</param>
     /// <typeparam name="T">The type of the request content.</typeparam>
     /// <returns>The API response object.</returns>
-    public static async Task<ApiResponse> DoRequest<T>(RequestType requestType, T content, string path, string token = "", HttpRequestHeaders? headers = null)
+    public static async Task<ApiResponse> DoRequest<T>(RequestType requestType, string path, T content, string token = "", HttpRequestHeaders? headers = null)
         where T : IRequest
     {
         if (string.IsNullOrWhiteSpace(path)) return new ApiResponse
@@ -54,6 +54,31 @@ public static partial class RequestHandler
         if (!Uri.TryCreate(path, UriKind.Absolute, out _)) path = $"{Settings.BaseUrl}/{path}"; 
         return await DoRequest(requestType, path, null, loginResponse.Token, headers);
     }
+    
+    /// <summary>
+    /// Executes an HTTP request of the specified type to the given path with the specified content, token, and headers.
+    /// </summary>
+    /// <param name="requestType">The type of the HTTP request.</param>
+    /// <param name="path">The path to which the request is made. If it is not an absolute URI, it is appended to the base URL.</param>
+    /// <param name="content">The content of the request.</param>
+    /// <param name="token">The token to be included in the request header.</param>
+    /// <param name="headers">The additional headers to be included in the request.</param>
+    /// <returns>A Task that represents the asynchronous operation. The task result contains the ApiResponse
+    /// object representing the response of the HTTP request.</returns>
+    public static async Task<ApiResponse> DoRequest(RequestType requestType, string path, object content, string token,
+        HttpRequestHeaders? headers = null)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+            return new ApiResponse
+            {
+                Success = false,
+                Message = "bad_request",
+                Data = ""
+            };
+
+        if (!Uri.TryCreate(path, UriKind.Absolute, out _)) path = $"{Settings.BaseUrl}/{path}";
+        return await DoRequest(requestType, path, new StringContent(content.ToString()!, Encoding.UTF8), token, headers);
+    }
 
     /// <summary>
     /// Executes an HTTP request with the specified request type, path, content, token, and optional headers.
@@ -86,14 +111,28 @@ public static partial class RequestHandler
         };
 
         var jsonStr = await httpResponseMessage.Content.ReadAsStringAsync();
-        var response = JsonConvert.DeserializeObject<ApiResponse>(jsonStr);
-        response ??= new ApiResponse
+        if (!httpResponseMessage.IsSuccessStatusCode)
+            return new ApiResponse
+            {
+                Success = false,
+                Message = "bad_request",
+                Data = ""
+            };
+
+        try
         {
-            Success = false,
-            Message = "bad_request",
-            Data = ""
-        };
-        return response;
+            var resp = JsonConvert.DeserializeObject<ApiResponse>(jsonStr);
+            return resp!;
+        }
+        catch
+        {
+            return new ApiResponse
+            {
+                Success = true,
+                Message = "success",
+                Data = jsonStr
+            };
+        }
     }
 
     private static void SetDefaultHeaders(this HttpClient httpClient)

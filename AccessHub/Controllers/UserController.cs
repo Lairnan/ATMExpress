@@ -38,9 +38,11 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("getall")]
-    public IActionResult GetAll()
+    public IActionResult GetAll([FromQuery] int page = 1, [FromQuery] int pageSize = 40)
     {
-        var users = _repository.GetAll();
+        if (page < 1) page = 1;
+        if (pageSize < 1) pageSize = 40;
+        var users = _repository.GetAll(page, pageSize);
         var jsonUsers = JsonConvert.SerializeObject(users);
 
         return Ok(jsonUsers);
