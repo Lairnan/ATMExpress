@@ -1,4 +1,5 @@
-﻿using CSA.DTO.Responses;
+﻿using Configuration;
+using CSA.DTO.Responses;
 using CSA.Entities;
 using DatabaseManagement.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -29,8 +30,21 @@ public class ProductController : ControllerBase
         var response = new ApiResponse
         {
             Success = true,
-            Message = "product_found",
+            Message = Translate.GetString("product_found"),
             Data = jsonProduct
+        };
+        return Ok(response);
+    }
+    
+    [HttpGet("count")]
+    public IActionResult GetProductCount()
+    {
+        var count = _repository.GetCount();
+        var response = new ApiResponse
+        {
+            Success = true,
+            Message = Translate.GetString("product_count"),
+            Data = JsonConvert.SerializeObject(count)
         };
         return Ok(response);
     }
@@ -57,7 +71,7 @@ public class ProductController : ControllerBase
             var response = new ApiResponse
             {
                 Success = true,
-                Message = "product_created",
+                Message = Translate.GetString("product_created"),
                 Data = jsonProduct
             };
             return Ok(response);
@@ -67,7 +81,7 @@ public class ProductController : ControllerBase
             var response = new ApiResponse
             {
                 Success = false,
-                Message = "product_creation_error",
+                Message = Translate.GetString("product_creation_error"),
                 Data = ex.Message
             };
             return BadRequest(response);
@@ -87,7 +101,7 @@ public class ProductController : ControllerBase
             var response = new ApiResponse
             {
                 Success = true,
-                Message = "product_updated",
+                Message = Translate.GetString("product_updated"),
                 Data = jsonProduct
             };
             return Ok(response);
@@ -97,7 +111,7 @@ public class ProductController : ControllerBase
             var response = new ApiResponse
             {
                 Success = false,
-                Message = "product_update_error",
+                Message = Translate.GetString("product_update_error"),
                 Data = ex.Message
             };
             return BadRequest(response);
@@ -120,7 +134,7 @@ public class ProductController : ControllerBase
             var response = new ApiResponse
             {
                 Success = true,
-                Message = "product_deleted",
+                Message = Translate.GetString("product_deleted"),
                 Data = jsonProduct
             };
             return Ok(response);
@@ -130,7 +144,7 @@ public class ProductController : ControllerBase
             var response = new ApiResponse
             {
                 Success = false,
-                Message = "product_deletion_error",
+                Message = Translate.GetString("product_deletion_error"),
                 Data = ex.Message
             };
             return BadRequest(response);

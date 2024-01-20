@@ -1,4 +1,5 @@
-﻿using CSA.DTO.Responses;
+﻿using Configuration;
+using CSA.DTO.Responses;
 using CSA.Entities;
 using DatabaseManagement.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -29,8 +30,21 @@ public class CardController : ControllerBase
         var response = new ApiResponse
         {
             Success = true,
-            Message = "card_founded",
+            Message = Translate.GetString("card_founded"),
             Data = jsonCard
+        };
+        return Ok(response);
+    }
+    
+    [HttpGet("count")]
+    public IActionResult GetCardCount()
+    {
+        var count = _repository.GetCount();
+        var response = new ApiResponse
+        {
+            Success = true,
+            Message = Translate.GetString("card_count"),
+            Data = JsonConvert.SerializeObject(count)
         };
         return Ok(response);
     }
@@ -57,7 +71,7 @@ public class CardController : ControllerBase
             var response = new ApiResponse
             {
                 Success = true,
-                Message = "card_created",
+                Message = Translate.GetString("card_created"),
                 Data = jsonCard
             };
             return Ok(response);
@@ -67,7 +81,7 @@ public class CardController : ControllerBase
             var response = new ApiResponse
             {
                 Success = false,
-                Message = "card_creation_error",
+                Message = Translate.GetString("card_creation_error"),
                 Data = ex.Message
             };
             return BadRequest(response);
@@ -87,7 +101,7 @@ public class CardController : ControllerBase
             var response = new ApiResponse
             {
                 Success = true,
-                Message = "card_updated",
+                Message = Translate.GetString("card_updated"),
                 Data = jsonCard
             };
             return Ok(response);
@@ -97,7 +111,7 @@ public class CardController : ControllerBase
             var response = new ApiResponse
             {
                 Success = false,
-                Message = "card_update_error",
+                Message = Translate.GetString("card_update_error"),
                 Data = ex.Message
             };
             return BadRequest(response);
@@ -120,7 +134,7 @@ public class CardController : ControllerBase
             var response = new ApiResponse
             {
                 Success = true,
-                Message = "card_deleted",
+                Message = Translate.GetString("card_deleted"),
                 Data = jsonCard
             };
             return Ok(response);
@@ -130,7 +144,7 @@ public class CardController : ControllerBase
             var response = new ApiResponse
             {
                 Success = false,
-                Message = "card_deletion_error",
+                Message = Translate.GetString("card_deletion_error"),
                 Data = ex.Message
             };
             return BadRequest(response);

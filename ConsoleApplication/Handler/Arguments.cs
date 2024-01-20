@@ -1,4 +1,4 @@
-﻿using ConsoleApplication.Globalization;
+﻿using Configuration;
 
 namespace ConsoleApplication.Handler;
 

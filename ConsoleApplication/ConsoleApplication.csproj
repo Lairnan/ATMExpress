@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Configuration\Configuration.csproj" />
     <ProjectReference Include="..\IIC\IIC.csproj" />
     <ProjectReference Include="..\CSA\CSA.csproj" />
     <ProjectReference Include="..\InventoryManagement\InventoryManagement.csproj" />
@@ -21,9 +22,6 @@
   <ItemGroup>
     <None Remove="Translate\languages.xml" />
     <AdditionalFiles Include="config\mainsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </AdditionalFiles>
-    <AdditionalFiles Include="Globalization\languages.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </AdditionalFiles>
   </ItemGroup>

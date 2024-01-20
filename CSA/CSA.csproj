@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Configuration\Configuration.csproj" />
       <ProjectReference Include="..\IIC\IIC.csproj" />
     </ItemGroup>
 

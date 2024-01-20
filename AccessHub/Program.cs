@@ -67,6 +67,8 @@ internal static class Program
         app.UseAuthentication();
         app.UseAuthorization();
 
+        app.UseHeaderMiddleware();
+
         app.MapControllers();
 
         app.Run();

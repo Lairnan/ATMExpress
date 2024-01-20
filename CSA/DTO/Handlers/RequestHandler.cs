@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
+using Configuration;
 using CSA.DTO.Requests;
 using CSA.DTO.Responses;
 using Newtonsoft.Json;
@@ -142,6 +143,9 @@ public static partial class RequestHandler
         
         if (!httpClient.DefaultRequestHeaders.TryGetValues("Host", out _))
             httpClient.DefaultRequestHeaders.Add("Host", Settings.BaseUrl.Host);
+        
+        if(!httpClient.DefaultRequestHeaders.TryGetValues("Language", out _))
+            httpClient.DefaultRequestHeaders.Add("Language", Translate.CultureLanguage.ToString());
     }
 
     private static void SetDefaultHeadersByHeaders(this HttpClient httpClient, HttpRequestHeaders headers)
@@ -149,8 +153,6 @@ public static partial class RequestHandler
         httpClient.DefaultRequestHeaders.Clear();
         
         foreach (var header in headers)
-        {
             httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
-        }
     }
 }

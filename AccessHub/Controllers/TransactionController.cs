@@ -1,4 +1,5 @@
-﻿using CSA.DTO.Responses;
+﻿using Configuration;
+using CSA.DTO.Responses;
 using CSA.Entities;
 using DatabaseManagement.Repositories;
 using Microsoft.AspNetCore.Authorization;
@@ -31,8 +32,21 @@ namespace AccessHub.Controllers
             var response = new ApiResponse
             {
                 Success = true,
-                Message = "transaction_found",
+                Message = Translate.GetString("transaction_found"),
                 Data = jsonTransaction
+            };
+            return Ok(response);
+        }
+        
+        [HttpGet("count")]
+        public IActionResult GetTransactionCount()
+        {
+            var count = _repository.GetCount();
+            var response = new ApiResponse
+            {
+                Success = true,
+                Message = Translate.GetString("transaction_count"),
+                Data = JsonConvert.SerializeObject(count)
             };
             return Ok(response);
         }
@@ -59,7 +73,7 @@ namespace AccessHub.Controllers
                 var response = new ApiResponse
                 {
                     Success = true,
-                    Message = "transaction_created",
+                    Message = Translate.GetString("transaction_created"),
                     Data = jsonTransaction
                 };
                 return Ok(response);
@@ -69,7 +83,7 @@ namespace AccessHub.Controllers
                 var response = new ApiResponse
                 {
                     Success = false,
-                    Message = "transaction_creation_error",
+                    Message = Translate.GetString("transaction_creation_error"),
                 Data = ex.Message
                 };
                 return BadRequest(response);
@@ -89,7 +103,7 @@ namespace AccessHub.Controllers
                 var response = new ApiResponse
                 {
                     Success = true,
-                    Message = "transaction_updated",
+                    Message = Translate.GetString("transaction_updated"),
                     Data = jsonTransaction
                 };
                 return Ok(response);
@@ -99,7 +113,7 @@ namespace AccessHub.Controllers
                 var response = new ApiResponse
                 {
                     Success = false,
-                    Message = "transaction_update_error",
+                    Message = Translate.GetString("transaction_update_error"),
                 Data = ex.Message
                 };
                 return BadRequest(response);
@@ -122,7 +136,7 @@ namespace AccessHub.Controllers
                 var response = new ApiResponse
                 {
                     Success = true,
-                    Message = "transaction_deleted",
+                    Message = Translate.GetString("transaction_deleted"),
                     Data = jsonTransaction
                 };
                 return Ok(response);
@@ -132,7 +146,7 @@ namespace AccessHub.Controllers
                 var response = new ApiResponse
                 {
                     Success = false,
-                    Message = "transaction_deletion_error",
+                    Message = Translate.GetString("transaction_deletion_error"),
                 Data = ex.Message
                 };
                 return BadRequest(response);

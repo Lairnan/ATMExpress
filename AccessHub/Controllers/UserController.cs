@@ -1,4 +1,5 @@
-﻿using CSA.DTO.Responses;
+﻿using Configuration;
+using CSA.DTO.Responses;
 using CSA.Entities;
 using DatabaseManagement.Repositories;
 using Microsoft.AspNetCore.Authorization;
@@ -31,8 +32,21 @@ public class UserController : ControllerBase
         var response = new ApiResponse
         {
             Success = true,
-            Message = "user_found",
+            Message = Translate.GetString("user_found"),
             Data = jsonUser
+        };
+        return Ok(response);
+    }
+    
+    [HttpGet("count")]
+    public IActionResult GetUserCount()
+    {
+        var count = _repository.GetCount();
+        var response = new ApiResponse
+        {
+            Success = true,
+            Message = Translate.GetString("user_count"),
+            Data = JsonConvert.SerializeObject(count)
         };
         return Ok(response);
     }
@@ -59,7 +73,7 @@ public class UserController : ControllerBase
             var response = new ApiResponse
             {
                 Success = true,
-                Message = "user_created",
+                Message = Translate.GetString("user_created"),
                 Data = jsonUser
             };
             return Ok(response);
@@ -69,7 +83,7 @@ public class UserController : ControllerBase
             var response = new ApiResponse
             {
                 Success = false,
-                Message = "user_creation_error",
+                Message = Translate.GetString("user_creation_error"),
                 Data = ex.Message
             };
             return BadRequest(response);
@@ -89,7 +103,7 @@ public class UserController : ControllerBase
             var response = new ApiResponse
             {
                 Success = true,
-                Message = "user_updated",
+                Message = Translate.GetString("user_updated"),
                 Data = jsonUser
             };
             return Ok(response);
@@ -99,7 +113,7 @@ public class UserController : ControllerBase
             var response = new ApiResponse
             {
                 Success = false,
-                Message = "user_update_error",
+                Message = Translate.GetString("user_update_error"),
                 Data = ex.Message
             };
             return BadRequest(response);
@@ -122,7 +136,7 @@ public class UserController : ControllerBase
             var response = new ApiResponse
             {
                 Success = true,
-                Message = "user_deleted",
+                Message = Translate.GetString("user_deleted"),
                 Data = jsonUser
             };
             return Ok(response);
@@ -132,7 +146,7 @@ public class UserController : ControllerBase
             var response = new ApiResponse
             {
                 Success = false,
-                Message = "user_deletion_error",
+                Message = Translate.GetString("user_deletion_error"),
                 Data = ex.Message
             };
             return BadRequest(response);

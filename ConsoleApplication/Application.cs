@@ -1,4 +1,4 @@
-﻿using ConsoleApplication.Globalization;
+﻿using Configuration;
 using ConsoleApplication.Handler;
 using ConsoleApplication.Menus;
 using CSA.DTO.Responses;

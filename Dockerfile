@@ -10,6 +10,7 @@ WORKDIR /src
 COPY ["AccessHub/AccessHub.csproj", "AccessHub/"]
 COPY ["DatabaseManagement/DatabaseManagement.csproj", "DatabaseManagement/"]
 COPY ["CSA/CSA.csproj", "CSA/"]
+COPY ["Configuration/Configuration.csproj", "Configuration/"]
 RUN dotnet restore "AccessHub/AccessHub.csproj"
 COPY . .
 WORKDIR "/src/AccessHub"

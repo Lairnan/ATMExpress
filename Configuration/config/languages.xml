@@ -264,4 +264,28 @@
         <en>Success.</en>
         <ru>Успех.</ru>
     </tr>
+    <tr id="total_products">
+        <en>Total products: {0}.</en>
+        <ru>Всего товаров: {0}.</ru>
+    </tr>
+    <tr id="total_pages">
+        <en>Total pages: {0}.</en>
+        <ru>Всего страниц: {0}.</ru>
+    </tr>
+    <tr id="page_number">
+        <en>Page: {0} of {1}.</en>
+        <ru>Страница: {0} из {1}.</ru>
+    </tr>
+    <tr id="enter_page_number">
+        <en>Enter page number (0 to go back): </en>
+        <ru>Введите номер страницы (0 для возврата): </ru>
+    </tr>
+    <tr id="input_error">
+        <en>Input error. Try again.</en>
+        <ru>Ошибка ввода. Повторите снова.</ru>
+    </tr>
+    <tr id="beyond_pages">
+        <en>Going beyond of pages. Total pages: {0}</en>
+        <ru>Выход за пределы страниц. Всего страниц: {0}</ru>
+    </tr>
 </languages>

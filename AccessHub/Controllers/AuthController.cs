@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using AccessHub.BehaviorsFiles;
 using AccessHub.Models;
+using Configuration;
 using CSA.DTO.Requests;
 using CSA.DTO.Responses;
 using CSA.Entities;
@@ -29,11 +30,11 @@ public class AuthController : ControllerBase
     [AllowAnonymous]
     public IActionResult Login([FromBody] LoginRequest request)
     {
-        if (request == null) return BadRequest(new { message = "null_request" });
+        if (request == null) return BadRequest(new { message = Translate.GetString("null_request") });
         User user;
         if ((user = _userRepository.GetAll().FirstOrDefault(s => s.Login == request.Login)!) == null)
-            return Unauthorized(new { message = "wrong_login" } );
-        if (user.Password != request.Password) return Unauthorized(new { message = "wrong_password" } );
+            return Unauthorized(new { message = Translate.GetString("wrong_login") } );
+        if (user.Password != request.Password) return Unauthorized(new { message = Translate.GetString("wrong_password") } );
 
         var loginResponse = new LoginResponse
         {
@@ -48,8 +49,8 @@ public class AuthController : ControllerBase
             case { Valid: false }:
                 userToken.Valid = true;
                 break;
-            case { Valid: true }:
-                return BadRequest("user_already_logon");
+            /*case { Valid: true }:
+                return BadRequest(Translate.GetString("user_already_logon");*/
             default:
                 LogonHelper.UsersToken.Add(new UserToken(true, loginResponse.Token, loginResponse.UserId));
                 break;
@@ -61,7 +62,7 @@ public class AuthController : ControllerBase
         var response = new ApiResponse
         {
             Success = true,
-            Message = "user_login_successful",
+            Message = Translate.GetString("user_login_successful"),
             Data = jsonStr
         };
         return Ok(response);
@@ -71,10 +72,10 @@ public class AuthController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
-        if (request == null) return BadRequest(new { message = "bad_request" });
-        if (string.IsNullOrWhiteSpace(request.Login)) return BadRequest(new { message = "login_empty" });
-        if (string.IsNullOrWhiteSpace(request.Password)) return BadRequest(new { message = "password_empty" });
-        if (_userRepository.GetAll().FirstOrDefault(s => s.Login == request.Login) != null) return BadRequest(new { message = "login_exists" });
+        if (request == null) return BadRequest(new { message = Translate.GetString("bad_request") });
+        if (string.IsNullOrWhiteSpace(request.Login)) return BadRequest(new { message = Translate.GetString("login_empty") });
+        if (string.IsNullOrWhiteSpace(request.Password)) return BadRequest(new { message = Translate.GetString("password_empty") });
+        if (_userRepository.GetAll().FirstOrDefault(s => s.Login == request.Login) != null) return BadRequest(new { message = Translate.GetString("login_exists") });
 
         var user = new User
         {
@@ -87,7 +88,7 @@ public class AuthController : ControllerBase
         var response = new ApiResponse
         {
             Success = true,
-            Message = "user_registration_successful",
+            Message = Translate.GetString("user_registration_successful"),
             Data = ""
         };
         return Ok(response);
@@ -121,14 +122,14 @@ public class AuthController : ControllerBase
         else return BadRequest(new ApiResponse
             {
                 Success = false,
-                Message = "unable_logout",
+                Message = Translate.GetString("unable_logout"),
                 Data = ""
             });
 
         return Ok(new ApiResponse
         {
             Success = true,
-            Message = "success_logout"
+            Message = Translate.GetString("success_logout")
         });
     }
 

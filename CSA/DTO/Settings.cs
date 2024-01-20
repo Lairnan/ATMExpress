@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace CSA.DTO;
 
