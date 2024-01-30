@@ -8,9 +8,11 @@ public class UserTokenAuthorizationFilter : IAuthorizationFilter
 {
     public void OnAuthorization(AuthorizationFilterContext context)
     {
-        var token = context.HttpContext.Request.Headers.Authorization.ToString().Replace("Bearer ", "");
+        var token = context.HttpContext.Request.Headers.Authorization.ToString();
         var userIdStr = context.HttpContext.Request.Headers["UserId"].ToString();
         if (string.IsNullOrWhiteSpace(token) && (string.IsNullOrWhiteSpace(userIdStr) || userIdStr.Equals(Guid.Empty.ToString()))) return;
+        if(!string.IsNullOrWhiteSpace(token) && token.StartsWith("Bearer", StringComparison.OrdinalIgnoreCase))
+            token = token.Replace("Bearer ", "", StringComparison.OrdinalIgnoreCase);
         
         Guid? userId = null;
         if (!string.IsNullOrWhiteSpace(userIdStr)) userId = Guid.Parse(userIdStr);
