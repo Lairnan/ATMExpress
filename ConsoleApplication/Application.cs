@@ -1,5 +1,4 @@
-﻿using Configuration;
-using ConsoleApplication.Handler;
+﻿using ConsoleApplication.Handler;
 using ConsoleApplication.Menus;
 using CSA.DTO.Responses;
 using Microsoft.Extensions.DependencyInjection;

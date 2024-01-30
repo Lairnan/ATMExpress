@@ -12,7 +12,20 @@ public class ProductRepository : IRepository<Product>
         _dbContext = dbContext;
     }
 
-    public IEnumerable<Product> GetAll() => _dbContext.Products
+    public int GetCount(int? page = null, int? pageSize = null)
+    {
+        if (page == null || pageSize == null)
+            return _dbContext.Products.Count();
+        
+        page = page < 1 ? 1 : page;
+        pageSize = pageSize < 1 ? 40 : pageSize;
+
+        return _dbContext.Products
+            .Skip((page.Value - 1) * pageSize.Value)
+            .Take(pageSize.Value)
+            .Count();
+    }
+
     public IEnumerable<Product> GetAll(int page = 1, int pageSize = 40) => _dbContext.Products
         .Skip((page - 1) * pageSize)
         .Take(pageSize)

@@ -12,7 +12,20 @@ public class UserRepository : IRepository<User>
         _dbContext = dbContext;
     }
 
-    public IEnumerable<User> GetAll() => _dbContext.Users.ToList();
+    public int GetCount(int? page = null, int? pageSize = null)
+    {
+        if (page == null || pageSize == null)
+            return _dbContext.Users.Count();
+        
+        page = page < 1 ? 1 : page;
+        pageSize = pageSize < 1 ? 40 : pageSize;
+
+        return _dbContext.Users
+            .Skip((page.Value - 1) * pageSize.Value)
+            .Take(pageSize.Value)
+            .Count();
+    }
+
     public IEnumerable<User> GetAll(int page = 1, int pageSize = 40) => _dbContext.Users
         .Skip((page - 1) * pageSize)
         .Take(pageSize)
@@ -109,6 +122,6 @@ public class UserRepository : IRepository<User>
         }
     }
 
-    public IEnumerable<Card> GetCardsForUser(Guid userId) => _dbContext.Cards.Where(c => c.UserId == userId).ToList();
+    public IEnumerable<Card> GetCardsByUser(Guid userId) => _dbContext.Cards.Where(c => c.UserId == userId).ToList();
 
 }

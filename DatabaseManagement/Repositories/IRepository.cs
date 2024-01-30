@@ -1,5 +1,4 @@
 ﻿using CSA;
-using Microsoft.EntityFrameworkCore;
 
 namespace DatabaseManagement.Repositories;
 
@@ -11,4 +10,5 @@ public interface IRepository<T>
     Task AddAsync(T entity);
     Task UpdateAsync(T entity);
     Task DeleteAsync(T entity);
+    int GetCount(int? page = null, int? pageSize = null);
 }

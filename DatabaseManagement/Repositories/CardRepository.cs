@@ -11,8 +11,21 @@ public class CardRepository : IRepository<Card>
     {
         _dbContext = dbContext;
     }
+    
+    public int GetCount(int? page = null, int? pageSize = null)
+    {
+        if (page == null || pageSize == null)
+            return _dbContext.Cards.Count();
+        
+        page = page < 1 ? 1 : page;
+        pageSize = pageSize < 1 ? 40 : pageSize;
 
-    public IEnumerable<Card> GetAll() => _dbContext.Cards
+        return _dbContext.Cards
+            .Skip((page.Value - 1) * pageSize.Value)
+            .Take(pageSize.Value)
+            .Count();
+    }
+    
     public IEnumerable<Card> GetAll(int page = 1, int pageSize = 40) => _dbContext.Cards
         .Include(c => c.User)
         .Skip((page - 1) * pageSize)

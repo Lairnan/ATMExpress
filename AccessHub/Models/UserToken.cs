@@ -1,5 +1,4 @@
-﻿using Configuration;
-using CSA;
+﻿using CSA;
 
 namespace AccessHub.Models;
 
@@ -8,8 +7,6 @@ public class UserToken : ObservableProperty
     private bool _valid;
     private string? _token;
     private Guid? _userId;
-    [NonSerialized]
-    private Languages _language;
 
     public UserToken()
     {
@@ -49,11 +46,5 @@ public class UserToken : ObservableProperty
     {
         get => _userId;
         set => SetProperty(ref _userId, value);
-    }
-
-    public Languages Language
-    {
-        get => _language;
-        set => SetProperty(ref _language, value);
     }
 }

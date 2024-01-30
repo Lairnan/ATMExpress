@@ -1,4 +1,4 @@
-using ConsoleApplication.Globalization;
+using ConsoleApplication.Behaviors;
 using ConsoleApplication.Menus;
 using CSA.DTO;
 using CSA.Entities;
@@ -37,29 +37,74 @@ public partial class MenuHandler
             Application.WaitEnter();
             return IoC.Resolve<StartMenu>();
         }
-        var response = await RequestHandler.DoRequest(RequestType.Get, "products/getall", Application.User);
+
+        var response = await RequestHandler.DoRequest(RequestType.Get, "products/count", Application.User);
         if (!response.Success)
         {
-            Console.WriteLine(Translate.GetString(response.Message));
+            Console.WriteLine(response.Message);
+            Application.WaitEnter();
+            return IoC.Resolve<MainMenu>();
         }
-        else
+
+        var count = JsonConvert.DeserializeObject<int>(response.Data)!;
+        if (count < 1)
         {
-            var products = JsonConvert.DeserializeObject<IList<Product>>(response.Data);
-
-            if (products == null || products.Count == 0)
-            {
-                Console.WriteLine(Translate.GetString("no_products"));
-            }
-            else
-            {
-                foreach (var product in products)
-                {
-                    Console.WriteLine(product.ToString());
-                }
-            }
+            Console.WriteLine(Translate.GetString("no_products"));
+            Application.WaitEnter();
+            return IoC.Resolve<MainMenu>();
         }
+        
+        const int pageSize = 20;
+        var pageCount = count < pageSize ? 1 : count / pageSize + (count % pageSize > 0 ? 1 : 0);
+        var currentPage = 1;
 
-        Application.WaitEnter();
-        return IoC.Resolve<MainMenu>();
+        Console.WriteLine(Translate.GetString("total_products", count));
+        Console.WriteLine(Translate.GetString("total_pages", pageCount));
+        Console.WriteLine(Translate.GetString("page_number", currentPage, pageCount));
+        Console.WriteLine();
+        do
+        {
+            if (!await DisplayedProducts(currentPage, pageSize))
+                return IoC.Resolve<MainMenu>();
+
+            var inputPage = Extension.TryGetInt(Translate.GetString("enter_page_number"));
+            while (inputPage < 1 || inputPage > pageCount)
+            {
+                if (inputPage == 0)
+                {
+                    Application.WaitEnter();
+                    return IoC.Resolve<MainMenu>();
+                }
+                
+                Console.Clear();
+                Console.WriteLine(Translate.GetString("beyond_pages", pageCount));
+                Console.WriteLine(Translate.GetString("page_number", currentPage, pageCount));
+                inputPage = Extension.TryGetInt(Translate.GetString("enter_page_number"));
+            }
+
+            currentPage = inputPage;
+            Console.Clear();
+            Console.WriteLine(Translate.GetString("total_products", count));
+            Console.WriteLine(Translate.GetString("total_pages", pageCount));
+            Console.WriteLine(Translate.GetString("page_number", currentPage, pageCount));
+            Console.WriteLine();
+        } while (true);
+    }
+
+    private async Task<bool> DisplayedProducts(int currentPage, int pageSize)
+    {
+        var response = await RequestHandler.DoRequest(RequestType.Get, $"products/getall?page={currentPage}&pageSize={pageSize}", Application.User);
+        if (!response.Success)
+        {
+            Console.WriteLine(response.Message);
+            Application.WaitEnter();
+            return false;
+        }
+            
+        var products = JsonConvert.DeserializeObject<IList<Product>>(response.Data)!;
+        foreach (var product in products)
+            Console.WriteLine(product.ToString());
+        
+        return true;
     }
 }

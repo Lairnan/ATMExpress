@@ -1,4 +1,5 @@
 using Configuration;
+using Configuration.Translations;
 
 namespace AccessHub.BehaviorsFiles;
 

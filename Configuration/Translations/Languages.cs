@@ -1,4 +1,4 @@
-namespace Configuration;
+namespace Configuration.Translations;
 
 public enum Languages
 {

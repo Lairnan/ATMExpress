@@ -12,7 +12,7 @@ services:
     expose:
       - "5432"
 
-  web:
+  accesshub:
     build:
       context: .
       dockerfile: Dockerfile

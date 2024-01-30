@@ -1,48 +1,61 @@
-﻿using System.Reflection;
-using System.Xml.Linq;
+﻿using System.Collections.ObjectModel;
+using Configuration.Translations;
 
 namespace Configuration;
 
 public static class Translate
 {
-    private static readonly Dictionary<string, Dictionary<string, string>> translations = new();
+    private static readonly AMessage _defaultMessage;
+    private static readonly ObservableCollection<AMessage> _messages;
     public static Languages CultureLanguage { get; private set; } = Languages.En;
 
     static Translate()
     {
-        var doc = XDocument.Load(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config/languages.xml"));
-
-        foreach (var el in doc.Elements("languages").Elements("tr"))
-        {
-            var id = el.Attribute("id")!.Value;
-            var languages = el.Elements()
-                .ToDictionary(s => s.Name.LocalName,
-                    s => s.Value);
-
-            translations.TryAdd(id, languages);
-        }
+        _defaultMessage = new Message(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config/languages.xml"));
+        _messages = new ObservableCollection<AMessage>();
     }
+
+    #region LoadMessage
+    public static void LoadMessage(string filePath)
+    {
+        if(_messages.FirstOrDefault(s => s.FilePath == filePath) == null)
+            _messages.Add(new Message(filePath));
+    }
+    
+    public static void LoadMessages(IEnumerable<string> filePaths)
+    {
+        foreach (var filePath in filePaths)
+            LoadMessage(filePath);
+    }
+
+    public static void LoadMessage(AMessage message)
+    {
+        if (_messages.FirstOrDefault(s => s.FilePath == message.FilePath) == null)
+            _messages.Add(message);
+    }
+    
+    public static void LoadMessages(IEnumerable<AMessage> messages)
+    {
+        foreach (var message in messages)
+            LoadMessage(message);
+    }
+    #endregion
 
     public static string GetString(string key)
     {
-        if (!translations.TryGetValue(key, out var languages)
-            || !languages.TryGetValue(CultureLanguage.ToString().ToLower(), out var translation))
-            return key;
-
-        return translation;
+        var message = GetMessage(key);
+        return message == null ? key : message.GetString(key, CultureLanguage);
     }
 
     public static string GetString(string key, params object[] args)
     {
-        if (!translations.TryGetValue(key, out var languages)
-            || !languages.TryGetValue(CultureLanguage.ToString().ToLower(), out var translation))
-            return key;
-        
-        return string.Format(translation, args);
+        var text = GetString(key);
+        return text == key ? key : string.Format(text, args);
     }
+    
+    private static AMessage? GetMessage(string key)
+        => _defaultMessage.Contain(key) ? _defaultMessage : _messages.FirstOrDefault(s => s.Contain(key));
 
     public static void SetLanguage(Languages lang)
-    {
-        CultureLanguage = lang;
-    }
+        => CultureLanguage = lang;
 }

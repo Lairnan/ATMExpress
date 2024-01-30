@@ -1,5 +1,4 @@
-﻿using ConsoleApplication.Globalization;
-using ConsoleApplication.Menus;
+﻿using ConsoleApplication.Menus;
 using CSA.DTO.Handlers;
 using CSA.DTO.Requests;
 using CSA.DTO.Responses;
@@ -28,7 +27,7 @@ public partial class MenuHandler
         
         if (response is ApiResponse apiResponse)
         {
-            Console.WriteLine(Translate.GetString(apiResponse.Message));
+            Console.WriteLine(apiResponse.Message);
             Application.WaitEnter();
             return IoC.Resolve<StartMenu>();
         }
@@ -46,7 +45,7 @@ public partial class MenuHandler
         
         if (!response.Success)
         {
-            Console.WriteLine(Translate.GetString(response.Message));
+            Console.WriteLine(response.Message);
             Application.WaitEnter();
         }
         

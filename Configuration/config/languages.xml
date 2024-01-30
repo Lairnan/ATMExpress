@@ -288,4 +288,8 @@
         <en>Going beyond of pages. Total pages: {0}</en>
         <ru>Выход за пределы страниц. Всего страниц: {0}</ru>
     </tr>
+    <tr id="product_info">
+        <en>Product barcode: {0}, Name: {1}, Description: {2}, Price: {3}, Weight: {4}, Date created: {5}</en>
+        <ru>Штрих-код продукта: {0}, Название: {1}, Описание: {2}, Цена: {3}, Вес: {4}, Дата создания: {5}</ru>
+    </tr>
 </languages>

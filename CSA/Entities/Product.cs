@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Configuration;
 using Newtonsoft.Json;
 
 namespace CSA.Entities;
@@ -50,4 +51,7 @@ public class Product : Entity
         get => _transactions;
         set => SetProperty(ref _transactions, value);
     }
+    
+    public override string ToString()
+        => Translate.GetString("product_info", this.Id, this.Name, this.Description, this.Price.ToString("0.00"), this.Weight.ToString("0.00"), this.DateCreated.ToString("dd.MM.yyyy"));
 }

@@ -25,7 +25,7 @@ public static partial class RequestHandler
         if (string.IsNullOrWhiteSpace(path)) return new ApiResponse
             {
                 Success = false,
-                Message = "bad_request",
+                Message = Translate.GetString("bad_request"),
                 Data = ""
             };
 
@@ -48,7 +48,7 @@ public static partial class RequestHandler
         if (string.IsNullOrWhiteSpace(path)) return new ApiResponse
         {
             Success = false,
-            Message = "bad_request",
+            Message = Translate.GetString("bad_request"),
             Data = ""
         };
 
@@ -73,7 +73,7 @@ public static partial class RequestHandler
             return new ApiResponse
             {
                 Success = false,
-                Message = "bad_request",
+                Message = Translate.GetString("bad_request"),
                 Data = ""
             };
 
@@ -116,7 +116,7 @@ public static partial class RequestHandler
             return new ApiResponse
             {
                 Success = false,
-                Message = "bad_request",
+                Message = Translate.GetString("bad_request"),
                 Data = ""
             };
 
@@ -130,7 +130,7 @@ public static partial class RequestHandler
             return new ApiResponse
             {
                 Success = true,
-                Message = "success",
+                Message = Translate.GetString("success"),
                 Data = jsonStr
             };
         }

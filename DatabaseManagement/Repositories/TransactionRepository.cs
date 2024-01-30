@@ -11,8 +11,21 @@ public class TransactionRepository : IRepository<Transaction>
     {
         _dbContext = dbContext;
     }
+
+    public int GetCount(int? page = null, int? pageSize = null)
+    {
+        if (page == null || pageSize == null)
+            return _dbContext.Transactions.Count();
         
-    public IEnumerable<Transaction> GetAll() => _dbContext.Transactions
+        page = page < 1 ? 1 : page;
+        pageSize = pageSize < 1 ? 40 : pageSize;
+
+        return _dbContext.Transactions
+            .Skip((page.Value - 1) * pageSize.Value)
+            .Take(pageSize.Value)
+            .Count();
+    }
+        
     public IEnumerable<Transaction> GetAll(int page = 1, int pageSize = 40) => _dbContext.Transactions
         .Skip((page - 1) * pageSize)
         .Take(pageSize)
