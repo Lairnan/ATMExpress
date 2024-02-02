@@ -1,4 +1,5 @@
 ﻿using ConsoleApplication.Menus;
+using CSA.Behaviors;
 using CSA.DTO.Handlers;
 using CSA.DTO.Requests;
 using CSA.DTO.Responses;
@@ -21,7 +22,7 @@ public partial class MenuHandler
     
     private async Task<IMenu> Authorization()
     {
-        var user = GetUserLogon();
+        var user = GetUserInfo();
         var request = new LoginRequest(user.Login, user.Password);
         var response = await RequestHandler.Login(request);
         
@@ -39,7 +40,7 @@ public partial class MenuHandler
     
     private async Task<IMenu> Registration()
     {
-        var user = GetUserRegister();
+        var user = GetUserInfo();
         var request = new RegisterRequest(user.Login, user.Password);
         var response = await RequestHandler.Register(request);
         
@@ -52,43 +53,36 @@ public partial class MenuHandler
         return IoC.Resolve<StartMenu>();
     }
 
-    private static User GetUserLogon()
+    private static User GetUserInfo()
     {
-        string login;
-        string password;
-        while (true)
-        {
-            Console.Write(Translate.GetString("input_login"));
-            login = Console.ReadLine() ?? "";
-            Console.Write(Translate.GetString("input_password"));
-            password = Console.ReadLine() ?? "";
-            if (!string.IsNullOrWhiteSpace(login) && !string.IsNullOrWhiteSpace(password)) break;
-        }
-
+        var login = EnterData("input_login");
+        if (string.IsNullOrWhiteSpace(login)) return null!;
+        var password = EnterData("input_password");
+        if (string.IsNullOrWhiteSpace(password)) return null!;
+        
         return new User
         {
             Login = login,
-            Password = password
+            Password = password,
+            AdminLevel = Level.User
         };
     }
 
-    private static User GetUserRegister()
+    private static string EnterData(string message)
     {
-        string login;
-        string password;
-        while (true)
+        Console.Write(Translate.GetString(message));
+        var data = Console.ReadLine();
+        if (!string.IsNullOrWhiteSpace(data)) return data;
+        
+        Console.Write(Translate.GetString("try_login_again"));
+        do
         {
-            Console.Write($"{Translate.GetString("input_login")}");
-            login = Console.ReadLine() ?? "";
-            Console.Write($"{Translate.GetString("input_password")}");
-            password = Console.ReadLine() ?? "";
-            if (!string.IsNullOrWhiteSpace(login) && !string.IsNullOrWhiteSpace(password)) break;
-        }
-
-        return new User
-        {
-            Login = login,
-            Password = password
-        };
+            var keyInfo = Console.ReadKey().Key;
+            Console.WriteLine();
+            if (keyInfo == ConsoleKey.D1) return EnterData(message);
+            if (keyInfo == ConsoleKey.D2) return "";
+            
+            Console.WriteLine(Translate.GetString("input_error"));
+        } while (true);
     }
 }

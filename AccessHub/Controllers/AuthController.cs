@@ -39,7 +39,8 @@ public class AuthController : ControllerBase
         var loginResponse = new LoginResponse
         {
             Token = GetToken(user.Login),
-            UserId = user.Id
+            UserId = user.Id,
+            AdminLevel = user.AdminLevel
         };
 
         var userToken = LogonHelper.GetUserAuthorize(new UserToken(loginResponse.Token, loginResponse.UserId));

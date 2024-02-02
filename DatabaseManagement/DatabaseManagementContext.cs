@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using CSA.Behaviors;
 using CSA.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,7 +27,8 @@ public sealed class DatabaseManagementContext : DbContext
         var user = new User
         {
             Login = "Login",
-            Password = "Password"
+            Password = "Password",
+            AdminLevel = Level.Admin
         };
         user.Cards.Add(card);
         this.Users.Add(user);

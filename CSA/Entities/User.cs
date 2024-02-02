@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using CSA.Behaviors;
 using Newtonsoft.Json;
 
 namespace CSA.Entities;
@@ -10,6 +11,7 @@ public class User : Entity
     private string _login;
     private string _password;
     private DateTime _dateCreated = DateTime.Now;
+    private Level _adminLevel = 0;
     [JsonIgnore]
     private ICollection<Card> _cards = new ObservableCollection<Card>();
 
@@ -29,6 +31,12 @@ public class User : Entity
     {
         get => _dateCreated;
         set => SetProperty(ref _dateCreated, value);
+    }
+
+    public Level AdminLevel
+    {
+        get => _adminLevel;
+        set => SetProperty(ref _adminLevel, value);
     }
 
     [JsonIgnore]

@@ -1,9 +1,13 @@
-﻿namespace CSA.DTO.Responses;
+﻿using CSA.Behaviors;
+
+namespace CSA.DTO.Responses;
 
 public class LoginResponse : IResponse
 {
     public string Token { get; set; }
     public Guid UserId { get; set; }
+    public Level AdminLevel { get; set; } = Level.User;
+    
 
     public LoginResponse()
     {
