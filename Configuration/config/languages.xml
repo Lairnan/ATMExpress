@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <languages>
     <tr id="insert_key">
-        <en>Insert key: </en>
+        <en>Enter the code: </en>
         <ru>Введите код: </ru>
     </tr>
     <tr id="exit">
@@ -9,16 +9,16 @@
         <ru>Выход.</ru>
     </tr>
     <tr id="settings">
-        <en>View settings.</en>
-        <ru>Посмотреть настройки.</ru>
+        <en>Settings.</en>
+        <ru>Настройки.</ru>
     </tr>
     <tr id="products">
-        <en>View products.</en>
-        <ru>Посмотреть продукты.</ru>
+        <en>Products.</en>
+        <ru>Продукты.</ru>
     </tr>
     <tr id="view_balance">
-        <en>View balance.</en>
-        <ru>Посмотреть баланс.</ru>
+        <en>Balance.</en>
+        <ru>Баланс.</ru>
     </tr>
     <tr id="withdraw_cash">
         <en>Withdraw cash.</en>
@@ -57,8 +57,8 @@
         <ru>Регистрация.</ru>
     </tr>
     <tr id="back">
-        <en>Back.</en>
-        <ru>Назад.</ru>
+        <en>&#171;Back.</en>
+        <ru>&#171;Назад.</ru>
     </tr>
     <tr id="account_information">
         <en>Account information.</en>
@@ -80,10 +80,6 @@
         <en>Change name.</en>
         <ru>Изменить имя.</ru>
     </tr>
-    <tr id="press_any_key">
-        <en>Press any key to continue.</en>
-        <ru>Нажмите любую кнопку чтобы продолжить</ru>
-    </tr>
     <tr id="close_app">
         <en>Closing application...</en>
         <ru>Закрытие приложения...</ru>
@@ -101,27 +97,27 @@
         <ru>Карта найдена.</ru>
     </tr>
     <tr id="card_created">
-        <en>Card created.</en>
+        <en>Card has been successfully created.</en>
         <ru>Карта успешно создана.</ru>
     </tr>
     <tr id="card_creation_error">
-        <en>Error creating card: </en>
+        <en>Error when creating a card: </en>
         <ru>Ошибка при создании карты: </ru>
     </tr>
     <tr id="card_updated">
-        <en>Card updated.</en>
+        <en>Card has been successfully updated.</en>
         <ru>Карта успешно обновлена.</ru>
     </tr>
     <tr id="card_update_error">
-        <en>Error updating card: </en>
-        <ru>Ошибка при обновлении карты: .</ru>
+        <en>Error when updating the map: </en>
+        <ru>Ошибка при обновлении карты: </ru>
     </tr>
     <tr id="card_deleted">
-        <en>Card deleted.</en>
+        <en>The card has been successfully deleted.</en>
         <ru>Карта успешно удалена.</ru>
     </tr>
     <tr id="card_deletion_error">
-        <en>Error deleting card: </en>
+        <en>Error when deleting a card: </en>
         <ru>Ошибка при удалении карты: </ru>
     </tr>
     <tr id="product_found">
@@ -129,7 +125,7 @@
         <ru>Продукт найден.</ru>
     </tr>
     <tr id="product_created">
-        <en>Product created.</en>
+        <en>The product has been successfully created.</en>
         <ru>Продукт успешно создан.</ru>
     </tr>
     <tr id="product_creation_error">
@@ -137,19 +133,19 @@
         <ru>Ошибка при создании продукта: </ru>
     </tr>
     <tr id="product_updated">
-        <en>Product updated.</en>
+        <en>The product has been successfully updated.</en>
         <ru>Продукт успешно обновлен.</ru>
     </tr>
     <tr id="product_update_error">
-        <en>Error updating product: </en>
+        <en>Error during product update: </en>
         <ru>Ошибка при обновлении продукта: </ru>
     </tr>
     <tr id="product_deleted">
-        <en>Product deleted.</en>
+        <en>The product has been successfully removed.</en>
         <ru>Продукт успешно удален.</ru>
     </tr>
     <tr id="product_deletion_error">
-        <en>Error deleting product: </en>
+        <en>Error when deleting a product: </en>
         <ru>Ошибка при удалении продукта: </ru>
     </tr>
     <tr id="user_login_successful">
@@ -157,11 +153,11 @@
         <ru>Успешный вход.</ru>
     </tr>
     <tr id="user_created">
-        <en>User created.</en>
+        <en>User successfully created.</en>
         <ru>Пользователь успешно создан.</ru>
     </tr>
     <tr id="user_creation_error">
-        <en>Error creating user: </en>
+        <en>Error when creating a user: </en>
         <ru>Ошибка при создании пользователя: </ru>
     </tr>
     <tr id="user_updated">
@@ -169,15 +165,15 @@
         <ru>Пользователь успешно обновлен.</ru>
     </tr>
     <tr id="user_update_error">
-        <en>Error updating user: </en>
+        <en>User successfully updated: </en>
         <ru>Ошибка при обновлении пользователя: </ru>
     </tr>
     <tr id="user_deleted">
-        <en>User deleted.</en>
+        <en>User successfully deleted.</en>
         <ru>Пользователь успешно удален.</ru>
     </tr>
     <tr id="user_deletion_error">
-        <en>Error deleting user: </en>
+        <en>Error when deleting a user: </en>
         <ru>Ошибка при удалении пользователя: </ru>
     </tr>
     <tr id="transaction_found">
@@ -189,23 +185,23 @@
         <ru>Транзакция успешно создана.</ru>
     </tr>
     <tr id="transaction_creation_error">
-        <en>Error creating transaction: </en>
+        <en>Transaction successfully created: </en>
         <ru>Ошибка при создании транзакции: </ru>
     </tr>
     <tr id="transaction_updated">
-        <en>Transaction updated.</en>
+        <en>Transaction successfully updated.</en>
         <ru>Транзакция успешно обновлена.</ru>
     </tr>
     <tr id="transaction_update_error">
-        <en>Error updating transaction: </en>
+        <en>Error during transaction update: </en>
         <ru>Ошибка при обновлении транзакции: </ru>
     </tr>
     <tr id="transaction_deleted">
-        <en>Transaction deleted.</en>
+        <en>Transaction successfully deleted.</en>
         <ru>Транзакция успешно удалена.</ru>
     </tr>
     <tr id="transaction_deletion_error">
-        <en>Error deleting transaction: </en>
+        <en>Error when deleting a transaction: </en>
         <ru>Ошибка при удалении транзакции: </ru>
     </tr>
     <tr id="bad_request">
@@ -229,8 +225,8 @@
         <ru>Пароль не может быть пустым.</ru>
     </tr>
     <tr id="login_exists">
-        <en>User login already exists.</en>
-        <ru>Логин пользователя уже существует.</ru>
+        <en>User already registered.</en>
+        <ru>Пользователь уже зарегистрирован.</ru>
     </tr>
     <tr id="user_registration_successful">
         <en>Successful registration.</en>
@@ -248,9 +244,21 @@
         <en>Logging out of your account, please wait...</en>
         <ru>Не удалось выйти из аккаунта.</ru>
     </tr>
+    <tr id="success">
+        <en>Success!</en>
+        <ru>Успех!</ru>
+    </tr>
+    <tr id="warning">
+        <en>Warning!</en>
+        <ru>Предупреждение!</ru>
+    </tr>
+    <tr id="Error">
+        <en>Error!</en>
+        <ru>Ошибка!</ru>
+    </tr>
     <tr id="success_logout">
         <en>Logging out of your account, please wait...</en>
-        <ru>Успешно вышли из аккаунта..</ru>
+        <ru>Выход из аккаунта, пожалуйста, подождите...</ru>
     </tr>
     <tr id="not_authorized">
         <en>First of all, log in.</en>
@@ -276,10 +284,6 @@
         <en>Page: {0} of {1}.</en>
         <ru>Страница: {0} из {1}.</ru>
     </tr>
-    <tr id="enter_page_number">
-        <en>Enter page number (0 to go back): </en>
-        <ru>Введите номер страницы (0 для возврата): </ru>
-    </tr>
     <tr id="input_error">
         <en>Input error. Try again.</en>
         <ru>Ошибка ввода. Повторите снова.</ru>
@@ -289,7 +293,7 @@
         <ru>Выход за пределы страниц. Всего страниц: {0}</ru>
     </tr>
     <tr id="product_info">
-        <en>Product barcode: {0}, Name: {1}, Description: {2}, Price: {3}, Weight: {4}, Date created: {5}</en>
-        <ru>Штрих-код продукта: {0}, Название: {1}, Описание: {2}, Цена: {3}, Вес: {4}, Дата создания: {5}</ru>
+        <en>Product barcode: {0}, Name: {1}, Description: {2}, Price: {3} {4}, Weight: {5} {6}, Date created: {7}</en>
+        <ru>Штрих-код продукта: {0}, Название: {1}, Описание: {2}, Цена: {3} {4}, Вес: {5} {6}, Дата создания: {7}</ru>
     </tr>
 </languages>

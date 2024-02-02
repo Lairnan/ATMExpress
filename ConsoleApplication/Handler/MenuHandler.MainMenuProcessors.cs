@@ -57,11 +57,17 @@ public partial class MenuHandler
         const int pageSize = 20;
         var pageCount = count < pageSize ? 1 : count / pageSize + (count % pageSize > 0 ? 1 : 0);
         var currentPage = 1;
-
+        
         Console.WriteLine(Translate.GetString("total_products", count));
         Console.WriteLine(Translate.GetString("total_pages", pageCount));
         Console.WriteLine(Translate.GetString("page_number", currentPage, pageCount));
-        Console.WriteLine();
+        if (pageCount < 2)
+        {
+            if(await DisplayedProducts(currentPage, pageSize))
+                Application.WaitEnter();
+            return IoC.Resolve<MainMenu>();
+        }
+        
         do
         {
             if (!await DisplayedProducts(currentPage, pageSize))
@@ -87,13 +93,13 @@ public partial class MenuHandler
             Console.WriteLine(Translate.GetString("total_products", count));
             Console.WriteLine(Translate.GetString("total_pages", pageCount));
             Console.WriteLine(Translate.GetString("page_number", currentPage, pageCount));
-            Console.WriteLine();
         } while (true);
     }
 
     private async Task<bool> DisplayedProducts(int currentPage, int pageSize)
     {
-        var response = await RequestHandler.DoRequest(RequestType.Get, $"products/getall?page={currentPage}&pageSize={pageSize}", Application.User);
+        Console.WriteLine(new string('-', 50));
+        var response = await RequestHandler.DoRequest(RequestType.Get, $"products/getall?page={currentPage}&pageSize={pageSize}", Application.User!);
         if (!response.Success)
         {
             Console.WriteLine(response.Message);
@@ -105,6 +111,7 @@ public partial class MenuHandler
         foreach (var product in products)
             Console.WriteLine(product.ToString());
         
+        Console.WriteLine(new string('-', 50));
         return true;
     }
 }

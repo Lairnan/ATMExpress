@@ -1,6 +1,7 @@
 ﻿using ConsoleApplication.Handler;
 using ConsoleApplication.Menus;
 using CSA.DTO.Responses;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ConsoleApplication;
@@ -14,6 +15,9 @@ public class Application
     public Application(IServiceProvider provider)
     {
         _provider = provider;
+        var configuration = _provider.GetRequiredService<IConfigurationRoot>();
+        var consoleLanguagesPath = configuration["MainSettings:ConsoleLanguagesPath"];
+        if(!string.IsNullOrWhiteSpace(consoleLanguagesPath)) Translate.LoadMessage(consoleLanguagesPath);
     }
     
     private static void PrintMenu(IMenu menu)

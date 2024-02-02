@@ -2,18 +2,16 @@ using System.Xml.Linq;
 
 namespace Configuration.Translations;
 
-public class Message(string filePath) : AMessage(filePath);
-
-public abstract class AMessage
+public class Message : IMessage
 {
     private readonly Dictionary<string, Dictionary<string, string>> _translations = new();
-    public readonly string FilePath;
+    public string FilePath { get; }
     
-    protected AMessage(string filePath)
+    public Message(string filePath)
     {
         if (!Path.IsPathRooted(filePath))
             filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filePath);
-        FilePath = filePath;
+        this.FilePath = filePath;
         var doc = XDocument.Load(filePath);
 
         foreach (var el in doc.Elements("languages").Elements("tr"))
@@ -38,4 +36,11 @@ public abstract class AMessage
 
         return translation;
     }
+}
+
+public interface IMessage
+{
+    public string FilePath { get; }
+    public bool Contain(string key);
+    public string GetString(string key, Languages language);
 }

@@ -2,5 +2,8 @@
   "AppSettings": {
     "baseurl": "http://localhost:5021/api",
     "logPath": "./logs/"
+  },
+  "MainSettings": {
+    "ConsoleLanguagesPath": "config/console_languages.xml"
   }
 }

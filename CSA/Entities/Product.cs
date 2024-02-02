@@ -53,5 +53,5 @@ public class Product : Entity
     }
     
     public override string ToString()
-        => Translate.GetString("product_info", this.Id, this.Name, this.Description, this.Price.ToString("0.00"), this.Weight.ToString("0.00"), this.DateCreated.ToString("dd.MM.yyyy"));
+        => Translate.GetString("product_info", this.Id, this.Name, this.Description, this.Price.ToString("0.00"), "руб.", this.Weight.ToString("0.00"), "кг.", this.DateCreated.ToString("dd.MM.yyyy"));
 }

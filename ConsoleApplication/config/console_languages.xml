@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<languages>
+    <tr id="enter_page_number">
+        <en>Enter page number (0 to go back): </en>
+        <ru>Введите номер страницы (0 для возврата): </ru>
+    </tr>
+    <tr id="try_login_again">
+        <en>You have entered an empty string. Press 1 to re-enter. Press 2 to go backward: </en>
+        <ru>Вы ввели пустую строку. Нажмите 1 для повторного ввода. Нажмите 2 для перехода назад: </ru>
+    </tr>
+    <tr id="press_any_key">
+        <en>Press any key to continue.</en>
+        <ru>Нажмите любую кнопку чтобы продолжить</ru>
+    </tr>
+</languages>

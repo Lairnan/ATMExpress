@@ -6,7 +6,7 @@ public static class Extension
     {
         do
         {
-            Console.WriteLine(enterText);
+            Console.Write(enterText);
             var input = Console.ReadLine();
             if (int.TryParse(input, out var result)) return result;
             Console.WriteLine(Translate.GetString("input_error"));
