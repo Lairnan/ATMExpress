@@ -37,9 +37,11 @@ public class CardController : ControllerBase
     }
     
     [HttpGet("count")]
-    public IActionResult GetCardCount()
+    public IActionResult GetCardCount([FromQuery] Guid? userId = null)
     {
-        var count = _repository.GetCount();
+        Func<Card, bool>? predicate = null;
+        if (userId.HasValue) predicate = c => c.UserId == userId;
+        var count = _repository.GetCount(predicate: predicate);
         var response = new ApiResponse
         {
             Success = true,
@@ -50,11 +52,13 @@ public class CardController : ControllerBase
     }
 
     [HttpGet("getall")]
-    public IActionResult GetAllCards([FromQuery] int page = 1, [FromQuery] int pageSize = 40)
+    public IActionResult GetAllCards([FromQuery] int page = 1, [FromQuery] int pageSize = 40, [FromQuery] Guid? userId = null)
     {
+        Func<Card, bool>? predicate = null;
+        if (userId.HasValue) predicate = c => c.UserId == userId;
         if (page < 1) page = 1;
         if (pageSize < 1) pageSize = 40;
-        var cards = _repository.GetAll(page, pageSize);
+        var cards = _repository.GetAll(page, pageSize, predicate);
         var jsonCards = JsonConvert.SerializeObject(cards);
 
         return Ok(jsonCards);

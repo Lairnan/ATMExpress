@@ -12,7 +12,7 @@ public class TransactionRepository : IRepository<Transaction>
         _dbContext = dbContext;
     }
 
-    public int GetCount(int? page = null, int? pageSize = null)
+    public int GetCount(int? page = null, int? pageSize = null, Func<Transaction, bool>? predicate = null)
     {
         if (page == null || pageSize == null)
             return _dbContext.Transactions.Count();
@@ -21,15 +21,17 @@ public class TransactionRepository : IRepository<Transaction>
         pageSize = pageSize < 1 ? 40 : pageSize;
 
         return _dbContext.Transactions
+            .Where(predicate ?? (_ => true))
             .Skip((page.Value - 1) * pageSize.Value)
             .Take(pageSize.Value)
             .Count();
     }
         
-    public IEnumerable<Transaction> GetAll(int page = 1, int pageSize = 40) => _dbContext.Transactions
+    public IEnumerable<Transaction> GetAll(int page = 1, int pageSize = 40, Func<Transaction, bool>? predicate = null) => _dbContext.Transactions
+        .Include(t => t.Card)
+        .Where(predicate ?? (_ => true))
         .Skip((page - 1) * pageSize)
         .Take(pageSize)
-        .Include(t => t.Card)
         .AsEnumerable();
         
     public Transaction? FindById(Guid id) => _dbContext.Transactions

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 
 namespace AccessHub;
 
@@ -28,8 +29,9 @@ internal static class Program
         builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
         builder.Services.AddScoped<IRepository<Transaction>, TransactionRepository>();
         builder.Services.AddScoped<IRepository<Card>, CardRepository>();
-
+        
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        builder.Services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -67,6 +69,18 @@ internal static class Program
         app.UseAuthentication();
         app.UseAuthorization();
 
+        app.UseStaticFiles();
+        
+        /*app.UseSpa(spa =>
+        {
+            //spa.Options.SourcePath = "ClientApp";
+            if (app.Environment.IsDevelopment())
+            {
+                spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+                // spa.UseAngularCliServer(npmScript: "start");
+            }
+        });*/
+        
         app.UseHeaderMiddleware();
 
         app.MapControllers();

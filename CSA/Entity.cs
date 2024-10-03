@@ -1,6 +1,4 @@
-﻿using CSA;
-
-namespace CSA;
+﻿namespace CSA;
 
 public abstract class Entity : ObservableProperty
 {

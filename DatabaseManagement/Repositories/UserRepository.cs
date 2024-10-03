@@ -12,7 +12,7 @@ public class UserRepository : IRepository<User>
         _dbContext = dbContext;
     }
 
-    public int GetCount(int? page = null, int? pageSize = null)
+    public int GetCount(int? page = null, int? pageSize = null, Func<User, bool>? predicate = null)
     {
         if (page == null || pageSize == null)
             return _dbContext.Users.Count();
@@ -21,12 +21,14 @@ public class UserRepository : IRepository<User>
         pageSize = pageSize < 1 ? 40 : pageSize;
 
         return _dbContext.Users
+            .Where(predicate ?? (_ => true))
             .Skip((page.Value - 1) * pageSize.Value)
             .Take(pageSize.Value)
             .Count();
     }
 
-    public IEnumerable<User> GetAll(int page = 1, int pageSize = 40) => _dbContext.Users
+    public IEnumerable<User> GetAll(int page = 1, int pageSize = 40, Func<User, bool>? predicate = null) => _dbContext.Users
+        .Where(predicate ?? (_ => true))
         .Skip((page - 1) * pageSize)
         .Take(pageSize)
         .ToList();

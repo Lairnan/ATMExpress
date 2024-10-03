@@ -12,22 +12,24 @@ public class CardRepository : IRepository<Card>
         _dbContext = dbContext;
     }
     
-    public int GetCount(int? page = null, int? pageSize = null)
+    public int GetCount(int? page = null, int? pageSize = null, Func<Card, bool>? predicate = null)
     {
         if (page == null || pageSize == null)
             return _dbContext.Cards.Count();
         
         page = page < 1 ? 1 : page;
         pageSize = pageSize < 1 ? 40 : pageSize;
-
+        
         return _dbContext.Cards
+            .Where(predicate ?? (_ => true))
             .Skip((page.Value - 1) * pageSize.Value)
             .Take(pageSize.Value)
             .Count();
     }
     
-    public IEnumerable<Card> GetAll(int page = 1, int pageSize = 40) => _dbContext.Cards
+    public IEnumerable<Card> GetAll(int page = 1, int pageSize = 40, Func<Card, bool>? predicate = null) => _dbContext.Cards
         .Include(c => c.User)
+        .Where(predicate ?? (_ => true))
         .Skip((page - 1) * pageSize)
         .Take(pageSize)
         .AsEnumerable();
