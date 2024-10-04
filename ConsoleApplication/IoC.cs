@@ -43,5 +43,6 @@ public static class IoC
         services.AddTransient<SettingsMenu>();
         services.AddTransient<SecurityMenu>();
         services.AddTransient<WithdrawMenu>();
+        services.AddTransient<DepositMenu>();
     }
 }

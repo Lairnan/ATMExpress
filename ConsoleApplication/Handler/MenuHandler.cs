@@ -14,6 +14,8 @@ public partial class MenuHandler
             MainMenu => await SwitchMainMenu(key),
             SettingsMenu => await SwitchSettingsMenu(key),
             SecurityMenu => await SwitchSecurityMenu(key),
+            WithdrawMenu => await SwitchWithdrawMenu(key),
+            DepositMenu => await SwitchDepositMenu(key),
             _ => null
         };
 

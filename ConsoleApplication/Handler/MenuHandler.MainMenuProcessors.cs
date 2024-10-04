@@ -17,8 +17,8 @@ public partial class MenuHandler
             (int)MainMenuInfo.Settings => IoC.Resolve<SettingsMenu>(),
             (int)MainMenuInfo.Products => await ViewProducts(),
             (int)MainMenuInfo.ViewBalance => await ViewBalance(),
-            (int)MainMenuInfo.WithdrawCash => IoC.Resolve<MainMenu>(),
-            (int)MainMenuInfo.DepositCash => IoC.Resolve<MainMenu>(),
+            (int)MainMenuInfo.WithdrawCash => await WithdrawDepositCash(false),
+            (int)MainMenuInfo.DepositCash => await WithdrawDepositCash(true),
             (int)MainMenuInfo.QuickTransfer => IoC.Resolve<MainMenu>(),
             (int)MainMenuInfo.TransactionHistory => IoC.Resolve<MainMenu>(),
             (int)MainMenuInfo.CardlessCash => IoC.Resolve<MainMenu>(),
@@ -75,7 +75,7 @@ public partial class MenuHandler
         return await Extension.DisplayContentByPages<MainMenu, Product>(count, "products/get-all");
     }
 
-    private async Task<IMenu> WithdrawCash()
+    private async Task<IMenu> WithdrawDepositCash(bool isDeposit)
     {
         Console.Clear();
         if (Application.User == null)
@@ -89,6 +89,6 @@ public partial class MenuHandler
             return Extension.ThrowError<MainMenu>(response.Message);
         }
 
-        return IoC.Resolve<WithdrawMenu>();
+        return isDeposit ? IoC.Resolve<DepositMenu>() : IoC.Resolve<WithdrawMenu>();
     }
 }

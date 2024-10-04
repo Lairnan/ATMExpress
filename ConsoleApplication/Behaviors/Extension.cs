@@ -20,6 +20,17 @@ public static class Extension
         } while (true);
     }
     
+    public static string TryGetInput(string enterText)
+    {
+        do
+        {
+            Console.Write(enterText);
+            var input = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(input)) return input;
+            Console.WriteLine(Translate.GetString("input_error"));
+        } while (true);
+    }
+    
     public static IMenu ThrowError<T>(string message)
         where T : IMenu
     {

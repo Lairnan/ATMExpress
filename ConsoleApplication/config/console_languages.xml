@@ -10,6 +10,10 @@
     </tr>
     <tr id="press_any_key">
         <en>Press any key to continue.</en>
-        <ru>Нажмите любую кнопку чтобы продолжить</ru>
+        <ru>Нажмите любую кнопку, чтобы продолжить...</ru>
+    </tr>
+    <tr id="choose_input_or_view">
+        <en>Press 1 for view card. Press 2 for input card. Press 0 for exit.</en>
+        <ru>Нажмите 1 для просмотра карты. Нажмите 2 для ввода карты. Нажмите 0 для выхода.</ru>
     </tr>
 </languages>

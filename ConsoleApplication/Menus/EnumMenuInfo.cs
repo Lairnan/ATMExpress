@@ -73,7 +73,5 @@ public enum DepositMenuInfo
     [Description("back")]
     Back,
     [Description("select_card")]
-    SelectCard,
-    [Description("create_card")]
-    CreateCard
+    SelectCard
 }
