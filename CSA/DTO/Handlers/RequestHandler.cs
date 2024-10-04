@@ -1,4 +1,6 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Diagnostics;
+using System.Net;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Web;
 using Configuration;
@@ -134,44 +136,57 @@ public static partial class RequestHandler
         string token,
         HttpRequestHeaders? headers = null)
     {
-        using var httpClient = new HttpClient();
-
-        if (headers != null) httpClient.SetDefaultHeadersByHeaders(headers);
-        if (!string.IsNullOrWhiteSpace(token))
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        httpClient.SetDefaultHeaders();
-
-        var httpResponseMessage = requestType switch
+        try
         {
-            RequestType.Get => await httpClient.GetAsync($"{path}"),
-            RequestType.Post => await httpClient.PostAsync($"{path}", content),
-            RequestType.Put => await httpClient.PutAsync($"{path}", content),
-            RequestType.Patch => await httpClient.PatchAsync($"{path}", content),
-            RequestType.Delete => await httpClient.DeleteAsync($"{path}"),
-            _ => throw new ArgumentNullException(nameof(requestType), "RequestType not found")
-        };
+            using var httpClient = new HttpClient();
 
-        var jsonStr = await httpResponseMessage.Content.ReadAsStringAsync();
-        if (!httpResponseMessage.IsSuccessStatusCode)
+            if (headers != null) httpClient.SetDefaultHeadersByHeaders(headers);
+            if (!string.IsNullOrWhiteSpace(token))
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            httpClient.SetDefaultHeaders();
+
+            var httpResponseMessage = requestType switch
+            {
+                RequestType.Get => await httpClient.GetAsync($"{path}"),
+                RequestType.Post => await httpClient.PostAsync($"{path}", content),
+                RequestType.Put => await httpClient.PutAsync($"{path}", content),
+                RequestType.Patch => await httpClient.PatchAsync($"{path}", content),
+                RequestType.Delete => await httpClient.DeleteAsync($"{path}"),
+                _ => throw new ArgumentNullException(nameof(requestType), "RequestType not found")
+            };
+
+            var jsonStr = await httpResponseMessage.Content.ReadAsStringAsync();
+            if (!httpResponseMessage.IsSuccessStatusCode)
+                return new ApiResponse
+                {
+                    Success = false,
+                    Message = Translate.GetString("bad_request"),
+                    Data = ""
+                };
+
+            try
+            {
+                var resp = JsonConvert.DeserializeObject<ApiResponse>(jsonStr);
+                return resp!;
+            }
+            catch
+            {
+                return new ApiResponse
+                {
+                    Success = true,
+                    Message = Translate.GetString("success"),
+                    Data = jsonStr
+                };
+            }
+        }
+        catch (WebException ex)
+        {
+            Debug.WriteLine(ex.ToString());
             return new ApiResponse
             {
                 Success = false,
-                Message = Translate.GetString("bad_request"),
-                Data = ""
-            };
-
-        try
-        {
-            var resp = JsonConvert.DeserializeObject<ApiResponse>(jsonStr);
-            return resp!;
-        }
-        catch
-        {
-            return new ApiResponse
-            {
-                Success = true,
-                Message = Translate.GetString("success"),
-                Data = jsonStr
+                Message = Translate.GetString("not_available"),
+                Data = ex.Message
             };
         }
     }

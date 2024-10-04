@@ -51,7 +51,7 @@ public class UserController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("getall")]
+    [HttpGet("get-all")]
     public IActionResult GetAll([FromQuery] int page = 1, [FromQuery] int pageSize = 40)
     {
         if (page < 1) page = 1;

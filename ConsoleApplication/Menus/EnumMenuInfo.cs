@@ -59,3 +59,21 @@ public enum SecurityMenuInfo
     [Description("change_name")]
     ChangeName,
 }
+
+public enum WithdrawMenuInfo
+{
+    [Description("back")]
+    Back,
+    [Description("select_card")]
+    SelectCard
+}
+
+public enum DepositMenuInfo
+{
+    [Description("back")]
+    Back,
+    [Description("select_card")]
+    SelectCard,
+    [Description("create_card")]
+    CreateCard
+}

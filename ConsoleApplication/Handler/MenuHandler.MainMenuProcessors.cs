@@ -16,7 +16,7 @@ public partial class MenuHandler
             (int)MainMenuInfo.Exit => null,
             (int)MainMenuInfo.Settings => IoC.Resolve<SettingsMenu>(),
             (int)MainMenuInfo.Products => await ViewProducts(),
-            (int)MainMenuInfo.ViewBalance => IoC.Resolve<MainMenu>(),
+            (int)MainMenuInfo.ViewBalance => await ViewBalance(),
             (int)MainMenuInfo.WithdrawCash => IoC.Resolve<MainMenu>(),
             (int)MainMenuInfo.DepositCash => IoC.Resolve<MainMenu>(),
             (int)MainMenuInfo.QuickTransfer => IoC.Resolve<MainMenu>(),
@@ -36,19 +36,20 @@ public partial class MenuHandler
             return Extension.ThrowError<StartMenu>("not_authorized");
         }
         
-        var response = await RequestHandler.DoRequest(RequestType.Get, $"cards/count?userId={Application.User.UserId}", Application.User);
+        var response = await RequestHandler.DoRequest(RequestType.Get, $"cards/get-balance/{Application.User.UserId}", Application.User);
         if (!response.Success)
         {
             return Extension.ThrowError<MainMenu>(response.Message);
         }
 
-        var count = JsonConvert.DeserializeObject<int>(response.Data);
-        if (count < 1)
+        if (!decimal.TryParse(response.Data, out var balance))
         {
-            return Extension.ThrowError<MainMenu>("no_cards");
+            return Extension.ThrowError<MainMenu>("fail_decimal_convert");
         }
         
-        return await Extension.DisplayContentByPages<MainMenu, Product>(count, "cards/getall");
+        Console.WriteLine(Translate.GetString("balance_info", balance));
+        Application.WaitEnter();
+        return IoC.Resolve<MainMenu>();
     }
 
     private async Task<IMenu> ViewProducts()
@@ -71,6 +72,23 @@ public partial class MenuHandler
             return Extension.ThrowError<MainMenu>("no_products");
         }
 
-        return await Extension.DisplayContentByPages<MainMenu, Product>(count, "products/getall");
+        return await Extension.DisplayContentByPages<MainMenu, Product>(count, "products/get-all");
+    }
+
+    private async Task<IMenu> WithdrawCash()
+    {
+        Console.Clear();
+        if (Application.User == null)
+        {
+            return Extension.ThrowError<StartMenu>("not_authorized");
+        }
+        
+        var response = await RequestHandler.DoRequest(RequestType.Get, $"cards/count?userId={Application.User.UserId}", Application.User);
+        if (!response.Success)
+        {
+            return Extension.ThrowError<MainMenu>(response.Message);
+        }
+
+        return IoC.Resolve<WithdrawMenu>();
     }
 }

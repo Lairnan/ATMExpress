@@ -1,4 +1,5 @@
-﻿using Configuration;
+﻿using System.Globalization;
+using Configuration;
 using CSA.DTO.Responses;
 using CSA.Entities;
 using DatabaseManagement.Repositories;
@@ -51,7 +52,7 @@ public class CardController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("getall")]
+    [HttpGet("get-all")]
     public IActionResult GetAllCards([FromQuery] int page = 1, [FromQuery] int pageSize = 40, [FromQuery] Guid? userId = null)
     {
         Func<Card, bool>? predicate = null;
@@ -62,6 +63,30 @@ public class CardController : ControllerBase
         var jsonCards = JsonConvert.SerializeObject(cards);
 
         return Ok(jsonCards);
+    }
+
+    [HttpGet("get-balance/{userId:guid}")]
+    public IActionResult GetBalance(Guid userId)
+    {
+        ApiResponse response;
+        var countCards = _repository.GetCount();
+        if (countCards < 1)
+        {
+            response = new ApiResponse
+            {
+                Success = false,
+                Message = Translate.GetString("no_cards"),
+            };
+            return Ok(response);
+        }
+        var balance = _repository.GetAll(1, countCards, c => c.UserId == userId).Sum(s => s.Balance);
+        response = new ApiResponse
+        {
+            Success = true,
+            Message = "",
+            Data = balance.ToString(CultureInfo.InvariantCulture)
+        };
+        return Ok(response);
     }
 
     [HttpPost("create")]

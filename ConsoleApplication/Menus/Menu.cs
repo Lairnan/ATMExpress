@@ -25,3 +25,15 @@ public class SecurityMenu : IMenu
     public string GetName(int value) => ((SecurityMenuInfo)value).GetDescription();
     public int GetSize() => Enum.GetNames(typeof(SecurityMenuInfo)).Length;
 }
+
+public class WithdrawMenu : IMenu
+{
+    public string GetName(int value) => ((WithdrawMenuInfo)value).GetDescription();
+    public int GetSize() => Enum.GetNames(typeof(WithdrawMenuInfo)).Length;
+}
+
+public class DepositMenu : IMenu
+{
+    public string GetName(int value) => ((DepositMenuInfo)value).GetDescription();
+    public int GetSize() => Enum.GetNames(typeof(DepositMenuInfo)).Length;
+}
